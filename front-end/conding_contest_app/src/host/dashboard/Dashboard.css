@@ -1,0 +1,45 @@
+.title {
+    text-align: center;
+    font-weight: 900;
+}
+
+.text {
+    padding: 15px 0;
+}
+
+.details {
+ display: flex;
+ justify-content: space-between;    
+}
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+.contest-cards {
+    padding: 50px;
+}
+.contest-filter{
+    width: 50%;
+    margin: 0 auto;
+    padding: 25px 0;
+}
+.contest-type {
+    display: inline-block;
+    padding: 5px 10px; 
+    border: 2px solid #000; 
+    border-radius: 20px; 
+    text-decoration: none;
+    color: #000;
+    transition: background-color 1s, color 0.3s; 
+  }
+  
+  .contest-type:hover {
+    background-color: #000; 
+    color: #fff; 
+  }
+
+    @media (max-width: 768px) {
+        .contest-filter{
+            width: 75%;
+        }
+    }
