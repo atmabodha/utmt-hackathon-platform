@@ -3,12 +3,10 @@ import { Form, Button } from "react-bootstrap";
 import Datetime from "react-datetime";
 import axios from "axios";
 import "react-datetime/css/react-datetime.css";
+import Swal from "sweetalert2";
 import "./ContestDetails.css";
-import FetchContestDetails from "../apis/Contests";
 
 const ContestDetails = () => {
-  const tmp = FetchContestDetails();
-  console.log("fetched data", tmp);
   const [formData, setFormData] = useState({
     contestName: "",
     organisationType: "",
@@ -16,7 +14,7 @@ const ContestDetails = () => {
     startDateTime: "",
     endDateTime: "",
     contestVisibility: "",
-    participantLimit: 100,
+    participantLimit: 500,
     contestImage: null,
   });
   const [imageUploadStatus, setImageUploadStatus] = useState("");
@@ -50,20 +48,23 @@ const ContestDetails = () => {
       formDataToSend.append("contest_visibility", formData.contestVisibility);
       formDataToSend.append("participant_limit", formData.participantLimit);
       formDataToSend.append("contest_image", formData.contestImage);
-      
 
-
-      const response = await axios.post(
+      await axios.post(
         "http://127.0.0.1:8000/host/add-contest-details/",
         formDataToSend
       );
-      if (response.status !== 200) {
-        throw new Error("Failed to submit form");
-      }
 
-      // Handle success, e.g., show a success message or redirect to another page
-      console.log("Form submitted successfully");
+      Swal.fire(
+        "Contest Created",
+        "Now move to forward for questions",
+        "success"
+      );
     } catch (error) {
+      Swal.fire(
+        "Contest not created",
+        "Oops! Facing internal server error",
+        "error"
+      );
       console.error("Error submitting form:", error.message);
     }
   };
@@ -71,7 +72,9 @@ const ContestDetails = () => {
   return (
     <div>
       <div>
-        <h2 style={{ textAlign: "center", fontWeight: 700, paddingTop: "50px" }}>
+        <h2
+          style={{ textAlign: "center", fontWeight: 700, paddingTop: "50px" }}
+        >
           Create Contest
         </h2>
       </div>
@@ -94,7 +97,11 @@ const ContestDetails = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formGroupOrganisationType" required>
+          <Form.Group
+            className="mb-3"
+            controlId="formGroupOrganisationType"
+            required
+          >
             <Form.Label>Organization Type *</Form.Label>
             <Form.Select
               name="organisationType"
@@ -103,14 +110,18 @@ const ContestDetails = () => {
               onChange={handleChange}
               required
             >
-              <option value="0">Select Organization type</option>
-              <option value="1">University</option>
-              <option value="2">Company</option>
-              <option value="3">Other</option>
+              <option>Select Organization type</option>
+              <option value="university">University</option>
+              <option value="company">Company</option>
+              <option value="other">Other</option>
             </Form.Select>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formGroupOrganisation" required>
+          <Form.Group
+            className="mb-3"
+            controlId="formGroupOrganisation"
+            required
+          >
             <Form.Label>Organization Name *</Form.Label>
             <Form.Control
               type="text"
@@ -122,7 +133,11 @@ const ContestDetails = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formGroupStartDateTime" required>
+          <Form.Group
+            className="mb-3"
+            controlId="formGroupStartDateTime"
+            required
+          >
             <Form.Label>Select Start Date and Time *</Form.Label>
             <Datetime
               inputProps={{
@@ -135,7 +150,11 @@ const ContestDetails = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formGroupEndDateTime" required>
+          <Form.Group
+            className="mb-3"
+            controlId="formGroupEndDateTime"
+            required
+          >
             <Form.Label>Select End Date and Time *</Form.Label>
             <Datetime
               inputProps={{
@@ -157,6 +176,7 @@ const ContestDetails = () => {
               onChange={handleChange}
               required
             >
+              <option>Select contest visibility type</option>
               <option value="public">Public</option>
               <option value="private">Private</option>
             </Form.Select>
@@ -168,7 +188,6 @@ const ContestDetails = () => {
               type="file"
               accept=".jpg, .png, .jpeg, .svg"
               onChange={handleFileChange}
-              required
             />
             <Form.Text muted>
               Please select a JPG, PNG, JPEG, or SVG file.

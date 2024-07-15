@@ -10,53 +10,23 @@ import {
   MDBBtn,
   MDBCardLink,
 } from "mdb-react-ui-kit";
-import image from "./image.jpg";
 import "./Dashboard.css";
 import { NavLink } from "react-router-dom";
+import FetchContestDetails from "../apis/Contests";
+import { useState, useEffect } from "react";
 
 const ContestHistory = () => {
-  const contests = [
-    {
-      name: "Contest 1",
-      image: image,
-      startTime: "23-08-2024 at 9:30 AM",
-      endTime: "23-08-2024 at 11:30 AM",
-      participantLimit: 100,
-      details: "url",
-    },
-    {
-      name: "Contest 1",
-      image: image,
-      startTime: "23-08-2024 at 9:30 AM",
-      endTime: "23-08-2024 at 11:30 AM",
-      participantLimit: 100,
-      details: "url",
-    },
-    {
-      name: "Contest 1",
-      image: image,
-      startTime: "23-08-2024 at 9:30 AM",
-      endTime: "23-08-2024 at 11:30 AM",
-      participantLimit: 100,
-      details: "url",
-    },
-    {
-      name: "Contest 1",
-      image: image,
-      startTime: "23-08-2024 at 9:30 AM",
-      endTime: "23-08-2024 at 11:30 AM",
-      participantLimit: 100,
-      details: "url",
-    },
-    {
-      name: "Contest 1",
-      image: image,
-      startTime: "23-08-2024 at 9:30 AM",
-      endTime: "23-08-2024 at 11:30 AM",
-      participantLimit: 100,
-      details: "url",
-    },
-  ];
+  const [contests, setContests] = useState([]);
+
+  useEffect(()=> {
+    const fetchContest = async () => {
+      const response = await FetchContestDetails();
+      console.log(response);
+      setContests(response);
+    }
+    fetchContest();
+  }, [])
+
 
   return (
     <div>
@@ -73,22 +43,22 @@ const ContestHistory = () => {
           {contests.map((contest, index) => (
             <MDBCol key={index}>
               <MDBCard>
-                <MDBCardImage src={contest.image} alt={index} position="top" />
+                <MDBCardImage src={`${contest.contest_image}`} alt={index} position="top" />
                 <MDBCardBody>
-                  <MDBCardTitle className="title">{contest.name}</MDBCardTitle>
+                  <MDBCardTitle className="title">{contest.contest_name}</MDBCardTitle>
                   <MDBCardText className="text">
                     <div className="flex-container">
                       <span className="left-text">Started On:</span>
-                      <span className="right-text">{contest.startTime}</span>
+                      <span className="right-text">{contest.start_date_time}</span>
                     </div>
                     <div className="flex-container">
                       <span className="left-text">Ends On:</span>
-                      <span className="right-text">{contest.endTime}</span>
+                      <span className="right-text">{contest.end_date_time}</span>
                     </div>
                     <div className="flex-container">
                       <span className="left-text">Participant Limit:</span>
                       <span className="right-text">
-                        {contest.participantLimit}
+                        {contest.participant_limit}
                       </span>
                     </div>
                   </MDBCardText>

@@ -33,6 +33,7 @@ class ContestDetailsView(APIView):
 
     def get(self, request, *args, **kwargs):
         contests = Contests.objects.all()
+        
         if contests:
             serializer = ContestsSerializer(contests, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Leaderboard.css"; // We'll create this CSS file next
+// import "./Leaderboard.css"; // We'll create this CSS file next
 import profile1 from "./Leaderboard Assets/profile1.jpeg";
 
 const data = [
