@@ -70,7 +70,7 @@ tr:nth-child(even) {
   }
 }
 
-@media (max-width: 412px) {
+@media (max-width: 443px) {
   .leaderboard {
     width: 100%;
     margin: 10px auto;
