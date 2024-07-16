@@ -1,6 +1,6 @@
 import React from "react";
-// import "./Leaderboard.css"; // We'll create this CSS file next
-import profile1 from "./Leaderboard Assets/profile1.jpeg";
+import "./Leaderboard.css";
+import profile1 from "./leaderboard assets/profile1.jpeg"; // Corrected the path
 
 const data = [
   { rank: 1, name: "Wade Warren", points: 1280, prize: "$5000", img: profile1 },
@@ -23,36 +23,31 @@ const data = [
   { rank: 6, name: "Robert Fox", points: 890, prize: "$0", img: profile1 },
   { rank: 7, name: "Bessie Cooper", points: 880, prize: "$0", img: profile1 },
   { rank: 8, name: "Jerome Bell", points: 790, prize: "$0", img: profile1 },
-  // Add more entries as needed
 ];
 
 const Leaderboard = () => {
   return (
     <div className="leaderboard">
       <h1 className="title">LEADERBOARD</h1>
-      <table>
+      <table className="tableName">
         <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>Points</th>
-            <th>Prize</th>
+          <tr className="tableRow">
+            <th className="tableHeader">Rank</th>
+            <th className="tableHeader">Player</th>
+            <th className="tableHeader">Points</th>
+            <th className="tableHeader">Prize</th>
           </tr>
         </thead>
         <tbody>
           {data.map((player, index) => (
-            <tr key={index}>
-              <td>{player.rank}</td>
-              <td className="player-info">
-                <img
-                  src={player.img}
-                  alt={player.name}
-                  className="player-img"
-                />
+            <tr className="tableRow" key={index}>
+              <td className="tableData">{player.rank}</td>
+              <td className="tableData" id="player-info">
+                <img src={player.img} alt={player.name} id="player-img" />
                 {player.name}
               </td>
-              <td>{player.points}</td>
-              <td>{player.prize}</td>
+              <td className="tableData">{player.points}</td>
+              <td className="tableData">{player.prize}</td>
             </tr>
           ))}
         </tbody>
