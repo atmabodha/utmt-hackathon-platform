@@ -43,7 +43,8 @@ const ContestHistory = () => {
           {contests.map((contest, index) => (
             <MDBCol key={index}>
               <MDBCard>
-                <MDBCardImage src={`${contest.contest_image}`} alt={index} position="top" />
+                <MDBCardImage src="https://drive.google.com/thumbnail?id=16kx_ksw3_7r5Z0o2HBO4BazmEHhOASgS" alt={index} position="top" />
+                
                 <MDBCardBody>
                   <MDBCardTitle className="title">{contest.contest_name}</MDBCardTitle>
                   <MDBCardText className="text">
