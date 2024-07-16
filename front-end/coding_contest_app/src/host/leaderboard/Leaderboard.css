@@ -14,33 +14,33 @@
   margin-bottom: 20px;
 }
 
-table {
+.tableName {
   width: 100%;
   border-collapse: collapse;
 }
 
-th,
-td {
+.tableHeader,
+.tableData {
   padding: 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-th {
+.tableHeader {
   background: #16a085;
   color: white;
 }
 
-tr:nth-child(even) {
+.tableRow:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-.player-info {
+#player-info {
   display: flex;
   align-items: center;
 }
 
-.player-img {
+#player-img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -58,12 +58,12 @@ tr:nth-child(even) {
     font-size: 2em;
   }
 
-  th,
-  td {
+  .tableHeader,
+  .tableData {
     padding: 10px;
   }
 
-  .player-img {
+  #player-img {
     width: 30px;
     height: 30px;
     margin-right: 5px;
@@ -81,44 +81,31 @@ tr:nth-child(even) {
     font-size: 1.5em;
   }
 
-  th,
-  td {
+  .tableHeader,
+  .tableData {
     padding: 5px;
     text-align: center;
   }
 
-  .player-info {
+  #player-info {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .player-img {
+  #player-img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin: 5px 0;
   }
-
-  th:nth-child(1),
-  td:nth-child(1),
-  th:nth-child(2),
-  td:nth-child(2),
-  th:nth-child(3),
-  td:nth-child(3),
-  th:nth-child(4),
-  td:nth-child(4) {
-    text-align: center;
-  }
 }
 
-/* Hover effect */
-tr:hover {
-  background-color: #d1f2eb; /* Change to desired hover color */
-  animation: blink 0.5s step-end infinite alternate; /* Blink effect */
+.tableRow:hover {
+  background-color: #d0f30c;
+  animation: blink 0.5s step-end infinite alternate;
 }
 
-/* Keyframes for blink effect */
 @keyframes blink {
   50% {
     background-color: #a3e4d7;
