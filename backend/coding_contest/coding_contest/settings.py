@@ -17,8 +17,9 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+# Google drive storage settings.
+CLIENT_SECRET_FILE = os.path.join(BASE_DIR, 'coding_contest_app/google_credentials.json')
+DEFAULT_FILE_STORAGE = 'coding_contest_app.google_storage.GoogleDriveStorage'  
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-bkcoofbpz-90o&pu73!$htm9w(cvr)!v8w@u0%-u=pj+-4s(hg'
@@ -140,5 +141,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = '/home/narayan/Desktop/projects/personal_project/coding contest app/front-end/coding_contest_app/public/media'
+MEDIA_ROOT = '/media'
 MEDIA_URL = "/media/"

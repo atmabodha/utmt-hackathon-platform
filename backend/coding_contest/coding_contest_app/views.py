@@ -6,6 +6,7 @@ from .models import Contests
 from .serializers import ContestsSerializer
 from datetime import datetime
 
+DRIVE_FOLDERS = {}
 
 class AddContestDetailsView(APIView):
     parser_classes = [MultiPartParser, FormParser]

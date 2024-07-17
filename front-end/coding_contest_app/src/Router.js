@@ -26,6 +26,7 @@ function ApplicationRouter() {
       <Routes>
       {/* <Route path="/" element={<Header navItems={navItems}/>} /> */}
         {/* <Route path="/" element={<ContestHistory />} /> */}
+        <Route path="/" element={<ContestHistory />} />
         <Route path="/" element={<ContestDetails />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         {/* <Route path="/about" element={<About />} />
