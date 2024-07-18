@@ -15,11 +15,8 @@ from coding_contest.settings import CLIENT_SECRET_FILE
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 TOKEN_FILE = os.path.join(settings.BASE_DIR, "token.json")
 DRIVE_FOLDER_ID_JSON_PATH = os.path.join(settings.BASE_DIR, "drive_folders.json")
-permission = {
-    'type': 'domain',
-    'role': 'reader',  # or 'writer', 'commenter'
-    'domain': 'localhost'
-}
+
+########### WILL IMPLEMENT FILE PERMISSION ONCE LOGIN AND SIGN UP IS SETUP################
 
 class GoogleDriveStorage(Storage):
     def __init__(self):
@@ -63,7 +60,7 @@ class GoogleDriveStorage(Storage):
     def _build_service(self):
         if not self.service:
             self.service = build("drive", "v3", credentials=self.credentials)
-            # ids = self.service.permissions().create(fileId='1YTZDCon4vcWnmOo6-nIf5biH2dl2Osi5', body=permission, fields="id").execute()
+            # ids = self.service.permissions().create(fileId='1_xvdFCh_YDzgSdwYUdIDiHubwaPhaqio', body=permission, fields="id").execute()
             # print("Perissioon created for ", ids)
 
     def _open(self, name):

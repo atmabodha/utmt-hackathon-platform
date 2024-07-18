@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Form, Button } from "react-bootstrap";
 import Datetime from "react-datetime";
 import axios from "axios";
 import "react-datetime/css/react-datetime.css";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import moment from "moment";
+import LoadingOverlay from "react-loading-overlay-ts";
+import PulseLoader from "react-spinners/PulseLoader";
 import "./ContestDetails.css";
 
 const ContestDetails = () => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     contestName: "",
     organisationType: "",
@@ -37,6 +42,22 @@ const ContestDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.startDateTime) {
+      document.querySelector(".start-date input").focus();
+      return;
+    }
+
+    if (!formData.endDateTime) {
+      document.querySelector(".end-date input").focus();
+      return;
+    }
+
+    if (moment(formData.endDateTime).isBefore(moment(formData.startDateTime))) {
+      toast.warn(
+        "Make sure end date and time is greater than start date and time"
+      );
+      return;
+    }
 
     try {
       let formDataToSend = new FormData();
@@ -49,7 +70,8 @@ const ContestDetails = () => {
       formDataToSend.append("participant_limit", formData.participantLimit);
       formDataToSend.append("contest_image", formData.contestImage);
 
-      await axios.post(
+      setLoading(true);
+      const response = await axios.post(
         "http://127.0.0.1:8000/host/add-contest-details/",
         formDataToSend
       );
@@ -60,163 +82,204 @@ const ContestDetails = () => {
         "success"
       );
     } catch (error) {
-      Swal.fire(
-        "Contest not created",
-        "Oops! Facing internal server error",
-        "error"
-      );
-      console.error("Error submitting form:", error.message);
+      if (!error.response) {
+        Swal.fire(
+          "Network Error",
+          "Please check your internet connection and try again",
+          "error"
+        );
+      } else if (error.response.status === 500) {
+        Swal.fire(
+          "Contest not created",
+          "Oops! Facing internal server error",
+          "error"
+        );
+      } else if (error.response.status === 400) {
+        Swal.fire(
+          "Bad Request",
+          "Please check the submitted data and try again",
+          "error"
+        );
+      } else {
+        Swal.fire(
+          "Error",
+          `An error occurred: ${error.response.statusText}`,
+          "error"
+        );
+      }
     }
+    setLoading(false);
   };
 
   return (
     <div>
-      <div>
-        <h2
-          style={{ textAlign: "center", fontWeight: 700, paddingTop: "50px" }}
-        >
-          Create Contest
-        </h2>
-      </div>
-      <div>
-        <p style={{ textAlign: "center", fontWeight: 700, padding: "5px 0" }}>
-          Host your own contest here on this platform.
-        </p>
-      </div>
-      <div className="form">
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formGroupName" required>
-            <Form.Label>Contest Name *</Form.Label>
-            <Form.Control
-              type="text"
-              name="contestName"
-              placeholder="Enter contest name"
-              value={formData.contestName}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group
-            className="mb-3"
-            controlId="formGroupOrganisationType"
-            required
+      <LoadingOverlay
+        active={loading}
+        text="Hold tight digesting the details..."
+        spinner={
+          <PulseLoader
+            color={'black'}
+            loading={true}
+            size={15}
+            margin={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        }
+      >
+        <div>
+          <h2
+            style={{ textAlign: "center", fontWeight: 700, paddingTop: "50px" }}
           >
-            <Form.Label>Organization Type *</Form.Label>
-            <Form.Select
-              name="organisationType"
-              aria-label="Select Organization type"
-              value={formData.organisationType}
-              onChange={handleChange}
+            Create Contest
+          </h2>
+        </div>
+
+        <div>
+          <p style={{ textAlign: "center", fontWeight: 700, padding: "5px 0" }}>
+            Host your own contest here on this platform.
+          </p>
+        </div>
+        <div className="form">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="formGroupName" required>
+              <Form.Label>Contest Name *</Form.Label>
+              <Form.Control
+                type="text"
+                name="contestName"
+                placeholder="Enter contest name"
+                value={formData.contestName}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group
+              className="mb-3"
+              controlId="formGroupOrganisationType"
               required
             >
-              <option>Select Organization type</option>
-              <option value="university">University</option>
-              <option value="company">Company</option>
-              <option value="other">Other</option>
-            </Form.Select>
-          </Form.Group>
+              <Form.Label>Organization Type *</Form.Label>
+              <Form.Select
+                name="organisationType"
+                aria-label="Select Organization type"
+                value={formData.organisationType}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Organization type</option>
+                <option value="university">University</option>
+                <option value="company">Company</option>
+                <option value="other">Other</option>
+              </Form.Select>
+            </Form.Group>
 
-          <Form.Group
-            className="mb-3"
-            controlId="formGroupOrganisation"
-            required
-          >
-            <Form.Label>Organization Name *</Form.Label>
-            <Form.Control
-              type="text"
-              name="organisationName"
-              placeholder="Enter organization name"
-              value={formData.organisationName}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group
-            className="mb-3"
-            controlId="formGroupStartDateTime"
-            required
-          >
-            <Form.Label>Select Start Date and Time *</Form.Label>
-            <Datetime
-              inputProps={{
-                placeholder: "Select start date and time",
-              }}
-              onChange={(date) =>
-                setFormData({ ...formData, startDateTime: date })
-              }
-              required
-            />
-          </Form.Group>
-
-          <Form.Group
-            className="mb-3"
-            controlId="formGroupEndDateTime"
-            required
-          >
-            <Form.Label>Select End Date and Time *</Form.Label>
-            <Datetime
-              inputProps={{
-                placeholder: "Select end date and time",
-              }}
-              onChange={(date) =>
-                setFormData({ ...formData, endDateTime: date })
-              }
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formGroupVisibility" required>
-            <Form.Label>Contest Visibility *</Form.Label>
-            <Form.Select
-              name="contestVisibility"
-              aria-label="Select contest visibility"
-              value={formData.contestVisibility}
-              onChange={handleChange}
+            <Form.Group
+              className="mb-3"
+              controlId="formGroupOrganisation"
               required
             >
-              <option>Select contest visibility type</option>
-              <option value="public">Public</option>
-              <option value="private">Private</option>
-            </Form.Select>
-          </Form.Group>
+              <Form.Label>Organization Name *</Form.Label>
+              <Form.Control
+                type="text"
+                name="organisationName"
+                placeholder="Enter organization name"
+                value={formData.organisationName}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formGroupFile" className="mb-3">
-            <Form.Label>Contest Banner Image *</Form.Label>
-            <Form.Control
-              type="file"
-              accept=".jpg, .png, .jpeg, .svg"
-              onChange={handleFileChange}
-            />
-            <Form.Text muted>
-              Please select a JPG, PNG, JPEG, or SVG file.
-            </Form.Text>
-            {imageUploadStatus && (
-              <div style={{ color: "green", marginTop: "10px" }}>
-                {imageUploadStatus}
-              </div>
-            )}
-          </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="formGroupStartDateTime"
+              required
+            >
+              <Form.Label>Select Start Date and Time *</Form.Label>
+              <Datetime
+                className="start-date"
+                inputProps={{
+                  placeholder: "Select start date and time",
+                }}
+                onChange={(date) =>
+                  setFormData({ ...formData, startDateTime: date })
+                }
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formGroupLimit">
-            <Form.Label>Participant Limit</Form.Label>
-            <Form.Control
-              type="number"
-              name="participantLimit"
-              placeholder="Enter participant limit"
-              value={formData.participantLimit}
-              onChange={handleChange}
-            />
-          </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="formGroupEndDateTime"
+              required
+            >
+              <Form.Label>Select End Date and Time *</Form.Label>
+              <Datetime
+                className="end-date"
+                inputProps={{
+                  placeholder: "Select end date and time",
+                }}
+                onChange={(date) =>
+                  setFormData({ ...formData, endDateTime: date })
+                }
+              />
+            </Form.Group>
 
-          <div className="formsubmit">
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </div>
-        </Form>
-      </div>
+            <Form.Group
+              className="mb-3"
+              controlId="formGroupVisibility"
+              required
+            >
+              <Form.Label>Contest Visibility *</Form.Label>
+              <Form.Select
+                name="contestVisibility"
+                aria-label="Select contest visibility"
+                value={formData.contestVisibility}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select contest visibility type</option>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group controlId="formGroupFile" className="mb-3">
+              <Form.Label>Contest Banner Image *</Form.Label>
+              <Form.Control
+                type="file"
+                accept=".jpg, .png, .jpeg, .svg"
+                onChange={handleFileChange}
+                required
+              />
+              <Form.Text muted>
+                Please select a JPG, PNG, JPEG, or SVG file.
+              </Form.Text>
+              {imageUploadStatus && (
+                <div style={{ color: "green", marginTop: "10px" }}>
+                  {imageUploadStatus}
+                </div>
+              )}
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formGroupLimit">
+              <Form.Label>Participant Limit</Form.Label>
+              <Form.Control
+                type="number"
+                name="participantLimit"
+                placeholder="Enter participant limit"
+                value={formData.participantLimit}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <div className="formsubmit">
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </div>
+          </Form>
+        </div>
+      </LoadingOverlay>
     </div>
   );
 };
