@@ -7,12 +7,11 @@ import ContestDetails from "./host/contest creation/ContestDetails";
 function ApplicationRouter() {
   return (
     <Router>
+      <Header />
       <Routes>
         <Route path="/" element={<ContestHistory />} />
         {/* <Route path="/" element={<ContestDetails />} /> */}
         <Route path="/leaderboard" element={<Leaderboard />} />
-        {/* <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} /> */}
       </Routes>
     </Router>
   );

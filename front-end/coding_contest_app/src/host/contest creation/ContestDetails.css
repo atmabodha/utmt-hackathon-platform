@@ -1,10 +1,21 @@
+@import '../../index.css';
+
 .form {
     width: 50%;
     margin: 50px auto;
 }
+.contest-detail-filling{
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
 
 .formsubmit button{
     width: 100%;
+    background-color: var(--primary-color);
+    color: #1f1e1e;
+}
+#label-text {
+    color: var(--text-color);
 }
 
 @media (max-width: 768px) {

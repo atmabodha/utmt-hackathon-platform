@@ -9,7 +9,7 @@ class Contests(models.Model):
     end_date_time = models.DateTimeField()
     contest_visibility = models.CharField(max_length=50)
     participant_limit = models.IntegerField(null=True, blank=True)
-    contest_image = models.ImageField(upload_to='contest_images/', null=True, blank=True)
+    contest_image = models.ImageField(upload_to="coding-images", null=True, blank=True)
 
     def __str__(self):
         return self.contest_name
