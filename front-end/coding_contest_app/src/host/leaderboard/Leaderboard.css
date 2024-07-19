@@ -105,9 +105,3 @@
   background-color: #d0f30c;
   animation: blink 0.5s step-end infinite alternate;
 }
-
-@keyframes blink {
-  50% {
-    background-color: #a3e4d7;
-  }
-}
