@@ -5,11 +5,13 @@
         display: none;
     }
 }
-#header .offcanvas{
+
+#header .offcanvas {
     background-color: var(--background-color);
     color: var(--text-color);
 }
-#header{
+
+#header {
     background-color: var(--background-color);
 }
 
@@ -28,3 +30,8 @@
 #nav-item {
     color: var(--text-color);
 }
+
+.no-caret .dropdown-toggle::after {
+    display: none;
+}
+

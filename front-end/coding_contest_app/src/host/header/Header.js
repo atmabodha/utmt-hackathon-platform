@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 import Container from "react-bootstrap/Container";
@@ -7,7 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import ThemeButton from "./ThemeButton";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaBars, FaTimes } from "react-icons/fa";
 import headerData from "./headerData.json";
 
 function OffcanvasExample() {
@@ -17,14 +17,37 @@ function OffcanvasExample() {
   const profileItems = headerData.profile;
   const menuItems = [...profileItems, ...navItems];
 
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+
+  const handleCloseOffcanvas = () => setShowOffcanvas(false);
+  const handleShowOffcanvas = () => setShowOffcanvas(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        handleCloseOffcanvas();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <Navbar expand={expand} className="mb-3" id="header">
       <Container fluid>
         <Navbar.Brand as={Link} to={brandData.linksTo} id="brand-name">
           {brandData.name}
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+        <Navbar.Toggle
+          aria-controls={`offcanvasNavbar-expand-${expand}`}
+          onClick={handleShowOffcanvas}
+        >
+          <FaBars style={{ color: "var(--text-color)", cursor: "pointer" }} />
+        </Navbar.Toggle>
         <Navbar.Offcanvas
+          show={showOffcanvas}
+          onHide={handleCloseOffcanvas}
           style={{
             backgroundColor: "var(--background-color)",
             color: "var(--text-color)",
@@ -33,10 +56,14 @@ function OffcanvasExample() {
           aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
           placement="end"
         >
-          <Offcanvas.Header closeButton>
+          <Offcanvas.Header>
             <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
               {brandData.name}
             </Offcanvas.Title>
+            <FaTimes
+              style={{ color: "var(--text-color)", cursor: "pointer", fontSize: "1.5rem" }}
+              onClick={handleCloseOffcanvas}
+            />
           </Offcanvas.Header>
           <Offcanvas.Body id="menu-bar">
             <Nav className="justify-content-end flex-grow-1 pe-3">
@@ -56,8 +83,10 @@ function OffcanvasExample() {
           ))}
           <NavDropdown
             align="end"
+            className="no-caret"
             title={
               <FaUser
+                size={24}
                 style={{
                   backgroundColor: "var(--background-color)",
                   color: "var(--text-color)",
