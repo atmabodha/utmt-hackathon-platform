@@ -1,7 +1,4 @@
-.title {
-    text-align: center;
-    font-weight: 900;
-}
+@import '../../index.css';
 
 .text {
     padding: 15px 0;
@@ -26,15 +23,15 @@
 .contest-type {
     display: inline-block;
     padding: 5px 10px; 
-    border: 2px solid #000; 
+    border: 2px solid var(--border-color); 
     border-radius: 20px; 
     text-decoration: none;
-    color: #000;
+    color: var(--text-color);
     transition: background-color 1s, color 0.3s; 
   }
   
   .contest-type:hover {
-    background-color: #000; 
+    background-color: var(--primary-color); 
     color: #fff; 
   }
 
@@ -43,3 +40,6 @@
             width: 75%;
         }
     }
+.contests {
+    background-color: var(--background-color);
+}

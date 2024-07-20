@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 // Import Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 // Import MDB CSS and JS
 import "mdb-react-ui-kit/dist/css/mdb.min.css";

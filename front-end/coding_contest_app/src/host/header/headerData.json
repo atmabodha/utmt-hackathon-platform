@@ -1,0 +1,99 @@
+{
+  "host": {
+    "brandData": {
+      "name": "Code Hut",
+      "linksTo": "dashboard"
+    },
+    "pages": [
+      {
+        "name": "Leaderboard",
+        "linksTo": "leaderboard"
+      },
+      {
+        "name": "Host",
+        "linksTo": "host"
+      },
+      {
+        "name": "Submissions",
+        "linksTo": "submissions"
+      },
+      {
+        "name": "Analytics",
+        "linksTo": "analytics"
+      },
+      {
+        "name": "Support",
+        "linksTo": "support"
+      }
+    ]
+  },
+  "participant": {
+    "brandData": {
+      "name": "Code Hut",
+      "linksTo": "participant dashboard"
+    },
+    "pages": [
+      {
+        "name": "Leaderboard",
+        "linksTo": "leaderboard"
+      },
+      {
+        "name": "Participate",
+        "linksTo": "participate"
+      },
+      {
+        "name": "Submissions",
+        "linksTo": "submissions"
+      },
+      {
+        "name": "Analytics",
+        "linksTo": "analytics"
+      },
+      {
+        "name": "Support",
+        "linksTo": "support"
+      }
+    ]
+  },
+  "common": {
+    "brandData": {
+      "name": "Code Hut",
+      "linksTo": "home"
+    },
+    "pages": [
+      {
+        "name": "Home",
+        "linksTo": "home"
+      },
+      {
+        "name": "Contact",
+        "linksTo": "contact"
+      },
+      {
+        "name": "Sign Up",
+        "linksTo": "signup"
+      },
+      {
+        "name": "Login",
+        "linksTo": "login"
+      }
+    ]
+  },
+  "profile": [
+    {
+      "name": "Profile",
+      "linksTo": "profile",
+      "icon": "FaUser"
+    },
+    {
+      "name": "Settings",
+      "linksTo": "settings",
+      "icon": "FaUser"
+    },
+    {
+      "name": "Logout",
+      "linksTo": "logout",
+      "icon": "FaUser"
+    }
+  ]
+}

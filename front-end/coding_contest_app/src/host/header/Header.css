@@ -1,5 +1,30 @@
+@import '../../index.css';
+
 @media (min-width:768px) {
     #menu-bar {
         display: none;
     }
+}
+#header .offcanvas{
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+#header{
+    background-color: var(--background-color);
+}
+
+#brand-name {
+    color: var(--text-color);
+}
+
+#off-brand {
+    color: var(--text-color);
+}
+
+#offcanvas {
+    background-color: var(--background-color);
+}
+
+#nav-item {
+    color: var(--text-color);
 }

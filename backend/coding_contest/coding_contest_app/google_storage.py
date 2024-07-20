@@ -110,10 +110,6 @@ class GoogleDriveStorage(Storage):
                 .create(body=file_metadata, media_body=media, fields="id")
                 .execute()
             )
-        fileID=file.get('id').strip()
-        # print("see filde id:",fileID)
-        ids = self.service.permissions().create(fileId=fileID, body=permission, fields="id").execute()
-        # print("Perissioon created for ", ids)
         return file.get("id")
 
     def delete(self, name):
@@ -144,6 +140,9 @@ class GoogleDriveStorage(Storage):
             file = (
                 self.service.files().create(body=file_metadata, fields="id").execute()
             )
+            fileID=file.get('id').strip()
+            ids = self.service.permissions().create(fileId=fileID, body=permission, fields="id").execute()
+            print("permission for folder given", fileID, "ids:" , ids)
             folder_ids = {folder_name: file.get("id")}
             self._write_folder_ids(folder_ids)
             return file.get("id")

@@ -13,6 +13,7 @@ const navItems = [
   { label: "Analytics", href: "#analytics" },
   { label: "Support", href: "#support" },
 ];
+
 const profile = {
   name: "Manual Tester",
   email: "mtuser@gmail.com",
@@ -22,11 +23,11 @@ const profile = {
 function ApplicationRouter() {
   return (
     <Router>
-      <Header navItems={navItems} />
+      <Header />
       <Routes>
-        {/* <Route path="/" element={<Header navItems={navItems} />} /> */}
+        {/* <Route path="/" element={<Header navItems={navItems}/>} /> */}
         {/* <Route path="/" element={<ContestHistory />} /> */}
-        <Route path="/" element={<ContestDetails />} />
+        <Route path="/form" element={<ContestDetails />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </Router>

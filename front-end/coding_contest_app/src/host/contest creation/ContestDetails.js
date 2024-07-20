@@ -112,7 +112,7 @@ const ContestDetails = () => {
   };
 
   return (
-    <div>
+    <div className="contest-detail-filling">
       <LoadingOverlay
         active={loading}
         text="Hold tight digesting the details..."
@@ -143,7 +143,7 @@ const ContestDetails = () => {
         <div className="form">
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formGroupName" required>
-              <Form.Label>Contest Name *</Form.Label>
+              <Form.Label id="label-text">Contest Name *</Form.Label>
               <Form.Control
                 type="text"
                 name="contestName"
