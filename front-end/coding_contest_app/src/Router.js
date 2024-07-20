@@ -26,7 +26,7 @@ function ApplicationRouter() {
       <Header />
       <Routes>
         {/* <Route path="/" element={<Header navItems={navItems}/>} /> */}
-        <Route path="/" element={<ContestHistory />} />
+        {/* <Route path="/" element={<ContestHistory />} /> */}
         <Route path="/form" element={<ContestDetails />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
