@@ -1,4 +1,4 @@
-@import '../../index.css';
+@import '../../../index.css';
 
 @media (min-width:768px) {
     #menu-bar {
@@ -33,5 +33,11 @@
 
 .no-caret .dropdown-toggle::after {
     display: none;
+}
+
+.dropdown-card {
+    /* margin-top: 5px; */
+    border: 2px white solid;
+    border-radius: 50%;
 }
 

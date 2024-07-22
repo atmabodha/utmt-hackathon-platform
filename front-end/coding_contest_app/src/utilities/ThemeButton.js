@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa'; // Import icons from react-icons
-import '../../index.css';
+import '../index.css';
 const ThemeButton = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
