@@ -82,18 +82,15 @@
   "profile": [
     {
       "name": "Profile",
-      "linksTo": "profile",
-      "icon": "FaUser"
+      "linksTo": "profile"
     },
     {
       "name": "Settings",
-      "linksTo": "settings",
-      "icon": "FaUser"
+      "linksTo": "settings"
     },
     {
       "name": "Logout",
-      "linksTo": "logout",
-      "icon": "FaUser"
+      "linksTo": "logout"
     }
   ]
 }

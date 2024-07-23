@@ -46,8 +46,8 @@ const ThemeButton = () => {
         style={{ background: 'transparent', border: 'none', cursor: 'pointer', paddingTop: "5px", paddingLeft: "0px", color: "var(--text-color)"}}
       >Theme &nbsp;
         {isDarkTheme 
-          ? <FaSun size={10} style={{ color: '#D3D3D3' }} /> // Light gray for dark mode
-          : <FaMoon size={10} style={{ color: '#000000' }} /> // Black for light mode
+          ? <FaSun size={20} style={{ color: '#D3D3D3' }} /> // Light gray for dark mode
+          : <FaMoon size={20} style={{ color: '#000000' }} /> // Black for light mode
         }
         
       </button>

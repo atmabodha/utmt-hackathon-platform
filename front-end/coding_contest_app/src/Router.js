@@ -3,14 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ContestHistory from "./host/dashboard/Dashboard";
 import Leaderboard from "./host/leaderboard/Leaderboard";
 import ContestDetails from "./host/contest creation/ContestDetails";
+import OffcanvasExample from "./host/header/Header";
 
 function ApplicationRouter() {
   return (
     <Router>
-      <Header />
+      <OffcanvasExample />
       <Routes>
         <Route path="/" element={<ContestHistory />} />
-        {/* <Route path="/" element={<ContestDetails />} /> */}
+        <Route path="/form" element={<ContestDetails />} /> 
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </Router>
