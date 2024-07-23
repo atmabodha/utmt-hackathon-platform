@@ -13,6 +13,7 @@
 
 #header {
     background-color: var(--background-color);
+    border-bottom: 2px solid var(--bottom-border-color);
 }
 
 #brand-name {

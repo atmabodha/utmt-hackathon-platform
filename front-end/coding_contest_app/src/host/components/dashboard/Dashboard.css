@@ -4,17 +4,6 @@
     padding: 15px 0;
 }
 
-.details {
- display: flex;
- justify-content: space-between;    
-}
-.flex-container {
-    display: flex;
-    justify-content: space-between;
-}
-.contest-cards {
-    padding: 50px;
-}
 .contest-filter{
     width: 50%;
     margin: 0 auto;
@@ -22,15 +11,16 @@
 }
 .contest-type {
     display: inline-block;
+    background-color: var(--background-color);
     padding: 5px 10px; 
     border: 2px solid var(--border-color); 
     border-radius: 20px; 
     text-decoration: none;
     color: var(--text-color);
-    transition: background-color 1s, color 0.3s; 
+    transition: background-color 0.5s, color 0.3s; 
   }
   
-  .contest-type:hover {
+.contest-type:hover {
     background-color: var(--primary-color); 
     color: #fff; 
   }
@@ -40,6 +30,9 @@
             width: 75%;
         }
     }
+.contest-type.active {
+    background-color: var(--active-color);
+}
 .contests {
     background-color: var(--background-color);
 }

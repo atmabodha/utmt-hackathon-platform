@@ -6,7 +6,7 @@ const ContestCreation = () => {
 
     return (
         <div>
-            <Header/>
+            <Header headerType={"host"}/>
             <ContestDetails/>
         </div>
     )

@@ -22,12 +22,16 @@ const ThemeButton = () => {
       root.style.setProperty('--primary-color', '#1E90FF');
       root.style.setProperty('--secondary-color', '#2D333B');
       root.style.setProperty('--border-color', '#58A6FF');
+      root.style.setProperty('--bottom-border-color', 'rgb(43, 38, 38)');
+      root.style.setProperty('--active-color', '#2EA043');
     } else {
       root.style.setProperty('--background-color', '#FFFFFF');
       root.style.setProperty('--text-color', '#000000');
       root.style.setProperty('--primary-color', '#007ACC');
       root.style.setProperty('--secondary-color', '#D1D5DA');
       root.style.setProperty('--border-color', '#1F6FEB');
+      root.style.setProperty('--active-color', '#2EA043');
+      root.style.setProperty('--bottom-border-color', 'rgb(250, 246, 246)');
     }
   };
 

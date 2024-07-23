@@ -10,7 +10,7 @@ function ApplicationRouter() {
       <Routes>
         <Route path="/" element={<HostDashboard/>} />
         <Route path="/host" element={<ContestCreation />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
       </Routes>
     </Router>
   );
