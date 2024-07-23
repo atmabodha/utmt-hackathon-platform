@@ -39,7 +39,7 @@ function Header({ headerType }) {
   }, []);
 
   return (
-    <Navbar expand={expand} id="header">
+    <Navbar expand={expand} id="header" className="fixed-top">
       <Container fluid>
         <Navbar.Brand as={Link} to={brandData.linksTo} id="brand-name">
           {brandData.name}
