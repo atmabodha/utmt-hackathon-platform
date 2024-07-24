@@ -1,3 +1,5 @@
+@import "../../index.css";
+
 .container {
   width: 100%;
   max-width: 2500px;
@@ -21,6 +23,8 @@
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   border: 1px solid #ddd;
   border-radius: 8px;
+  background-color: var(--card-color);
+  color: var(--text-color);
 }
 
 #contest-card:hover {
@@ -28,33 +32,38 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* .card-body {
+.details {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
+  justify-content: center;
+}
 
 .card-title {
-  font-size: 1.25rem;
+  font-size: 1.50rem;
   font-weight: bold;
-  margin-top: -15px;
-  text-align: left;
+  margin-top: -10px;
+  text-align: center;
 }
 
 .card-text {
   font-weight: 100;
-  font-size: 0.9rem;
   font-family: serif;
   text-align: center;
+  margin-top: 0px;
 }
 
-.link-button {
+#link-button {
   text-decoration: none;
   color: white;
+  width: 100%;
+  font-weight: 700;
+  font-size: medium;
+  background-color: var(--primary-color);
+  transition: background-color 0.3s ease-in-out;
 }
 
-.link-button:hover {
-  text-decoration: none;
+#contest-card:hover #link-button,
+#link-button:hover {
+  background-color: var(--active-color);
 }
 
 @media (min-width: 1400px) {

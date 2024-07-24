@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaUsers, FaClock } from "react-icons/fa";
+import { FaUsers, FaClock, FaUserFriends } from "react-icons/fa";
 import { MonthFormattedDate, TimeDifference, TimeFromDate } from "./TimeConversion";
 import "./styles/Contest.css";
 
@@ -24,28 +24,28 @@ const LiveContests = ({ data }) => {
                 style={{ height: "150px", objectFit: "cover" }}
               />
               <div className="card-body">
-                <h5 className="card-title title">{contest.contest_name}</h5>
-                <p className="card-text text">
-                  Contest Started on{" "}
-                  <MonthFormattedDate utcTime={contest.start_date_time} /> at <TimeFromDate utcTime={contest.start_date_time}/>
+                <h5 className="card-title">{contest.contest_name}</h5>
+                <p className="card-text">
+                  Contest ended on{" "}
+                  <MonthFormattedDate utcTime={contest.start_date_time} />
                 </p>
                 <div className="d-flex justify-content-between">
-                  <div className="d-flex align-items-center">
+                  <div className="d-flex">
                     <FaUsers size={20} />
-                    <p className="mb-0 ms-2" style={{ fontSize: "small" }}>
-                      465 Registered
+                    <p className="ms-2" style={{ fontSize: "smaller" }}>
+                      465 Reg'd
                     </p>
                   </div>
-                  <div className="d-flex align-items-center">
-                    <FaClock size={20} style={{ paddingTop: "2px" }} />
-                    <p className="mb-0 ms-2" style={{ fontSize: "small" }}>
-                      Time: <TimeDifference startDate={contest.start_date_time} endDate={contest.end_date_time} />
+                  <div className="d-flex">
+                    <FaUserFriends size={20} />
+                    <p className="ms-1" style={{ fontSize: "smaller" }}>
+                      259 Participated
                     </p>
                   </div>
                 </div>
-                <div className="details mt-3">
-                  <Link className="link-button btn btn-primary">
-                    Manage Contest
+                <div className="details mt-2">
+                  <Link className="btn "  id="link-button">
+                    Contest Analytics
                   </Link>
                 </div>
               </div>

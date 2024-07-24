@@ -7,16 +7,20 @@
 .contest-detail-filling{
     background-color: var(--background-color);
     color: var(--text-color);
+    font-family: var(--font-family);
+    font-weight: 900;
 }
 
 .formsubmit button{
     width: 100%;
     background-color: var(--primary-color);
-    color: #1f1e1e;
-}
-#label-text {
     color: var(--text-color);
+    transition: background-color 0.5s ease-in-out;
 }
+.formsubmit button:hover{
+    background-color: var(--active-color);
+}
+
 
 @media (max-width: 768px) {
     .form {
@@ -35,3 +39,39 @@
         width: 75%;
     }
 }
+
+.form .form-control-custom {
+    background-color: var(--card-color);
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    color: var(--text-color);
+  }
+  
+.form .form-control-custom::placeholder {
+    color: var(--text-color);
+    opacity: 1;
+  }
+  
+.form .form-control-custom:focus {
+    border-color: #80bdff;
+    outline: none;
+    background-color: var(--background-color);
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+    opacity: 1;
+    color: var(--text-color);
+  }
+
+.datetime-picker {
+    background-color: black;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    color: #333;
+  }
+  
+  .custom-muted-text {
+    color: #6c757d;
+    font-size: 0.875em;
+  }
+  

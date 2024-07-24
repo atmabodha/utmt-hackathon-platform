@@ -72,7 +72,7 @@ const ContestDetails = () => {
 
       setLoading(true);
       const response = await axios.post(
-        "http://127.0.0.1:8000/host/add-contest-details/",
+        "http://192.168.1.201:8000/host/add-contest-details/",
         formDataToSend
       );
 
@@ -143,7 +143,7 @@ const ContestDetails = () => {
         <div className="form">
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formGroupName" required>
-              <Form.Label id="label-text">Contest Name *</Form.Label>
+              <Form.Label>Contest Name *</Form.Label>
               <Form.Control
                 type="text"
                 name="contestName"
@@ -151,6 +151,7 @@ const ContestDetails = () => {
                 value={formData.contestName}
                 onChange={handleChange}
                 required
+                className="form-control-custom"
               />
             </Form.Group>
 
@@ -166,6 +167,7 @@ const ContestDetails = () => {
                 value={formData.organisationType}
                 onChange={handleChange}
                 required
+                className="form-control-custom"
               >
                 <option value="">Select Organization type</option>
                 <option value="university">University</option>
@@ -187,6 +189,7 @@ const ContestDetails = () => {
                 value={formData.organisationName}
                 onChange={handleChange}
                 required
+                className="form-control-custom"
               />
             </Form.Group>
 
@@ -197,7 +200,7 @@ const ContestDetails = () => {
             >
               <Form.Label>Select Start Date and Time *</Form.Label>
               <Datetime
-                className="start-date"
+                className="start-date datetime-picker"
                 inputProps={{
                   placeholder: "Select start date and time",
                 }}
@@ -214,13 +217,14 @@ const ContestDetails = () => {
             >
               <Form.Label>Select End Date and Time *</Form.Label>
               <Datetime
-                className="end-date"
+                className="end-date datetime-input"
                 inputProps={{
                   placeholder: "Select end date and time",
                 }}
                 onChange={(date) =>
                   setFormData({ ...formData, endDateTime: date })
                 }
+
               />
             </Form.Group>
 
@@ -236,6 +240,7 @@ const ContestDetails = () => {
                 value={formData.contestVisibility}
                 onChange={handleChange}
                 required
+                className="form-control-custom"
               >
                 <option value="">Select contest visibility type</option>
                 <option value="public">Public</option>
@@ -250,8 +255,9 @@ const ContestDetails = () => {
                 accept=".jpg, .png, .jpeg, .svg"
                 onChange={handleFileChange}
                 required
+                className="form-control-custom"
               />
-              <Form.Text muted>
+              <Form.Text muted className="custom-muted-text">
                 Please select a JPG, PNG, JPEG, or SVG file.
               </Form.Text>
               {imageUploadStatus && (
@@ -269,6 +275,7 @@ const ContestDetails = () => {
                 placeholder="Enter participant limit"
                 value={formData.participantLimit}
                 onChange={handleChange}
+                className="form-control-custom"
               />
             </Form.Group>
 

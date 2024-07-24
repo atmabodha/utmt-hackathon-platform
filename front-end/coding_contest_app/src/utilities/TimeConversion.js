@@ -37,7 +37,7 @@ const TimeDifference = ({ startDate, endDate }) => {
   // Convert milliseconds to total minutes
   const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
 
-  return `${differenceInMinutes} Minutes`
+  return `${differenceInMinutes} Mins`
   };
 
 

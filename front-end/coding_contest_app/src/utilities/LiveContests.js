@@ -25,27 +25,27 @@ const LiveContests = ({ data }) => {
               />
               <div className="card-body">
                 <h5 className="card-title">{contest.contest_name}</h5>
-                <p className="card-text text">
+                <p className="card-text">
                   Contest Started on{" "}
                   <MonthFormattedDate utcTime={contest.start_date_time} /> at <TimeFromDate utcTime={contest.start_date_time}/>
                 </p>
                 <div className="d-flex justify-content-between">
-                  <div className="d-flex align-items-center">
+                  <div className="d-flex ">
                     <FaUsers size={20} />
-                    <p className="mb-0 ms-2" style={{ fontSize: "small" }}>
-                      465 Registered
+                    <p className="ms-1" style={{ fontSize: "smaller" }}>
+                      465 Reg'd
                     </p>
                   </div>
-                  <div className="d-flex align-items-center">
-                    <FaClock size={20} style={{ paddingTop: "2px" }} />
-                    <p className="mb-0 ms-2" style={{ fontSize: "small" }}>
+                  <div className="d-flex ">
+                    <FaClock size={20} />
+                    <p className="ms-1" style={{ fontSize: "smaller" }}>
                       Time: <TimeDifference startDate={contest.start_date_time} endDate={contest.end_date_time} />
                     </p>
                   </div>
                 </div>
-                <div className="details mt-3">
-                  <Link className="link-button btn btn-primary">
-                    Manage Contest
+                <div className="details mt-2">
+                  <Link className="btn" id="link-button">
+                    Contest Details
                   </Link>
                 </div>
               </div>

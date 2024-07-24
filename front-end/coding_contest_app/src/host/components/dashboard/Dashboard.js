@@ -58,6 +58,7 @@ const ContestHistory = () => {
             fontWeight: 900,
             paddingTop: "150px",
             color: "var(--text-color)",
+            fontFamily: "sans-serif",
           }}
         >
           Contests

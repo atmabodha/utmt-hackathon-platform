@@ -24,6 +24,7 @@ const ThemeButton = () => {
       root.style.setProperty('--border-color', '#58A6FF');
       root.style.setProperty('--bottom-border-color', 'rgb(43, 38, 38)');
       root.style.setProperty('--active-color', '#2EA043');
+      root.style.setProperty('--card-color', 'rgb(35, 32, 32)')
     } else {
       root.style.setProperty('--background-color', '#FFFFFF');
       root.style.setProperty('--text-color', '#000000');
@@ -32,6 +33,7 @@ const ThemeButton = () => {
       root.style.setProperty('--border-color', '#1F6FEB');
       root.style.setProperty('--active-color', '#2EA043');
       root.style.setProperty('--bottom-border-color', 'rgb(250, 246, 246)');
+      root.style.setProperty('--card-color', 'rgb(237, 231, 231)')
     }
   };
 
