@@ -105,3 +105,24 @@
   background-color: #d0f30c;
   animation: blink 0.5s step-end infinite alternate;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.page-link {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  color: #000;
+  cursor: pointer;
+}
+
+.active .page-link {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
