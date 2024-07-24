@@ -14,7 +14,7 @@
 #header {
     background-color: var(--background-color);
     border-bottom: 2px solid var(--bottom-border-color);
-    z-index: 1040; /* Added z-index */
+    z-index: 1040;
 }
 
 #brand-name {
@@ -38,8 +38,31 @@
 }
 
 .dropdown-card {
-    /* margin-top: 5px; */
-    border: 2px white solid;
-    border-radius: 50%;
+    border: none !important;
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+}
+  
+.dropdown-card .dropdown-item {
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+    border: none !important;
+}
+  
+.dropdown-card .dropdown-item:hover {
+    background-color: var(--hover-background-color) !important;
+    color: var(--hover-text-color) !important;
 }
 
+.offcanvas-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.navbar-toggle-custom {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0;
+}

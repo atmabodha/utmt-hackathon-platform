@@ -55,7 +55,6 @@ const ThemeButton = () => {
           ? <FaSun size={14} style={{ color: '#D3D3D3' }} /> // Light gray for dark mode
           : <FaMoon size={14} style={{ color: '#000000' }} /> // Black for light mode
         }
-        
       </button>
     </div>
   );

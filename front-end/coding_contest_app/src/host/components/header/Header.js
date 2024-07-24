@@ -41,14 +41,15 @@ function Header({ headerType }) {
   return (
     <Navbar expand={expand} id="header" className="fixed-top">
       <Container fluid>
-        <Navbar.Brand as={Link} to={brandData.linksTo} id="brand-name">
+        <Navbar.Brand as={Link} to={`/${brandData.linksTo}`} id="brand-name">
           {brandData.name}
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls={`offcanvasNavbar-expand-${expand}`}
           onClick={handleShowOffcanvas}
+          className="navbar-toggle-custom"
         >
-          <FaBars style={{ color: "var(--text-color)", cursor: "pointer" }} />
+        <FaBars style={{ color: "var(--text-color)", cursor: "pointer" }} />
         </Navbar.Toggle>
         <Navbar.Offcanvas
           show={showOffcanvas}
@@ -61,8 +62,8 @@ function Header({ headerType }) {
           aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
           placement="end"
         >
-          <Offcanvas.Header>
-            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+          <Offcanvas.Header className="offcanvas-header-custom">
+          <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
               {brandData.name}
             </Offcanvas.Title>
             <FaTimes
@@ -77,7 +78,7 @@ function Header({ headerType }) {
           <Offcanvas.Body id="menu-bar">
             <Nav className="justify-content-end flex-grow-1 pe-3">
               {menuItems.map((item, index) => (
-                <Nav.Link as={Link} key={index} to={item.linksTo}>
+                <Nav.Link as={Link} key={index} to={`/${item.linksTo}`}>
                   {item.name}
                 </Nav.Link>
               ))}
@@ -87,7 +88,7 @@ function Header({ headerType }) {
         </Navbar.Offcanvas>
         <Nav className="ml-auto d-none d-md-flex">
           {navItems.map((navItem, index) => (
-            <Nav.Link as={Link} id="nav-item" key={index} to={navItem.linksTo}>
+            <Nav.Link as={Link} id="nav-item" key={index} to={`/${navItem.linksTo}`}>
               {navItem.name}
             </Nav.Link>
           ))}
@@ -112,7 +113,7 @@ function Header({ headerType }) {
               <NavDropdown.Item
                 as={Link}
                 key={index}
-                to={item.linksTo}
+                to={`/${item.linksTo}`}
                 className="dropdown-card"
                 style={{
                   backgroundColor: "var(--background-color)",
