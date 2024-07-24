@@ -1,0 +1,64 @@
+.container {
+  width: 100%;
+  max-width: 2500px;
+  margin: 0 auto;
+}
+
+.card {
+  width: 300px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+.col{
+  display: flex;
+  justify-content: center;
+}
+
+#contest-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+#contest-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: -15px;
+  text-align: left;
+}
+
+.card-text {
+  font-weight: 100;
+  font-size: 0.9rem;
+  font-family: serif;
+  text-align: center;
+}
+
+.link-button {
+  text-decoration: none;
+  color: white;
+}
+
+.link-button:hover {
+  text-decoration: none;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1800px;
+  }
+}

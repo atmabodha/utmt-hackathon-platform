@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import FetchContestDetails from "../../apis/Contests";
 import PastContest from "../../../utilities/PastContest";
 import ScheduledContest from "../../../utilities/ScheduledContest";
+import LiveContests from "../../../utilities/LiveContests";
 
 const contestType = ["live", "scheduled", "past"];
 
@@ -56,7 +57,7 @@ const ContestHistory = () => {
           style={{
             textAlign: "center",
             fontWeight: 900,
-            paddingTop: "50px",
+            paddingTop: "150px",
             color: "var(--text-color)",
           }}
         >
@@ -76,13 +77,15 @@ const ContestHistory = () => {
           </div>
         ))}
       </div>
+      <div style={{padding: "50px 0"}}>
       {type === "scheduled" ? (
         <ScheduledContest data={scheduledContests} />
       ) : type === "past" ? (
         <PastContest data={pastContests} />
       ) : (
-        <div> {/* Display live contests or placeholder */} </div>
+        <LiveContests data={liveContests} />
       )}
+      </div>
     </div>
   );
 };

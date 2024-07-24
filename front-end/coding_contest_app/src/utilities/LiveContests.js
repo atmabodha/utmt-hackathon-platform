@@ -1,85 +1,60 @@
-import React from "react";
-import {
-  MDBCard,
-  MDBCardImage,
-  MDBCardBody,
-  MDBCardTitle,
-  MDBCardText,
-  MDBRow,
-  MDBCol,
-} from "mdb-react-ui-kit";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { FaUsers, FaClock } from "react-icons/fa";
 import { MonthFormattedDate, TimeDifference, TimeFromDate } from "./TimeConversion";
-import "./styles/PastContest.css";
+import "./styles/Contest.css";
 
-const ScheduledContest = ({data}) => {
+const LiveContests = ({ data }) => {
   const [contests, setContests] = useState([]);
 
   useEffect(() => {
     setContests(data);
-  },[data])
+  }, [data]);
 
-  console.log(contests)
   return (
-    <div className="contest-cards">
-      <MDBRow className="row-cols-1 row-cols-sm-2  row-cols-lg-3 row-cols-xl-4 g-4">
+    <div className="container">
+      <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 g-4">
         {contests.map((contest, index) => (
-          <MDBCol key={index}>
-            <MDBCard id="past-card">
-              <MDBCardImage
+          <div className="col" key={index}>
+            <div className="card" id="contest-card">
+              <img
                 src={contest.contest_image}
                 alt={index}
-                position="top"
-                style={{ height: "150px" }}
+                className="card-img-top"
+                style={{ height: "150px", objectFit: "cover" }}
               />
-
-              <MDBCardBody className="card-body">
-                <MDBCardTitle className="title">
-                  {contest.contest_name}
-                </MDBCardTitle>
-                <MDBCardText className="text">
-                  <p
-                    style={{
-                      fontWeight: 100,
-                      fontSize: "0.9rem",
-                      fontFamily: "serif",
-                      textAlign: "center",
-                    }}
-                  >
-                    Contest Started on{" "}
-                    <MonthFormattedDate utcTime={contest.start_date_time} /> at <TimeFromDate utcTime={contest.start_date_time}/>
-                  </p>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <div style={{ display: "flex" }}>
-                      <FaUsers size={20} />
-                      <p style={{ paddingLeft: "3px", fontSize: "small" }}>
-                        465 Registered
-                      </p>
-                    </div>
-                    <div style={{ display: "flex" }}>
-                      <FaClock size={20} style={{paddingTop: "2px"}}/>
-                      <p style={{ paddingLeft: "3px", fontSize: "small" }}>
-                        Time: <TimeDifference startDate={contest.start_date_time} endDate={contest.end_date_time} />
-                      </p>
-                    </div>
+              <div className="card-body">
+                <h5 className="card-title">{contest.contest_name}</h5>
+                <p className="card-text text">
+                  Contest Started on{" "}
+                  <MonthFormattedDate utcTime={contest.start_date_time} /> at <TimeFromDate utcTime={contest.start_date_time}/>
+                </p>
+                <div className="d-flex justify-content-between">
+                  <div className="d-flex align-items-center">
+                    <FaUsers size={20} />
+                    <p className="mb-0 ms-2" style={{ fontSize: "small" }}>
+                      465 Registered
+                    </p>
                   </div>
-                </MDBCardText>
-                <div className="details">
-                  <Link className="link-button">
+                  <div className="d-flex align-items-center">
+                    <FaClock size={20} style={{ paddingTop: "2px" }} />
+                    <p className="mb-0 ms-2" style={{ fontSize: "small" }}>
+                      Time: <TimeDifference startDate={contest.start_date_time} endDate={contest.end_date_time} />
+                    </p>
+                  </div>
+                </div>
+                <div className="details mt-3">
+                  <Link className="link-button btn btn-primary">
                     Manage Contest
                   </Link>
                 </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
+              </div>
+            </div>
+          </div>
         ))}
-      </MDBRow>
+      </div>
     </div>
   );
 };
 
-export default ScheduledContest;
+export default LiveContests;
