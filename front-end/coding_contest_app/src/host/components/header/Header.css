@@ -1,16 +1,19 @@
-@import '../../index.css';
+@import '../../../index.css';
 
 @media (min-width:768px) {
     #menu-bar {
         display: none;
     }
 }
-#header .offcanvas{
+
+#header .offcanvas {
     background-color: var(--background-color);
     color: var(--text-color);
 }
-#header{
+
+#header {
     background-color: var(--background-color);
+    border-bottom: 2px solid var(--bottom-border-color);
 }
 
 #brand-name {
@@ -28,3 +31,14 @@
 #nav-item {
     color: var(--text-color);
 }
+
+.no-caret .dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-card {
+    /* margin-top: 5px; */
+    border: 2px white solid;
+    border-radius: 50%;
+}
+

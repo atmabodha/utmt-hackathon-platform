@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa'; // Import icons from react-icons
-import '../../index.css';
+import '../index.css';
 const ThemeButton = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
@@ -22,12 +22,16 @@ const ThemeButton = () => {
       root.style.setProperty('--primary-color', '#1E90FF');
       root.style.setProperty('--secondary-color', '#2D333B');
       root.style.setProperty('--border-color', '#58A6FF');
+      root.style.setProperty('--bottom-border-color', 'rgb(43, 38, 38)');
+      root.style.setProperty('--active-color', '#2EA043');
     } else {
       root.style.setProperty('--background-color', '#FFFFFF');
       root.style.setProperty('--text-color', '#000000');
       root.style.setProperty('--primary-color', '#007ACC');
       root.style.setProperty('--secondary-color', '#D1D5DA');
       root.style.setProperty('--border-color', '#1F6FEB');
+      root.style.setProperty('--active-color', '#2EA043');
+      root.style.setProperty('--bottom-border-color', 'rgb(250, 246, 246)');
     }
   };
 
@@ -46,8 +50,8 @@ const ThemeButton = () => {
         style={{ background: 'transparent', border: 'none', cursor: 'pointer', paddingTop: "5px", paddingLeft: "0px", color: "var(--text-color)"}}
       >Theme &nbsp;
         {isDarkTheme 
-          ? <FaSun size={20} style={{ color: '#D3D3D3' }} /> // Light gray for dark mode
-          : <FaMoon size={20} style={{ color: '#000000' }} /> // Black for light mode
+          ? <FaSun size={14} style={{ color: '#D3D3D3' }} /> // Light gray for dark mode
+          : <FaMoon size={14} style={{ color: '#000000' }} /> // Black for light mode
         }
         
       </button>
