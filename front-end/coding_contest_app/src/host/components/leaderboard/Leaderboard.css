@@ -1,6 +1,7 @@
+/* Existing CSS code */
 .leaderboard {
   width: 80%;
-  margin: 100px auto;
+  margin: 40px auto;
   background: #e5f5f9;
   border-radius: 10px;
   padding: 20px;
@@ -35,6 +36,10 @@
   background-color: #f2f2f2;
 }
 
+.tableRow {
+  height: 60px; /* Add a fixed height for table rows */
+}
+
 #player-info {
   display: flex;
   align-items: center;
@@ -49,19 +54,24 @@
 
 @media (max-width: 768px) {
   .leaderboard {
-    margin: 50px auto;
     width: 90%;
-    margin: 20px auto;
-    padding: 10px;
+    margin: 40px auto;
+    padding: 15px;
   }
 
   .title {
     font-size: 2em;
+    margin-bottom: 15px;
   }
 
   .tableHeader,
   .tableData {
     padding: 10px;
+    text-align: center; /* Center text for better readability on smaller screens */
+  }
+
+  .tableRow {
+    height: auto; /* Allow rows to adjust height based on content */
   }
 
   #player-img {
@@ -69,18 +79,24 @@
     height: 30px;
     margin-right: 5px;
   }
+
+  #player-info {
+    display: flex;
+    flex-direction: column; /* Stack player image and name vertically */
+    align-items: center;
+  }
 }
 
 @media (max-width: 443px) {
   .leaderboard {
-    margin: 50px auto;
     width: 100%;
-    margin: 10px auto;
+    margin: 50px auto;
     padding: 10px;
   }
 
   .title {
     font-size: 1.5em;
+    margin-bottom: 10px;
   }
 
   .tableHeader,
