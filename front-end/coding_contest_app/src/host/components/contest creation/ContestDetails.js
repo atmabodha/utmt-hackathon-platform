@@ -9,6 +9,7 @@ import moment from "moment";
 import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
 import "./ContestDetails.css";
+import { backdropClasses } from "@mui/material";
 
 const ContestDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -111,6 +112,31 @@ const ContestDetails = () => {
     setLoading(false);
   };
 
+  const handleOkClick = () => {
+    const outsideClickTarget = document.body;
+    if (outsideClickTarget) {
+      const event = new MouseEvent('mousedown', { bubbles: true });
+      outsideClickTarget.dispatchEvent(event);
+    }
+  };
+
+  const customRenderView = (viewMode, renderDefault) => {
+    return (
+      <div>
+        {renderDefault()}
+        {viewMode === 'time' && (
+          <button
+            type="button"
+            id="ok-button"
+            onClick={handleOkClick}
+          >
+            OK
+          </button>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="contest-detail-filling">
       <LoadingOverlay
@@ -118,7 +144,7 @@ const ContestDetails = () => {
         text="Hold tight digesting the details..."
         spinner={
           <PulseLoader
-            color={'black'}
+            color={"black"}
             loading={true}
             size={15}
             margin={10}
@@ -200,9 +226,13 @@ const ContestDetails = () => {
             >
               <Form.Label>Select Start Date and Time *</Form.Label>
               <Datetime
-                className="start-date datetime-picker"
+                className="start-date date-picker"
+                timeFormat={true}
+                dateFormat={true}
+                renderView={customRenderView}
                 inputProps={{
                   placeholder: "Select start date and time",
+                  className: "form-control-custom",
                 }}
                 onChange={(date) =>
                   setFormData({ ...formData, startDateTime: date })
@@ -217,14 +247,17 @@ const ContestDetails = () => {
             >
               <Form.Label>Select End Date and Time *</Form.Label>
               <Datetime
-                className="end-date datetime-input"
+                className="end-date date-picker"
+                timeFormat={true}
+                dateFormat={true}
+                renderView={customRenderView}
                 inputProps={{
                   placeholder: "Select end date and time",
+                  className: "form-control-custom",
                 }}
                 onChange={(date) =>
                   setFormData({ ...formData, endDateTime: date })
                 }
-
               />
             </Form.Group>
 
@@ -248,16 +281,25 @@ const ContestDetails = () => {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group controlId="formGroupFile" className="mb-3">
+            <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>Contest Banner Image *</Form.Label>
               <Form.Control
+                id="file-input"
                 type="file"
                 accept=".jpg, .png, .jpeg, .svg"
                 onChange={handleFileChange}
                 required
                 className="form-control-custom"
               />
-              <Form.Text muted className="custom-muted-text">
+              <label htmlFor="file-input" className="custom-file-button">
+                Choose File
+              </label>
+              {formData.contestImage && (
+                <div className="file-name-display">
+                  Selected file: {formData.contestImage.name}
+                </div>
+              )}
+              <Form.Text muted>
                 Please select a JPG, PNG, JPEG, or SVG file.
               </Form.Text>
               {imageUploadStatus && (
