@@ -1,6 +1,6 @@
 .leaderboard {
   width: 80%;
-  margin: 50px auto;
+  margin: 100px auto;
   background: #e5f5f9;
   border-radius: 10px;
   padding: 20px;
@@ -49,6 +49,7 @@
 
 @media (max-width: 768px) {
   .leaderboard {
+    margin: 50px auto;
     width: 90%;
     margin: 20px auto;
     padding: 10px;
@@ -72,6 +73,7 @@
 
 @media (max-width: 443px) {
   .leaderboard {
+    margin: 50px auto;
     width: 100%;
     margin: 10px auto;
     padding: 10px;
@@ -96,7 +98,6 @@
   #player-img {
     width: 30px;
     height: 30px;
-    border-radius: 50%;
     margin: 5px 0;
   }
 }
@@ -106,23 +107,52 @@
   animation: blink 0.5s step-end infinite alternate;
 }
 
+/* Pagination container to wrap pagination and items per page controls */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  margin-top: 0px;
+}
+
+/* Pagination controls styling */
 .pagination {
   display: flex;
-  justify-content: center;
-  list-style: none;
-  padding: 0;
+  margin-top: 10px;
 }
 
-.page-link {
-  padding: 5px 10px;
-  margin: 0 5px;
-  border: 1px solid #ccc;
-  color: #000;
-  cursor: pointer;
-}
-
-.active .page-link {
-  background-color: #007bff;
+.pagination button {
+  background-color: #16a085;
+  border: none;
   color: white;
-  border-color: #007bff;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #1abc9c;
+}
+
+.pagination button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: #1abc9c;
+  font-weight: bold;
+}
+
+/* Items per page selector styling */
+.items-per-page {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.items-per-page span {
+  margin-right: 10px;
 }
