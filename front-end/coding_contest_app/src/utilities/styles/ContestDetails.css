@@ -41,6 +41,7 @@
     justify-content: space-between;
     width: 75%;
     margin: 0px auto;
+    color: white;
 }
 
 .contest-details-metadata-right  {
@@ -48,6 +49,21 @@
 }
 .deadline-heading {
  display: none;   
+}
+
+.contest-other-details {
+    width: 75%;
+    margin: 25px auto;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+.contest-other-details-left {
+    max-width: 50%;
+}
+.contest-other-details-right {
+    padding-top: 50px;
+    padding-right: 25px;
 }
 
 @media (max-width: 768px){
@@ -62,5 +78,8 @@
     }
     .contest-details-metadata-right {
         padding-left: 10px;
+    }
+    .contest-other-details {
+        flex-direction: column;
     }
 }

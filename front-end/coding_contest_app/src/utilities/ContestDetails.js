@@ -21,31 +21,51 @@ const ContestDetails = () => {
             ></Image>
           </div>
         </div>
-      </div>l
+      </div>
+      l
       <div className="contest-details-metadata">
         <div>
-            <h2>Hack Hard</h2>
-            <div style={{paddingLeft: "10px"}}>
-                <p><FaGlobe size={20}></FaGlobe> Shri Ram swaroop memorial university</p>
-                <p> <FaLocationArrow size={20}></FaLocationArrow> Murda, Rajsamand India</p>
-                <p><FaCalendar size={15}></FaCalendar> Last updated on: 23/06/2024</p>
-            </div>
+          <h2>Hack Hard</h2>
+          <div style={{ paddingLeft: "10px" }}>
+            <p>
+              <FaGlobe size={20}></FaGlobe> Shri Ram swaroop memorial university
+            </p>
+            <p>
+              {" "}
+              <FaLocationArrow size={20}></FaLocationArrow> Murda, Rajsamand
+              India
+            </p>
+            <p>
+              <FaCalendar size={15}></FaCalendar> Last updated on: 23/06/2024
+            </p>
+          </div>
         </div>
         <h3 className="deadline-heading">Dates and Deadlines</h3>
         <div className="contest-details-metadata-right">
-            <p>Registration ends on: 23/04/2024 at 12 AM</p>
-            <p>Starts On: 24/06/2024 at 8:30 PM</p>
-            <p>Contest Duration: 180 Minutes</p>
-            <p>Participant Limit: 500</p>
-            <p>Number of questions: 15</p>
+          <p>Registration ends on: 23/04/2024 at 12 AM</p>
+          <p>Starts On: 24/06/2024 at 8:30 PM</p>
+          <p>Contest Duration: 180 Minutes</p>
+          <p>Participant Limit: 500</p>
+          <p>Number of questions: 15</p>
         </div>
       </div>
       <div className="contest-other-details">
+        <div className="contest-other-details-left">
           <h3>About Contest</h3>
-          <div>
+          <div style={{paddingLeft: "10px", paddingTop: "25px"}}>
             <h4>Details</h4>
-            <p></p>
+            <p>
+              This was a concept for a client who is building a productivity
+              suite of tools that allow uniform data management across all
+              domains of life
+            </p>
           </div>
+        </div>
+        <div className="contest-other-details-right">
+          <h4>Side things goes here</h4>
+          <p>text 1</p>
+          <p>text 1</p>
+        </div>
       </div>
     </div>
   );
