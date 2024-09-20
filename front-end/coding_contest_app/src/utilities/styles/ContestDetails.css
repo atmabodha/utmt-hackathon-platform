@@ -3,11 +3,9 @@
     margin-top: 100px;
     margin-bottom: 50px;
     background-color: #f6f6f6;
-    border: 1px solid #dfe0e0;
     border-radius: 20px;
     max-width: 80%;
     margin-left: 9%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
 }
 
 .contest-details-images {
@@ -33,7 +31,7 @@
 }
 .image2-div {
     position: absolute;
-    top: 25vh;
+    top: 30vh;
     left: 25%;
     border-radius: 25px;
 }
@@ -44,7 +42,7 @@
     width: 70%;
     margin: 0px auto;
     color: black;
-    background-color: #dfe0e0;
+    /* background-color: #dfe0e0; */
 }
 .contest-details h2 {
     margin-bottom: 15px;
@@ -66,7 +64,6 @@
     justify-content: space-between;
     color: black;
     font-family: var(--font-family);
-    background-color: antiquewhite;
 }
 .contest-other-details h3 {
     margin-bottom: 15px;
