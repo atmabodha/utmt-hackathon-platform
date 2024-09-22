@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import profile1 from "./leaderboard assets/profile1.jpeg";
 import "./Leaderboard.css";
 import PaginationComponent from "./PaginationComponent";
-import ReactCountryFlag from "react-world-flags";
+import { FlagIcon } from "react-flag-kit";
 import SortingComponent from "./SortingComponent";
 import SearchBarComponent from "./SearchBarComponent";
 
@@ -119,7 +119,7 @@ const Leaderboard = ({ itemsPerPage = 5 }) => {
                   </td>
                   <td className="tableData">{player.points}</td>
                   <td className="tableData">
-                    <ReactCountryFlag countryCode={player.location} svg />
+                    <FlagIcon code={player.location} size={24} />
                   </td>
                 </tr>
               ))}
