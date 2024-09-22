@@ -3,3 +3,4 @@ front-end/coding_contest_app/node_modules/
 backend/coding_contest/coding_contest/__pycache__
 */*token.json
 */*google_credentials.json
+.vscode
