@@ -1,13 +1,17 @@
 /* Existing CSS code */
 .leaderboard {
   width: 80%;
-  margin: 40px auto;
+  margin: 80px auto;
   background: #e5f5f9;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative; /* Add this to position the search bar absolutely within the leaderboard */
 }
 
+.body {
+  background-color: black;
+}
 .title {
   text-align: center;
   font-size: 2.5em;
@@ -15,8 +19,27 @@
   margin-bottom: 20px;
 }
 
-.tableName {
+/* Add this new CSS for the search bar */
+.search-bar-container {
+  position: absolute;
+  top: 40px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  width: 200px; /* Adjust width as needed */
+  height: 50px;
+}
+
+.search-bar-container input {
+  width: 100%; /* Full width of the container */
+}
+
+.table-responsive {
+  overflow-x: auto;
   width: 100%;
+}
+
+.tableName {
+  width: 100%; /* Allow table to expand to full width */
+  min-width: 800px; /* Set a minimum width to prevent content squeezing */
   border-collapse: collapse;
 }
 
@@ -30,6 +53,7 @@
 .tableHeader {
   background: #16a085;
   color: white;
+  white-space: nowrap; /* Prevent headers from breaking into new lines */
 }
 
 .tableRow:nth-child(even) {
@@ -38,6 +62,7 @@
 
 .tableRow {
   height: 60px; /* Add a fixed height for table rows */
+  white-space: nowrap; /* Prevent data in rows from wrapping */
 }
 
 #player-info {
@@ -55,8 +80,21 @@
 @media (max-width: 768px) {
   .leaderboard {
     width: 90%;
-    margin: 40px auto;
+    margin: 80px auto;
     padding: 15px;
+    position: relative; /* Ensure positioning is relative for the search bar */
+  }
+
+  .search-bar-container {
+    position: static; /* Reset positioning */
+    width: 100%; /* Full width for mobile */
+    text-align: center; /* Center the search bar */
+    margin-bottom: 20px; /* Space below the search bar */
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Enable momentum scrolling on iOS */
   }
 
   .title {
@@ -87,39 +125,10 @@
   }
 }
 
-@media (max-width: 443px) {
-  .leaderboard {
-    width: 100%;
-    margin: 50px auto;
-    padding: 10px;
-  }
-
-  .title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-  }
-
-  .tableHeader,
-  .tableData {
-    padding: 5px;
-    text-align: center;
-  }
-
-  #player-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #player-img {
-    width: 30px;
-    height: 30px;
-    margin: 5px 0;
-  }
-}
-
+/* Add hover effect for rows */
 .tableRow:hover {
-  background-color: #d0f30c;
+  background-color: var(--table-row-hover-color);
+  /* opacity: 0.5; */
   animation: blink 0.5s step-end infinite alternate;
 }
 
@@ -127,21 +136,21 @@
 .pagination-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items horizontally */
+  align-items: center;
   margin-top: 0px;
 }
 
 /* Pagination controls styling */
 .pagination {
   display: flex;
-  margin-top: 10px;
+  margin: 0;
 }
 
 .pagination button {
   background-color: #16a085;
   border: none;
   color: white;
-  padding: 10px 15px;
+  padding: 5px 15px;
   margin: 0 5px;
   border-radius: 5px;
   cursor: pointer;
@@ -167,6 +176,7 @@
   display: flex;
   align-items: center;
   margin-top: 15px;
+  color: var(--text-color);
 }
 
 .items-per-page span {
