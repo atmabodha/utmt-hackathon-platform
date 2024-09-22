@@ -30,6 +30,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.5",
+    "react-world-flags": "^1.6.0",
     "reactstrap": "^9.2.2",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.12.2",

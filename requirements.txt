@@ -23,14 +23,6 @@ MarkupSafe==2.1.5
 oauthlib==3.2.2
 openapi-codec==1.3.2
 pillow==10.4.0
-<<<<<<< HEAD
-=======
-proto-plus==1.24.0
-protobuf==5.27.2
-pyasn1==0.6.0
-pyasn1_modules==0.4.0
-pyparsing==3.1.2
->>>>>>> a7a922547c946cdb04fa7e7f56a2d0e2c70a3906
 requests==2.32.3
 requests-oauthlib==2.0.0
 rsa==4.9
