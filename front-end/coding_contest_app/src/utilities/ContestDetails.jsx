@@ -3,6 +3,8 @@ import { Image } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarCheck, faCalendarAlt, faUniversity, faCalendarTimes, faMapMarkerAlt, faListOl, faInfoCircle, faClock, faUserFriends, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import "./styles/ContestDetails.css";
+import img1 from "../media/contest detailes/contestDetailbg.jpeg";
+import img2 from "../media/contest_images/coding.png";
 
 const ContestInfoItem = ({ icon, text, boldText }) => (
   <p>
@@ -26,13 +28,13 @@ const ContestDetails = () => {
         <div className="image1-div">
           <Image
             className="image1"
-            src="/media/contest detailes/contestDetailbg.jpeg"
+            src={img1}
             alt="Contest Background"
           />
           <div className="image2-div">
             <Image
               className="image2"
-              src="/media/contest_images/coding.png"
+              src={img2}
               alt="Coding Contest"
             />
           </div>
