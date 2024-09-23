@@ -1,0 +1,16 @@
+.about-contest {
+    background-color: var(--background-color);
+    width: 100%;
+    padding: 20px;
+    color: var(--text-color);
+}
+.about-contest-header {
+    width: fit-content;
+    text-align: center;
+    margin: 0 auto;
+}
+.about-input-field {
+    margin-bottom: 40px;
+    padding: 20px;
+    color: red;
+}

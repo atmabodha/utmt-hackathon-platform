@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/Sidebar.css";
+import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { useState } from "react";

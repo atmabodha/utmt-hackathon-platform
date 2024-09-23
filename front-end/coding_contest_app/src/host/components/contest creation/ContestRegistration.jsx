@@ -11,7 +11,7 @@ import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
 import "./ContestRegistration.css";
 
-const ContestRegistration = ({pageTitle, pageText, pageLink}) => {
+const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     contestName: "",
@@ -163,7 +163,7 @@ const ContestRegistration = ({pageTitle, pageText, pageLink}) => {
 
         <div>
           <p style={{ textAlign: "center", fontWeight: 700, padding: "5px 0"}}>
-            {pageLink}
+            {contestUrl}
           </p>
         </div>
         <div className="form">

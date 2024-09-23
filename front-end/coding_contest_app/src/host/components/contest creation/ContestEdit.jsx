@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../../../utilities/Sidebar";
+import Sidebar from "./Sidebar";
 import ContestRegistration from "./ContestRegistration";
 import { useState } from "react";
 import Header from "../header/Header";

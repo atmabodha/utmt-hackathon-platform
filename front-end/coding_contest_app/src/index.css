@@ -18,7 +18,7 @@ code {
   --text-color: #000000;
   --primary-color: #007acc;
   --secondary-color: #d1d5da;
-  --border-color: #1f6feb;
+  --border-color: rgb(33, 29, 29);
   --active-color: #2ea043;
   --bottom-border-color: rgb(43, 38, 38);
   --font-family: sans-serif;

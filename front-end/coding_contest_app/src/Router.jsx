@@ -5,14 +5,15 @@ import ContestCreation from "./host/pages/ContestCreation";
 import LeaderboardPage from "./host/pages/LeaderboardPage";
 import NotFound from "./host/pages/Notfound/notfound";
 import ContestDetails from "./utilities/ContestDetails";
-import Sidebar from "./utilities/Sidebar";
 import ContestEdit from "./host/components/contest creation/ContestEdit";
+import AboutContest from "./host/components/contest creation/AboutContest";
+import {TextArea} from "./utilities/FormComponents";
 
 function ApplicationRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<ContestEdit />} />
+        <Route path="/" element={<AboutContest/>} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/host" element={<ContestCreation />} />
         <Route path="/submissions" element={<ContestDetails />} />
