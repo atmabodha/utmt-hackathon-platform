@@ -1,53 +1,36 @@
-import React, { useState } from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
-import './ContestEdit.css'; // Custom CSS for the sidebar
+import React from "react";
+import Sidebar from "../../../utilities/Sidebar";
+import ContestRegistration from "./ContestRegistration";
+import { useState } from "react";
+import Header from "../header/Header";
+import { Link } from "react-router-dom";
+import "./ContestEdit.css";
 
-const Sidebar = () => {
-  const [expanded, setExpanded] = useState(false);
-
+function ContestEdit() {
   return (
-    <div className={`sidebar ${expanded ? 'expanded' : ''}`}>
-      <Navbar bg="light" expand="lg" className="flex-column">
-        <Navbar.Brand>
-          <Button
-            className="sidebar-toggle"
-            onClick={() => setExpanded(!expanded)}
-          >
-            {expanded ? 'Collapse' : 'Expand'}
-          </Button>
-        </Navbar.Brand>
-        <Navbar.Collapse>
-          <Nav className="flex-column">
-            <Nav.Link href="#home">
-              <i className="bi bi-house-door"></i> Home
-            </Nav.Link>
-            <Nav.Link href="#services">
-              <i className="bi bi-gear"></i> Services
-            </Nav.Link>
-            <Nav.Link href="#about">
-              <i className="bi bi-info-circle"></i> About
-            </Nav.Link>
-            <Nav.Link href="#contact">
-              <i className="bi bi-envelope"></i> Contact
-            </Nav.Link>
-            <Nav.Item>
-              <Nav.Link href="#more">
-                <i className="bi bi-list"></i> More
-              </Nav.Link>
-              <Nav className="flex-column">
-                <Nav.Link href="#subitem1">
-                  <i className="bi bi-chevron-right"></i> Subitem 1
-                </Nav.Link>
-                <Nav.Link href="#subitem2">
-                  <i className="bi bi-chevron-right"></i> Subitem 2
-                </Nav.Link>
-              </Nav>
-            </Nav.Item>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+    <div>
+      <Header headerType={"host"} />
+      <div className="contest-edit">
+        <div className="contest-edit-sidebar">
+          <Sidebar contestName=""/>
+        </div>
+        <div className="contest-edit-content">
+          <ContestRegistration pageLink={"www.codehut.com/hackHard"} pageTitle={"Coding Contest"}/>
+        </div>
+      </div>
+      <div className="contest-edit-footer">
+        <div className="contest-edit-left-buttons">
+          <Link className="contest-edit-footer-button" to="">
+            Preview Contest
+          </Link>
+          <button className="contest-edit-footer-button">
+            Choose From Repository
+          </button>
+        </div>
+        <button className="contest-edit-footer-button">Save Changes</button>
+      </div>
     </div>
   );
-};
+}
 
-export default Sidebar;
+export default ContestEdit;

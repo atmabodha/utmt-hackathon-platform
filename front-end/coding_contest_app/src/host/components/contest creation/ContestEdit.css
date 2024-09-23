@@ -1,43 +1,31 @@
-/* Sidebar.css */
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #f8f9fa;
-    transition: width 0.3s;
-    overflow: hidden;
-  }
-  
-  .sidebar.expanded {
-    width: 250px;
-  }
-  
-  .sidebar .sidebar-toggle {
-    margin: 10px;
-  }
-  
-  .sidebar .nav-link {
-    color: #333;
-    display: flex;
-    align-items: center;
-  }
-  
-  .sidebar .nav-link i {
-    margin-right: 10px;
-  }
-  
-  .sidebar .nav-item .nav {
-    display: none;
-  }
-  
-  .sidebar .nav-item .nav-link {
-    padding-left: 30px;
-  }
-  
-  .sidebar.expanded .nav-item .nav {
-    display: flex;
-    flex-direction: column;
-  }
-  
+.contest-edit-sidebar {
+  width: 100px;
+}
+.contest-edit-content {
+  padding-left: 250px;
+}
+.contest-edit-footer {
+  position: fixed;
+  bottom: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--background-color);
+}
+.contest-edit-left-buttons{
+  display: flex;
+  justify-content: space-evenly;
+  width: 25%;
+}
+.contest-edit-footer-button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: 2px solid var(--bottom-border-color);
+  border-radius: 2px;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+.contest-edit-footer-button:hover {
+  background-color: var(--secondary-color);
+}

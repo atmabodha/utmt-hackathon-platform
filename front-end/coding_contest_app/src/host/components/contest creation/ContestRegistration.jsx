@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import Datetime from "react-datetime";
 import axios from "axios";
@@ -10,7 +11,7 @@ import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
 import "./ContestRegistration.css";
 
-const ContestRegistration = () => {
+const ContestRegistration = ({pageTitle, pageText, pageLink}) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     contestName: "",
@@ -154,15 +155,15 @@ const ContestRegistration = () => {
       >
         <div>
           <h2
-            style={{ textAlign: "center", fontWeight: 700, paddingTop: "50px" }}
+            style={{ textAlign: "center", fontWeight: 700, paddingTop: "100px" }}
           >
-            Create Contest
+            {pageTitle}
           </h2>
         </div>
 
         <div>
-          <p style={{ textAlign: "center", fontWeight: 700, padding: "5px 0" }}>
-            Host your own contest here on this platform.
+          <p style={{ textAlign: "center", fontWeight: 700, padding: "5px 0"}}>
+            {pageLink}
           </p>
         </div>
         <div className="form">

@@ -1,0 +1,33 @@
+
+.sidebar {
+    position: fixed;
+    top: 55px;             /* 25px from top */
+    bottom: 25px;          /* 25px from bottom */
+    left: 0;               /* Sticks to the left side */
+    width: fit-content;          /* Fixed width */
+    max-width: 350px;
+    background-color: var(--background-color); /* Light background */
+    padding: 20px;         /* Padding for content */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
+  }
+
+.sidebar-contest-name {
+    padding-left: 20px;
+    padding-top: 10px;
+    font-weight: 700;
+
+}
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    padding: 20px 0;
+}
+.sidebar-link {
+    margin-bottom: 35px;
+    font-size: large;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    text-decoration: none;
+}
