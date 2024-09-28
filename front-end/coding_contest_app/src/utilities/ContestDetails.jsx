@@ -8,7 +8,7 @@ import img2 from "../media/contest_images/coding.png";
 
 const ContestInfoItem = ({ icon, text, boldText }) => (
   <p>
-    <FontAwesomeIcon icon={icon} size="lg" style={{ paddingRight: "10px" }} />
+    <FontAwesomeIcon icon={icon} size="md" style={{ paddingRight: "10px" }} />
     {boldText && <b>{boldText}: </b>}
     {text}
   </p>
@@ -95,7 +95,7 @@ const ContestDetails = () => {
         <div className="contest-other-details-left">
           <h3>
             Contest Details
-            <FontAwesomeIcon icon={faInfoCircle} size="md" style={{ paddingLeft: "15px" }} />
+            <FontAwesomeIcon icon={faInfoCircle} size="sm" style={{ paddingLeft: "15px" }} />
           </h3>
           <SectionWithTitle
             title="About"
@@ -115,7 +115,7 @@ const ContestDetails = () => {
 
           <h3>
             Prizes and Benefits
-            <FontAwesomeIcon icon={faTrophy} size="md" style={{ paddingLeft: "15px" }}/>
+            <FontAwesomeIcon icon={faTrophy} size="sm" style={{ paddingLeft: "15px" }}/>
           </h3>
           <SectionWithTitle
             title="Winner"
