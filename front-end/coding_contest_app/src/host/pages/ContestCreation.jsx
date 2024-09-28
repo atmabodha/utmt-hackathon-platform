@@ -7,7 +7,7 @@ const ContestCreation = () => {
     return (
         <div>
             <Header headerType={"host"}/>
-            <ContestRegistration pageTitle={"Coding Contest"}/>
+            <ContestRegistration pageLink={"www.codehut.com/hackHard"} pageTitle={"Coding Contest"} isRegistration={true}/>
         </div>
     )
 }

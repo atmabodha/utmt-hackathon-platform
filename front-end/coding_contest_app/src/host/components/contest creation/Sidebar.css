@@ -6,7 +6,7 @@
     left: 0;               /* Sticks to the left side */
     width: fit-content;          /* Fixed width */
     max-width: 350px;
-    background-color: var(--background-color); /* Light background */
+    background-color: var(--background-color);
     padding: 20px;         /* Padding for content */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     color: var(--text-color);

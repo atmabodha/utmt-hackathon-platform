@@ -1,0 +1,26 @@
+.contest-edit-footer {
+    position: fixed;
+    bottom: 0;
+    padding: 10px 25px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: var(--background-color);
+    margin-left: -250px;
+  }
+  .contest-edit-left-buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 25%;
+  }
+  .contest-edit-footer-button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 2px solid var(--bottom-border-color);
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+  .contest-edit-footer-button:hover {
+    background-color: var(--secondary-color);
+  }

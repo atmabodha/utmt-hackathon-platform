@@ -1,7 +1,7 @@
 .about-contest {
     background-color: var(--background-color);
     width: 100%;
-    padding: 20px;
+    padding: 100px;
     color: var(--text-color);
 }
 .about-contest-header {
@@ -10,7 +10,25 @@
     margin: 0 auto;
 }
 .about-input-field {
-    margin-bottom: 40px;
-    padding: 20px;
-    color: red;
+    padding-bottom: 40px;
+    width: 50%;
+    margin: 0 auto;
+}
+.about-form {
+    padding: 80px 0;
+}   
+.text-area-label {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: x-large;
+}
+.text-area-control {
+    overflow-y: scroll;
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+}
+.text-area-control:focus {
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+    box-shadow: none;
 }

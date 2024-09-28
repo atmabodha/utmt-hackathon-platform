@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Datetime from "react-datetime";
-import axios from "axios";
 import "react-datetime/css/react-datetime.css";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import moment from "moment";
 import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
 import "./ContestRegistration.css";
+import ContestEditFooter from "./ContestEditFooter.jsx";
+import {useFormHandler, useContestRegistrationSubmit} from "./FormHandlers.js";
 
-const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+const ContestRegistration = ({pageTitle, contestUrl, isRegistration}) => {
+  const {loading, handleSubmit} = useContestRegistrationSubmit()
+  const {formData, handleInputChange, handleFileChange, imageUploadStatus, setFormData} = useFormHandler({
     contestName: "",
     organisationType: "",
     organisationName: "",
@@ -22,94 +19,11 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
     contestVisibility: "",
     participantLimit: 500,
     contestImage: null,
-  });
-  const [imageUploadStatus, setImageUploadStatus] = useState("");
+  })
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      contestImage: e.target.files[0],
-    });
-    setImageUploadStatus("Image uploaded successfully");
-  };
-
-  const handleSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    if (!formData.startDateTime) {
-      document.querySelector(".start-date input").focus();
-      return;
-    }
-
-    if (!formData.endDateTime) {
-      document.querySelector(".end-date input").focus();
-      return;
-    }
-
-    if (moment(formData.endDateTime).isBefore(moment(formData.startDateTime))) {
-      toast.warn(
-        "Make sure end date and time is greater than start date and time"
-      );
-      return;
-    }
-
-    try {
-      let formDataToSend = new FormData();
-      formDataToSend.append("contest_name", formData.contestName);
-      formDataToSend.append("organisation_type", formData.organisationType);
-      formDataToSend.append("organisation_name", formData.organisationName);
-      formDataToSend.append("start_date_time", formData.startDateTime);
-      formDataToSend.append("end_date_time", formData.endDateTime);
-      formDataToSend.append("contest_visibility", formData.contestVisibility);
-      formDataToSend.append("participant_limit", formData.participantLimit);
-      formDataToSend.append("contest_image", formData.contestImage);
-
-      setLoading(true);
-      const response = await axios.post(
-        "http://192.168.1.201:8000/host/add-contest-details/",
-        formDataToSend
-      );
-
-      Swal.fire(
-        "Contest Created",
-        "Now move to forward for questions",
-        "success"
-      );
-    } catch (error) {
-      if (!error.response) {
-        Swal.fire(
-          "Network Error",
-          "Please check your internet connection and try again",
-          "error"
-        );
-      } else if (error.response.status === 500) {
-        Swal.fire(
-          "Contest not created",
-          "Oops! Facing internal server error",
-          "error"
-        );
-      } else if (error.response.status === 400) {
-        Swal.fire(
-          "Bad Request",
-          "Please check the submitted data and try again",
-          "error"
-        );
-      } else {
-        Swal.fire(
-          "Error",
-          `An error occurred: ${error.response.statusText}`,
-          "error"
-        );
-      }
-    }
-    setLoading(false);
+    handleSubmit(formData);
   };
 
   const handleOkClick = () => {
@@ -167,7 +81,7 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
           </p>
         </div>
         <div className="form">
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Form.Group className="mb-3" controlId="formGroupName" required>
               <Form.Label>Contest Name *</Form.Label>
               <Form.Control
@@ -175,7 +89,7 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
                 name="contestName"
                 placeholder="Enter contest name"
                 value={formData.contestName}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 className="form-control-custom"
               />
@@ -191,7 +105,7 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
                 name="organisationType"
                 aria-label="Select Organization type"
                 value={formData.organisationType}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 className="form-control-custom"
               >
@@ -213,7 +127,7 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
                 name="organisationName"
                 placeholder="Enter organization name"
                 value={formData.organisationName}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 className="form-control-custom"
               />
@@ -256,8 +170,7 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
                   className: "form-control-custom",
                 }}
                 onChange={(date) =>
-                  setFormData({ ...formData, endDateTime: date })
-                }
+                  setFormData({ ...formData, endDateTime: date })}
               />
             </Form.Group>
 
@@ -271,7 +184,7 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
                 name="contestVisibility"
                 aria-label="Select contest visibility"
                 value={formData.contestVisibility}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 className="form-control-custom"
               >
@@ -287,7 +200,7 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
                 id="file-input"
                 type="file"
                 accept=".jpg, .png, .jpeg, .svg"
-                onChange={handleFileChange}
+                onChange={(event) => (handleFileChange(event, 1024 * 1024))}
                 required
                 className="form-control-custom"
               />
@@ -316,19 +229,19 @@ const ContestRegistration = ({pageTitle, pageText, contestUrl}) => {
                 name="participantLimit"
                 placeholder="Enter participant limit"
                 value={formData.participantLimit}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 className="form-control-custom"
               />
             </Form.Group>
-
-            <div className="formsubmit">
-              <Button variant="primary" type="submit">
+          </Form>
+          {isRegistration ? (<div className="formsubmit">
+              <Button variant="primary"  onClick={onSubmit}>
                 Submit
               </Button>
-            </div>
-          </Form>
+            </div>) : ""}
         </div>
       </LoadingOverlay>
+      {isRegistration ? "" : (<ContestEditFooter/>)}
     </div>
   );
 };

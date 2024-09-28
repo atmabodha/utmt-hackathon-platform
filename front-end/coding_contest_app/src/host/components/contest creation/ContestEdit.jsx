@@ -1,12 +1,13 @@
 import React from "react";
 import Sidebar from "./Sidebar";
 import ContestRegistration from "./ContestRegistration";
-import { useState } from "react";
 import Header from "../header/Header";
-import { Link } from "react-router-dom";
 import "./ContestEdit.css";
+import AboutContest from "./AboutContest";
 
 function ContestEdit() {
+
+
   return (
     <div>
       <Header headerType={"host"} />
@@ -15,19 +16,9 @@ function ContestEdit() {
           <Sidebar contestName=""/>
         </div>
         <div className="contest-edit-content">
-          <ContestRegistration pageLink={"www.codehut.com/hackHard"} pageTitle={"Coding Contest"}/>
+          <ContestRegistration pageLink={"www.codehut.com/hackHard"} pageTitle={"Coding Contest"} isRegistration={false}/>
+          {/* <AboutContest /> */}
         </div>
-      </div>
-      <div className="contest-edit-footer">
-        <div className="contest-edit-left-buttons">
-          <Link className="contest-edit-footer-button" to="">
-            Preview Contest
-          </Link>
-          <button className="contest-edit-footer-button">
-            Choose From Repository
-          </button>
-        </div>
-        <button className="contest-edit-footer-button">Save Changes</button>
       </div>
     </div>
   );

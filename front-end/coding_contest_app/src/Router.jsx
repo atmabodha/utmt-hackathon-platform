@@ -7,17 +7,17 @@ import NotFound from "./host/pages/Notfound/notfound";
 import ContestDetails from "./utilities/ContestDetails";
 import ContestEdit from "./host/components/contest creation/ContestEdit";
 import AboutContest from "./host/components/contest creation/AboutContest";
-import {TextArea} from "./utilities/FormComponents";
+import ContestEditFooter from "./host/components/contest creation/ContestEditFooter";
 
 function ApplicationRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AboutContest/>} />
+        <Route path="/" element={<ContestEditFooter />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/host" element={<ContestCreation />} />
         <Route path="/submissions" element={<ContestDetails />} />
-        <Route path="/analytics" element={<NotFound />} />
+        <Route path="/analytics" element={<ContestEdit />} />
         <Route path="/support" element={<NotFound />} />
         <Route path="/profile" element={<NotFound />} />
         <Route path="/settings" element={<NotFound />} />
