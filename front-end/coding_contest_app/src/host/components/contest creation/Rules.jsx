@@ -1,15 +1,15 @@
 import React from "react";
-import "./Prizes.css";
+import "./Rules.css";
 import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import ContestEditFooter from "./ContestEditFooter";
 import { useFormHandler } from "./FormHandlers";
 import TextAreaField from "../../../utilities/FormComponents";
 
-function Prizes({ contestUrl }) {
+function Rules({ contestUrl }) {
   const inputFields = [
     {
-      label: "Winner Prizes",
+      label: "Winner Rules",
       name: "winnerPrize",
     },
     {
@@ -36,7 +36,7 @@ function Prizes({ contestUrl }) {
     <div>
       <div className="prize-contest">
         <div className="prize-contest-header">
-          <h2 style={{ fontWeight: 600 }}>Prizes</h2>
+          <h2 style={{ fontWeight: 600 }}>Rules</h2>
           <Link
             to=""
             style={{ textDecoration: "none", color: "var(--text-color)" }}
@@ -67,4 +67,4 @@ function Prizes({ contestUrl }) {
   );
 }
 
-export default Prizes;
+export default Rules;

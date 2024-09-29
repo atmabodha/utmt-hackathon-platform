@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HostDashboard from "./host/pages/Dashboard";
-import ContestCreation from "./host/pages/ContestCreation";
 import LeaderboardPage from "./host/pages/LeaderboardPage";
 import NotFound from "./host/pages/Notfound/notfound";
 import ContestDetails from "./utilities/ContestDetails";
-import ContestEdit from "./host/components/contest creation/ContestEdit";
+import ContestEdit from "./host/pages/ContestEdit.jsx";
 import AboutContest from "./host/components/contest creation/AboutContest";
 import ContestEditFooter from "./host/components/contest creation/ContestEditFooter";
+import ContestCreation from "./host/pages/ContestCreation.jsx";
 
 function ApplicationRouter() {
   return (
@@ -15,7 +15,7 @@ function ApplicationRouter() {
       <Routes>
         <Route path="/" element={<ContestEdit />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/host" element={<ContestCreation />} />
+        <Route path="/host" element={<ContestCreation/>} />
         <Route path="/submissions" element={<ContestDetails />} />
         <Route path="/analytics" element={<ContestEdit />} />
         <Route path="/support" element={<NotFound />} />

@@ -21,7 +21,7 @@ function AboutContest({ contestUrl }) {
       name: "others",
     },
   ];
-  const { formData: aboutData, handleInputChange, setFormData } = useFormHandler({
+  const { formData: aboutData, handleInputChange } = useFormHandler({
     about: "sdfsafa",
     eligibility: "",
     others: "",
