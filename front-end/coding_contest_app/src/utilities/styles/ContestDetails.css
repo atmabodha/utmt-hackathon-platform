@@ -1,10 +1,13 @@
 /* General Styling */
 @import "../../index.css";
 
+.contest-detail-page {
+    background-color: var(--background-color);
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
 .contest-details {
-    margin-top: 100px;
-    margin-bottom: 50px;
-    background-color: #f6f6f6;
+    background-color: var(--card-color);
     border-radius: 20px;
     max-width: 80%;
     margin-left: 9%;
@@ -22,7 +25,7 @@
 }
 
 .image2 {
-    width: 190px;
+    width: 200px;
     height: 170px;
     border-radius: 10px;
 }
@@ -36,7 +39,7 @@
 
 .image2-div {
     position: absolute;
-    top: 30vh;
+    top: 25vh;
     left: 25%;
     border-radius: 25px;
 }
@@ -47,7 +50,7 @@
     justify-content: space-between;
     width: 70%;
     margin: 0px auto;
-    color: black;
+    color: var(--text-color);
 }
 
 .contest-details h2 {
@@ -60,16 +63,11 @@
 }
 
 .contest-details-metadata-right {
-    /* padding-right: 30px; */
-    /* padding-left: 20px; */
     padding-top: 50px;
-}
-.contest-details-metadata-right h3 {
-    display: none;
 }
 
 .deadline-heading {
-    margin-bottom: 25px;
+    display: none;
 }
 
 .contest-other-details {
@@ -77,7 +75,7 @@
     margin: 25px auto;
     display: flex;
     justify-content: space-between;
-    color: black;
+    color: var(--text-color);
     font-family: var(--font-family);
 }
 
@@ -94,6 +92,7 @@
 .contest-other-details-left {
     max-width: 100%;
 }
+
 .contest-other-details-left p {
     margin-left: 7%;
 }
@@ -115,18 +114,21 @@
         width: 100%;
         padding-bottom: 10px;
     }
-    .contest-details-metadata-right h3 {
-        /* margin-left: 10px; */
-        padding-left: 0%;
-        display: contents;
+    .deadline-heading {
+        margin-left: 10px;
+        margin-bottom: 10px;
+        display: block;
     }
     .contest-details-images {
         width: 100%;
     }
+    .image1-div {
+        max-width: 95%;
+    }
     .image2 {
         margin-left: -60%;
         width: 180px;
-        height: 180px;
+        height: 170px;
     }
     .contest-other-details {
         flex-direction: column;
@@ -139,8 +141,8 @@
     .contest-other-details h3, .contest-other-details h4 {
         margin-left: 10px;
     }
-
 }
+
 @media (max-width: 480px) {
     .contest-details {
         width: 100%;
@@ -150,6 +152,7 @@
         padding-left: 10px;
         padding-right: 10px;
         border-radius: 0;
+        background-color: var(--card-color);
     }
     .contest-details-metadata {
         flex-direction: column;
@@ -160,7 +163,8 @@
         display: none;
     }
     .image2 {
-        margin-top: 50px;
+        margin-top: 60px;
+        padding-left: 6px;
         margin-left: 0%;
         width: 280px;
         height: 235px;
@@ -171,16 +175,10 @@
         left: 50%;
         transform: translateX(-50%);
     }
-    .deadline-heading {
-        padding-top: 10px;
-    }
     .contest-details-metadata-right {
         margin-left: 0px;
         padding: 0px;
         margin-top: 5%;
-    }
-    .contest-details-metadata-right h3 {
-        padding-left: 0%;
     }
     .contest-other-details {
         flex-direction: column;
@@ -189,9 +187,11 @@
     .contest-details h2, .contest-details p {
         margin-left: 0;
     }
-
+    .deadline-heading {
+        margin-left: 0px;
+        display: block;
+    }
     .contest-other-details h3, .contest-other-details h4 {
         margin-left: 0;
     }
-
 }
