@@ -5,8 +5,11 @@ import Header from "../components/header/Header";
 import "./ContestEdit.css";
 import AboutContest from "../components/contest creation/AboutContest";
 import Prizes from "../components/contest creation/Prizes";
+import Rules from "../components/contest creation/Rules";
+import Challenge from "../components/contest creation/Challenge";
 
 function ContestEdit() {
+
 
   return (
     <div>
@@ -18,7 +21,9 @@ function ContestEdit() {
         <div className="contest-edit-content">
           {/* <ContestRegistration pageLink={"www.codehut.com/hackHard"} pageTitle={"Coding Contest"} isRegistration={false}/> */}
           {/* <AboutContest /> */}
-          <Prizes/>
+          {/* <Prizes/> */}
+          {/* <Rules/> */}
+          <Challenge />
         </div>
       </div>
     </div>

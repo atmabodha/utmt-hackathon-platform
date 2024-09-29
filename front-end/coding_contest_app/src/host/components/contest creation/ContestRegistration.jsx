@@ -23,7 +23,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
     handleInputChange,
     handleFileChange,
     imageUploadStatus,
-    setFormData,
+    handleOtherInputChange
   } = useFormHandler({
     contestName: "",
     organisationType: "",
@@ -148,8 +148,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
                   placeholder: "Select start date and time",
                   className: "form-control-custom",
                 }}
-                onChange={(date) =>
-                  setFormData({ ...formData, startDateTime: date })
+                onChange={(date) => handleOtherInputChange("startDateTime", date)
                 }
               />
             </Form.Group>
@@ -169,8 +168,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
                   placeholder: "Select end date and time",
                   className: "form-control-custom",
                 }}
-                onChange={(date) =>
-                  setFormData({ ...formData, endDateTime: date })
+                onChange={(date) => handleOtherInputChange("endDateTime", date)
                 }
               />
             </Form.Group>

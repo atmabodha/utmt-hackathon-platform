@@ -1,0 +1,36 @@
+.form {
+    width: 50%;
+    margin: 50px auto;
+  }
+  .contest-challenge-filling {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-weight: 900;
+    padding-bottom: 50px;
+  }
+  .css-13cymwt-control {
+    background-color: black !important;
+  }
+  .form .form-control-custom {
+    background-color: var(--card-color);
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    color: var(--text-color);
+    width: 100%;
+  }
+  
+  .form .form-control-custom::placeholder {
+    color: var(--text-color);
+    opacity: 1;
+  }
+  
+  .form .form-control-custom:focus {
+    border-color: #80bdff;
+    outline: none;
+    background-color: var(--background-color);
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+    opacity: 1;
+    color: var(--text-color);
+  }

@@ -4,3 +4,6 @@
 .contest-edit-content {
   padding-left: 250px;
 }
+.contest-edit {
+  background-color: var(--background-color);
+}

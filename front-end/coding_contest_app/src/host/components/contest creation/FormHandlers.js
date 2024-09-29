@@ -18,6 +18,13 @@ export const useFormHandler = (initialState) => {
     }));
   };
 
+  const handleOtherInputChange = (name, object) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: object,
+    }));
+  };
+
   const handleFileChange = (e, maxFileSize) => {
     const file = e.target.files[0];
     if (file) {
@@ -38,7 +45,7 @@ export const useFormHandler = (initialState) => {
     handleInputChange,
     handleFileChange,
     imageUploadStatus,
-    setFormData,
+    handleOtherInputChange
   };
 };
 

@@ -2,13 +2,13 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import "./styles/FormComponents.css";
 
-const TextAreaField = ({ label, name, value, onChange, controlId, groupClass, labelClass, controlClass }) => {
+const TextAreaField = ({ label, name, rows, value, onChange, controlId, groupClass, labelClass, controlClass }) => {
   return (
     <Form.Group controlId={controlId} className={`${groupClass}`}>
       <Form.Label className={labelClass}>{label}</Form.Label>
       <Form.Control
         as="textarea"
-        rows={6}
+        rows={rows || 6}
         name={name}
         value={value}
         onChange={onChange}

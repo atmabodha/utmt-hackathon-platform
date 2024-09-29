@@ -1,20 +1,20 @@
-.prize-contest {
+.rules-contest {
     background-color: var(--background-color);
     width: 100%;
     padding: 100px;
     color: var(--text-color);
 }
-.prize-contest-header {
+.rules-contest-header {
     width: fit-content;
     text-align: center;
     margin: 0 auto;
 }
-.prize-input-field {
+.rules-input-field {
     padding-bottom: 40px;
     width: 50%;
     margin: 0 auto;
 }
-.prize-form {
+.rules-form {
     padding: 80px 0;
 }   
 .text-area-label {
