@@ -13,7 +13,7 @@ function ApplicationRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<ContestEditFooter />} />
+        <Route path="/" element={<ContestEdit />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/host" element={<ContestCreation />} />
         <Route path="/submissions" element={<ContestDetails />} />

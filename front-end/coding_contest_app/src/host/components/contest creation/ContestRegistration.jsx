@@ -6,11 +6,25 @@ import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
 import "./ContestRegistration.css";
 import ContestEditFooter from "./ContestEditFooter.jsx";
-import {useFormHandler, useContestRegistrationSubmit} from "./FormHandlers.js";
+import {
+  useFormHandler,
+  useContestRegistrationSubmit,
+} from "./FormHandlers.js";
+import {
+  TextInputField,
+  SelectInputField,
+  FileInputField,
+} from "../../../utilities/FormComponents.jsx";
 
-const ContestRegistration = ({pageTitle, contestUrl, isRegistration}) => {
-  const {loading, handleSubmit} = useContestRegistrationSubmit()
-  const {formData, handleInputChange, handleFileChange, imageUploadStatus, setFormData} = useFormHandler({
+const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
+  const { loading, handleSubmit } = useContestRegistrationSubmit();
+  const {
+    formData,
+    handleInputChange,
+    handleFileChange,
+    imageUploadStatus,
+    setFormData,
+  } = useFormHandler({
     contestName: "",
     organisationType: "",
     organisationName: "",
@@ -19,7 +33,7 @@ const ContestRegistration = ({pageTitle, contestUrl, isRegistration}) => {
     contestVisibility: "",
     participantLimit: 500,
     contestImage: null,
-  })
+  });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +43,7 @@ const ContestRegistration = ({pageTitle, contestUrl, isRegistration}) => {
   const handleOkClick = () => {
     const outsideClickTarget = document.body;
     if (outsideClickTarget) {
-      const event = new MouseEvent('mousedown', { bubbles: true });
+      const event = new MouseEvent("mousedown", { bubbles: true });
       outsideClickTarget.dispatchEvent(event);
     }
   };
@@ -38,12 +52,8 @@ const ContestRegistration = ({pageTitle, contestUrl, isRegistration}) => {
     return (
       <div>
         {renderDefault()}
-        {viewMode === 'time' && (
-          <button
-            type="button"
-            id="ok-button"
-            onClick={handleOkClick}
-          >
+        {viewMode === "time" && (
+          <button type="button" id="ok-button" onClick={handleOkClick}>
             OK
           </button>
         )}
@@ -69,69 +79,59 @@ const ContestRegistration = ({pageTitle, contestUrl, isRegistration}) => {
       >
         <div>
           <h2
-            style={{ textAlign: "center", fontWeight: 700, paddingTop: "100px" }}
+            style={{
+              textAlign: "center",
+              fontWeight: 700,
+              paddingTop: "100px",
+            }}
           >
             {pageTitle}
           </h2>
         </div>
 
         <div>
-          <p style={{ textAlign: "center", fontWeight: 700, padding: "5px 0"}}>
+          <p style={{ textAlign: "center", fontWeight: 700, padding: "5px 0" }}>
             {contestUrl}
           </p>
         </div>
         <div className="form">
           <Form>
-            <Form.Group className="mb-3" controlId="formGroupName" required>
-              <Form.Label>Contest Name *</Form.Label>
-              <Form.Control
-                type="text"
-                name="contestName"
-                placeholder="Enter contest name"
-                value={formData.contestName}
-                onChange={handleInputChange}
-                required
-                className="form-control-custom"
-              />
-            </Form.Group>
+            <TextInputField
+              label="Contest Name"
+              name="contestName"
+              value={formData.contestName}
+              onChange={handleInputChange}
+              required={true}
+              groupClass="mb-3"
+              controlClass="form-control-custom" // Custom control class
+              placeholder="Enter contest name" // Placeholder can be customized
+            />
 
-            <Form.Group
-              className="mb-3"
-              controlId="formGroupOrganisationType"
-              required
-            >
-              <Form.Label>Organization Type *</Form.Label>
-              <Form.Select
-                name="organisationType"
-                aria-label="Select Organization type"
-                value={formData.organisationType}
-                onChange={handleInputChange}
-                required
-                className="form-control-custom"
-              >
-                <option value="">Select Organization type</option>
-                <option value="university">University</option>
-                <option value="company">Company</option>
-                <option value="other">Other</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group
-              className="mb-3"
-              controlId="formGroupOrganisation"
-              required
-            >
-              <Form.Label>Organization Name *</Form.Label>
-              <Form.Control
-                type="text"
-                name="organisationName"
-                placeholder="Enter organization name"
-                value={formData.organisationName}
-                onChange={handleInputChange}
-                required
-                className="form-control-custom"
-              />
-            </Form.Group>
+            <SelectInputField
+              label="Organization Type"
+              name="organisationType"
+              value={formData.organisationType}
+              onChange={handleInputChange}
+              required={true} // Mark this field as required
+              groupClass="mb-3" // Bootstrap margin bottom
+              controlClass="form-control-custom" // Custom control class
+              options={[
+                { value: "university", label: "University" },
+                { value: "company", label: "Company" },
+                { value: "other", label: "Other" },
+              ]}
+              ariaLabel="Select Organization type"
+            />
+            <TextInputField
+              label="Organisation Name"
+              name="organisationName"
+              value={formData.organisationName}
+              onChange={handleInputChange}
+              required={true}
+              groupClass="mb-3"
+              controlClass="form-control-custom"
+              placeholder="Enter organisation name" // Placeholder can be customized
+            />
 
             <Form.Group
               className="mb-3"
@@ -170,78 +170,64 @@ const ContestRegistration = ({pageTitle, contestUrl, isRegistration}) => {
                   className: "form-control-custom",
                 }}
                 onChange={(date) =>
-                  setFormData({ ...formData, endDateTime: date })}
+                  setFormData({ ...formData, endDateTime: date })
+                }
               />
             </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="formGroupVisibility"
-              required
-            >
-              <Form.Label>Contest Visibility *</Form.Label>
-              <Form.Select
-                name="contestVisibility"
-                aria-label="Select contest visibility"
-                value={formData.contestVisibility}
-                onChange={handleInputChange}
-                required
-                className="form-control-custom"
-              >
-                <option value="">Select contest visibility type</option>
-                <option value="public">Public</option>
-                <option value="private">Private</option>
-              </Form.Select>
-            </Form.Group>
+            <SelectInputField
+              name="contestVisibility"
+              label="Contest Visibility"
+              aria-label="Select contest visibility"
+              value={formData.contestVisibility}
+              onChange={handleInputChange}
+              required={true} // Mark this field as required
+              groupClass="mb-3" // Bootstrap margin bottom
+              controlClass="form-control-custom" // Custom control class
+              options={[
+                { value: "public", label: "Public" },
+                { value: "private", label: "Private" },
+              ]}
+            />
 
-            <Form.Group controlId="formFile" className="mb-3">
-              <Form.Label>Contest Banner Image *</Form.Label>
-              <Form.Control
-                id="file-input"
-                type="file"
-                accept=".jpg, .png, .jpeg, .svg"
-                onChange={(event) => (handleFileChange(event, 1024 * 1024))}
-                required
-                className="form-control-custom"
-              />
-              <label htmlFor="file-input" className="custom-file-button">
-                Choose File
-              </label>
-              {formData.contestImage && (
-                <div className="file-name-display">
-                  Selected file: {formData.contestImage.name}
-                </div>
-              )}
-              <Form.Text muted>
-                Please select a JPG, PNG, JPEG, or SVG file.
-              </Form.Text>
-              {imageUploadStatus && (
-                <div style={{ color: "green", marginTop: "10px" }}>
-                  {imageUploadStatus}
-                </div>
-              )}
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formGroupLimit">
-              <Form.Label>Participant Limit</Form.Label>
-              <Form.Control
-                type="number"
-                name="participantLimit"
-                placeholder="Enter participant limit"
-                value={formData.participantLimit}
-                onChange={handleInputChange}
-                className="form-control-custom"
-              />
-            </Form.Group>
+            <FileInputField
+              label="Contest Banner Image"
+              name="contestImage"
+              onChange={(event) => handleFileChange(event, 1024 * 1024)}
+              controlId="file-input"
+              required={true} // Mark this field as required
+              groupClass="mb-3" // Bootstrap margin bottom
+              labelClass="form-label" // Custom label class
+              controlClass="form-control-custom" // Custom control class
+              accept=".jpg, .png, .jpeg, .svg" // Allowed file types
+              value={formData.contestImage} // Current file object
+              helperText="Please select a JPG, PNG, JPEG, or SVG file." // Helper text
+              uploadStatus={imageUploadStatus} // Upload status message
+            />
+            <TextInputField
+              label="Participant Limit"
+              type="number"
+              name="participantLimit"
+              value={formData.participantLimit}
+              onChange={handleInputChange}
+              required={true}
+              groupClass="mb-3"
+              controlClass="form-control-custom"
+              placeholder="Enter participant limit"
+            />
           </Form>
-          {isRegistration ? (<div className="formsubmit">
-              <Button variant="primary"  onClick={onSubmit}>
+          {isRegistration ? (
+            <div className="formsubmit">
+              <Button variant="primary" onClick={onSubmit}>
                 Submit
               </Button>
-            </div>) : ""}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </LoadingOverlay>
-      {isRegistration ? "" : (<ContestEditFooter/>)}
+      {isRegistration ? "" : <ContestEditFooter saveChanges={onSubmit} />}
     </div>
   );
 };

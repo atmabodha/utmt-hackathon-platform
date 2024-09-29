@@ -3,9 +3,30 @@ import "./AboutContest.css";
 import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import ContestEditFooter from "./ContestEditFooter";
+import { useFormHandler } from "./FormHandlers";
+import TextAreaField from "../../../utilities/FormComponents";
 
 function AboutContest({ contestUrl }) {
-  const inputFieds = ["About", "Eligibility", "Other"];
+  const inputFields = [
+    {
+      label: "About",
+      name: "about",
+    },
+    {
+      label: "Eligibility",
+      name: "eligibility",
+    },
+    {
+      label: "Others",
+      name: "others",
+    },
+  ];
+  const { formData: aboutData, handleInputChange, setFormData } = useFormHandler({
+    about: "sdfsafa",
+    eligibility: "",
+    others: "",
+  });
+
   return (
     <div>
       <div className="about-contest">
@@ -20,19 +41,18 @@ function AboutContest({ contestUrl }) {
         </div>
         <div className="about-form">
           <Form>
-            {inputFieds.map((field, index) => (
-              <Form.Group
+            {inputFields.map((field, index) => (
+              <TextAreaField
                 key={index}
-                controlId="ControlTextarea1"
-                className="about-input-field"
-              >
-                <Form.Label className="text-area-label">{field}</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={6}
-                  className="text-area-control"
-                />
-              </Form.Group>
+                label={field.label}
+                name={field.name}
+                value={aboutData[field.name]}
+                onChange={handleInputChange}
+                controlId={`ControlTextarea${index}`}
+                groupClass={"about-input-field"}
+                labelClass={"text-area-label"}
+                controlClass={"text-area-control"}
+              />
             ))}
           </Form>
         </div>
