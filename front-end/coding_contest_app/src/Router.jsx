@@ -12,6 +12,7 @@ import ContestRegistration from "./host/components/contest creation/ContestRegis
 import Challenge from "./host/components/contest creation/Challenge.jsx";
 import Prizes from "./host/components/contest creation/Prizes.jsx";
 import Rules from "./host/components/contest creation/Rules.jsx";
+import QuestionsPage from "./participant/pages/QuestionsPage.jsx";
 
 function ApplicationRouter() {
   return (
@@ -24,6 +25,7 @@ function ApplicationRouter() {
         <Route path="/support" element={<NotFound />} />
         <Route path="/profile" element={<NotFound />} />
         <Route path="/settings" element={<NotFound />} />
+        <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/logout" element={<NotFound />} />
         <Route path="/analytics/" element={<ContestEdit />}>
           <Route index element={<ContestRegistration pageTitle={"Edit Basic Registration Details"} isRegistration={false}/>} />
