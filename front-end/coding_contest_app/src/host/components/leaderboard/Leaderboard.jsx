@@ -2,49 +2,42 @@ import React, { useState } from "react";
 import profile1 from "./leaderboard assets/profile1.jpeg";
 import "./Leaderboard.css";
 import PaginationComponent from "./PaginationComponent";
-import { FlagIcon } from "react-flag-kit";
 import SortingComponent from "./SortingComponent";
 import SearchBarComponent from "./SearchBarComponent";
 
 const data = [
-  { rank: 1, name: "Wade Warren", points: 1280, location: "US", img: profile1 },
+  {
+    rank: 1,
+    name: "Pankaj Yadav",
+    points: 1280,
+    location: "Lucknow",
+    img: profile1,
+  },
   {
     rank: 2,
-    name: "Kristin Watson",
+    name: "Shyam",
     points: 1140,
-    location: "GB",
+    location: "Gorakhpur",
     img: profile1,
   },
   {
     rank: 3,
-    name: "Savannah Nguyen",
-    points: 1030,
-    location: "JP",
+    name: "Shravan",
+    points: 1000,
+    location: "Jodhpur",
     img: profile1,
   },
   {
     rank: 4,
-    name: "Courtney Henry",
+    name: "Ashutosh",
     points: 960,
-    location: "IN",
+    location: "Rajsamand",
     img: profile1,
   },
-  {
-    rank: 5,
-    name: "Marvin McKinney",
-    points: 940,
-    location: "DE",
-    img: profile1,
-  },
-  { rank: 6, name: "Robert Fox", points: 890, location: "FR", img: profile1 },
-  {
-    rank: 7,
-    name: "Bessie Cooper",
-    points: 880,
-    location: "CN",
-    img: profile1,
-  },
-  { rank: 8, name: "Jerome Bell", points: 790, location: "AU", img: profile1 },
+  { rank: 5, name: "Shivam", points: 940, location: "Patna", img: profile1 },
+  { rank: 6, name: "Ranjan", points: 890, location: "Buxer", img: profile1 },
+  { rank: 7, name: "Ram", points: 880, location: "Delhi", img: profile1 },
+  { rank: 8, name: "Suraj", points: 790, location: "Bengalore", img: profile1 },
 ];
 
 const Leaderboard = ({ itemsPerPage = 5 }) => {
@@ -118,9 +111,7 @@ const Leaderboard = ({ itemsPerPage = 5 }) => {
                     {player.name}
                   </td>
                   <td className="tableData">{player.points}</td>
-                  <td className="tableData">
-                    <FlagIcon code={player.location} size={24} />
-                  </td>
+                  <td className="tableData">{player.location}</td>
                 </tr>
               ))}
             </tbody>
