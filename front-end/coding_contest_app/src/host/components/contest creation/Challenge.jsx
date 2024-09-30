@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import CreatableSelect from "react-select/creatable";
 import "./Challenge.css";
 import ContestEditFooter from "./ContestEditFooter.jsx";
 import { useFormHandler } from "./FormHandlers.js";
 import {
   TextInputField,
   SelectInputField,
+  SelectMultipleOptions,
 } from "../../../utilities/FormComponents.jsx";
 
 const Challenge = ({ contestUrl }) => {
@@ -33,6 +33,7 @@ const Challenge = ({ contestUrl }) => {
     tags: [],
     docReference: "",
     difficultyLevel: "",
+    points: 1,
   });
 
   const inputFields = [
@@ -65,24 +66,6 @@ const Challenge = ({ contestUrl }) => {
       name: "docReference",
     },
   ];
-
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: 'var(--card-color)',
-    }),
-    menu: (provided) => ({
-      ...provided,
-      backgroundColor: 'var(--card-color)',
-      zIndex: 9999,
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? 'white' : state.isFocused ? 'var(--secondary-color)' : 'var(--card-color)',
-      color: 'var(--text-color)',
-      padding: 10,
-    }),
-  };
 
   return (
     <div className="contest-challenge-filling">
@@ -130,33 +113,34 @@ const Challenge = ({ contestUrl }) => {
             ]}
             ariaLabel="Select difficulty level"
           />
-          <label
-            htmlFor="tags"
-          >
-            Tags for the Problem:
-          </label>
-
-          <CreatableSelect
-            isMulti
-            label="Difficulty level"
-            name="tags"
-            id="tags"
-            options={predefinedOptions} 
-            value={challengeData.tags}
+          <TextInputField
+            label="Challenge points"
+            type="number"
+            name="participantLimit"
+            value={challengeData.points}
+            onChange={handleInputChange}
+            required={true}
             groupClass="mb-3"
-            onChange={(selectedTags) =>
-              handleOtherInputChange("tags", selectedTags)
-            }
-            placeholder="Select tag for problem"
+            controlClass="form-control-custom"
+            placeholder="Enter points"
+          />
+
+          <SelectMultipleOptions
+            name={"tags"}
+            id={"tags"}
+            value={challengeData.tags}
+            label={"Tags for the Problem:"}
+            options={predefinedOptions}
+            groupClass={"mb-3"}
+            handleChange={handleOtherInputChange}
+            placeholder={"Select tag for problem"}
             formatCreateLabel={(inputValue) =>
               `Add "${inputValue}" as a new tag`
             }
-            className="form-control-custom"
-            styles={customStyles}
           />
         </Form>
       </div>
-      <ContestEditFooter />
+      <ContestEditFooter isChallengeEdit={true}/>
     </div>
   );
 };

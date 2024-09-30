@@ -8,20 +8,31 @@ import ContestEdit from "./host/pages/ContestEdit.jsx";
 import AboutContest from "./host/components/contest creation/AboutContest";
 import ContestEditFooter from "./host/components/contest creation/ContestEditFooter";
 import ContestCreation from "./host/pages/ContestCreation.jsx";
+import ContestRegistration from "./host/components/contest creation/ContestRegistration.jsx";
+import Challenge from "./host/components/contest creation/Challenge.jsx";
+import Prizes from "./host/components/contest creation/Prizes.jsx";
+import Rules from "./host/components/contest creation/Rules.jsx";
 
 function ApplicationRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<ContestEdit />} />
+        <Route path="/" element={<HostDashboard />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/host" element={<ContestCreation/>} />
         <Route path="/submissions" element={<ContestDetails />} />
-        <Route path="/analytics" element={<ContestEdit />} />
         <Route path="/support" element={<NotFound />} />
         <Route path="/profile" element={<NotFound />} />
         <Route path="/settings" element={<NotFound />} />
         <Route path="/logout" element={<NotFound />} />
+        <Route path="/analytics/" element={<ContestEdit />}>
+          <Route index element={<ContestRegistration pageTitle={"Edit Basic Registration Details"} isRegistration={false}/>} />
+          <Route path="basic details" element={<ContestRegistration pageTitle={"Edit Basic Registration Details"} isRegistration={false}/>} />
+          <Route path="about" element={<AboutContest />} />
+          <Route path="challenge" element={<Challenge />} />
+          <Route path="prizes" element={<Prizes />} />
+          <Route path="rules" element={<Rules />} />
+        </Route>
       </Routes>
     </Router>
   );

@@ -2,21 +2,24 @@ import React from "react";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Sidebar({contestName}) {
-  const [activeLinkIndex, setActiveLinkIndex] = useState(null);
+  const [activeLinkIndex, setActiveLinkIndex] = useState(0);
   
   const links = [
-    { label: "Basic Contest Details", to: "" },
-    { label: "About the Contest", to: "" },
-    { label: "Challenges", to: "" },
-    { label: "Prizes", to: "" },
-    { label: "Rules", to: "" },
+    { label: "Basic Contest Details", to: "basic details" },
+    { label: "About the Contest", to: "about" },
+    { label: "Challenges", to: "challenge" },
+    { label: "Prizes", to: "prizes" },
+    { label: "Rules", to: "rules" },
     { label: "Analytics", to: "" },
     { label: "Delete contest", to: "" },
   ];
 
+  const changeActiveIndex = (index) => {
+    setActiveLinkIndex(index);
+  }
   return (
     <div className="sidebar">
       <div>
@@ -29,10 +32,10 @@ function Sidebar({contestName}) {
         {links.map((link, index) => (
           <Link 
             key={index} 
-            className="sidebar-link" 
-            to={link.to} 
+            className="sidebar-link"
+            to={link.to}
             style={activeLinkIndex === index ? { fontWeight: "600" } : {}} 
-            onClick={() => setActiveLinkIndex(index)}
+            onClick={() => changeActiveIndex(index)}
           >
             <FaEdit size={24} style={{ paddingRight: "5px" }} /> {link.label}
           </Link>
