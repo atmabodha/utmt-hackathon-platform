@@ -242,7 +242,7 @@ class Ranking(models.Model):
     time_taken = models.IntegerField()
 
     class Meta:
-        db_table = 'rankings'
+        db_table = 'ranking'
         verbose_name = 'Ranking'
 
     def __str__(self):
