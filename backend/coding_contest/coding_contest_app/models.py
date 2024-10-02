@@ -1,18 +1,7 @@
 from django.db import models
 
 
-class Contests(models.Model):
-    contest_name = models.CharField(max_length=100)
-    organisation_type = models.CharField(max_length=100)
-    organisation_name = models.CharField(max_length=100)
-    start_date_time = models.DateTimeField()
-    end_date_time = models.DateTimeField()
-    contest_visibility = models.CharField(max_length=50)
-    participant_limit = models.IntegerField(null=True, blank=True)
-    contest_image = models.ImageField(upload_to="coding-images", null=True, blank=True)
 
-    def __str__(self):
-        return self.contest_name
 
 
 # Narayan's database schemas
@@ -88,7 +77,7 @@ class Problems(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'problem'
+        db_table = 'problems'
         verbose_name = 'Problem'
 
     def __str__(self):
@@ -108,3 +97,88 @@ class Samples(models.Model):
 
     def __str__(self):
         return f'Sample {self.sample_id} for Problem {self.problem_id}'
+
+# Pankaj's Table
+
+
+class Users(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15)
+    login_password = models.CharField(max_length=255)
+    overall_rank = models.IntegerField()
+    user_created_at = models.DateTimeField(auto_now_add=True)
+    user_updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'users'
+        verbose_name = 'users'
+
+    def __str__(self):
+        return self.name
+
+
+class UserDetails(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True, null=True)
+    skills = models.TextField(blank=True, null=True)
+    achievements = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'user_details'
+        verbose_name = 'user_details'
+
+    def __str__(self):
+        return f"Details of {self.user.name}"
+
+
+class SocialMediaLink(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    platform_name = models.CharField(max_length=50)
+    link = models.URLField()
+
+    class Meta:
+        db_table = 'social_medial_link'
+        verbose_name = 'social_medial_link'
+
+    def __str__(self):
+        return f"{self.platform_name} link for {self.user.name}"
+
+
+class UserAddress(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    address = models.TextField()
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    pincode = models.CharField(max_length=10)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'user_address'
+        verbose_name = 'user_address'
+
+    def __str__(self):
+        return f"Address of {self.user.name}"
+
+
+class Contests(models.Model):
+    host = models.ForeignKey(Users, on_delete=models.CASCADE)
+    contest_name = models.CharField(max_length=100)
+    contest_start_date = models.DateField()
+    contest_end_date = models.DateField()
+    organization_type = models.CharField(max_length=50)
+    organization_name = models.CharField(max_length=100)
+    participant_limit = models.IntegerField()
+    contest_visibility = models.BooleanField(default=True)
+    contest_status = models.CharField(max_length=50)
+    contest_created_at = models.DateTimeField(auto_now_add=True)
+    contest_updated_at = models.DateTimeField(auto_now=True)
+    registration_deadline = models.DateField()
+
+    class Meta:
+        db_table = 'contests'
+        verbose_name = 'contest'
+
+    def __str__(self):
+        return self.contest_name
