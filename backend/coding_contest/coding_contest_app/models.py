@@ -19,7 +19,8 @@ class Users(models.Model):
 
 
 class UserDetails(models.Model):
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    detail_id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(Users, on_delete=models.CASCADE,)
     bio = models.TextField(blank=True, null=True)
     skills = models.TextField(blank=True, null=True)
     achievements = models.TextField(blank=True, null=True)
@@ -33,6 +34,7 @@ class UserDetails(models.Model):
 
 
 class SocialMediaLink(models.Model):
+    link_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     platform_name = models.CharField(max_length=50)
     link = models.URLField()
@@ -46,6 +48,7 @@ class SocialMediaLink(models.Model):
 
 
 class UserAddress(models.Model):
+    address_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     address = models.TextField()
     state = models.CharField(max_length=100)
@@ -62,6 +65,7 @@ class UserAddress(models.Model):
 
 
 class Contests(models.Model):
+    contest_id = models.AutoField(primary_key=True)
     host = models.ForeignKey(Users, on_delete=models.CASCADE)
     contest_name = models.CharField(max_length=100)
     contest_start_date = models.DateField()
@@ -84,7 +88,7 @@ class Contests(models.Model):
 
 
 class ContestDetails(models.Model):
-    contest_id = models.OneToOneField(Contests, on_delete=models.CASCADE, primary_key=True, related_name='details')
+    contest_id = models.OneToOneField(Contests, on_delete=models.CASCADE, primary_key=True)
     contest_banner_image = models.CharField(max_length=255)
     contest_default_banner_image = models.CharField(max_length=255)
     about = models.TextField()
@@ -102,7 +106,7 @@ class ContestDetails(models.Model):
 
 class ContestPrizes(models.Model):
     prize_id = models.AutoField(primary_key=True)
-    contest = models.ForeignKey(Contests, on_delete=models.CASCADE, related_name='prizes')
+    contest = models.ForeignKey(Contests, on_delete=models.CASCADE)
     prize_position = models.IntegerField()
     prize_description = models.TextField()
     prize_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -150,8 +154,8 @@ class Language(models.Model):
 
 class ContestProblems(models.Model):
     contest_problem_id = models.AutoField(primary_key=True)
-    contest = models.ForeignKey(Contests, on_delete=models.CASCADE, related_name='problems')
-    problem = models.ForeignKey(Problems, on_delete=models.CASCADE, related_name='contest_problems')
+    contest = models.ForeignKey(Contests, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
     order_of_problem_in_contest = models.IntegerField()
     weightage = models.IntegerField()
 
@@ -165,9 +169,9 @@ class ContestProblems(models.Model):
 
 class ContestRegistration(models.Model):
     registration_id = models.AutoField(primary_key=True)
-    participant = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='registrations')
-    contest = models.ForeignKey(Contests, on_delete=models.CASCADE, related_name='registrations')
-    registration_date_and_time = models.DateTimeField()
+    participant = models.ForeignKey(Users, on_delete=models.CASCADE)
+    contest = models.ForeignKey(Contests, on_delete=models.CASCADE)
+    registration_date_and_time = models.DateTimeField(auto_now_add=True)
     contest_submission_time = models.DateTimeField()
     total_time_taken = models.DurationField()
 

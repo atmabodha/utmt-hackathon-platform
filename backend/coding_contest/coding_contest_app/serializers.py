@@ -5,6 +5,6 @@ from .models import Contests
 class ContestsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contests
-        fields = ['contest_name', 'organisation_type', 'organisation_name',
+        fields = ['host', 'contest_name', 'organization_type', 'organization_name',
                   'start_date_time', 'end_date_time', 'contest_visibility',
-                  'participant_limit', 'contest_image']
+                  'participant_limit', 'registration_deadline']
