@@ -23,15 +23,17 @@ export const useFormHandler = (initialState) => {
       ...prevData,
       [name]: object,
     }));
+    console.log(object)
   };
 
   const handleFileChange = (e, maxFileSize) => {
     const file = e.target.files[0];
+    const name = e.target.name;
     if (file) {
       if (file.size <= maxFileSize) {
         setFormData((prevData) => ({
           ...prevData,
-          contestImage: file,
+          [name]: file,
         }));
         setImageUploadStatus("Image uploaded successfully");
       } else {
@@ -73,14 +75,15 @@ export const useContestRegistrationSubmit = () => {
 
     try {
       let formDataToSend = new FormData();
+      formDataToSend.append("host", formData.host);
       formDataToSend.append("contest_name", formData.contestName);
-      formDataToSend.append("organisation_type", formData.organisationType);
-      formDataToSend.append("organisation_name", formData.organisationName);
+      formDataToSend.append("organization_type", formData.organizationType);
+      formDataToSend.append("organization_name", formData.organizationName);
       formDataToSend.append("start_date_time", formData.startDateTime);
       formDataToSend.append("end_date_time", formData.endDateTime);
       formDataToSend.append("contest_visibility", formData.contestVisibility);
       formDataToSend.append("participant_limit", formData.participantLimit);
-      formDataToSend.append("contest_image", formData.contestImage);
+      formDataToSend.append("registration_deadline", formData.registrationDeadline);
 
       setLoading(true);
       const response = await axios.post(
@@ -107,6 +110,7 @@ export const useContestRegistrationSubmit = () => {
           "error"
         );
       } else if (error.response.status === 400) {
+        console.log("message: ", error.response)
         Swal.fire(
           "Bad Request",
           "Please check the submitted data and try again",

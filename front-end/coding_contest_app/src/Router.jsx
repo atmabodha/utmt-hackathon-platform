@@ -6,20 +6,27 @@ import NotFound from "./host/pages/Notfound/notfound";
 import ContestDetails from "./utilities/ContestDetails";
 import ContestEdit from "./host/pages/ContestEdit.jsx";
 import AboutContest from "./host/components/contest creation/AboutContest";
-import ContestEditFooter from "./host/components/contest creation/ContestEditFooter";
 import ContestCreation from "./host/pages/ContestCreation.jsx";
 import ContestRegistration from "./host/components/contest creation/ContestRegistration.jsx";
 import Challenge from "./host/components/contest creation/Challenge.jsx";
 import Prizes from "./host/components/contest creation/Prizes.jsx";
-import Rules from "./host/components/contest creation/Rules.jsx";
 import QuestionsPage from "./participant/pages/QuestionsPage.jsx";
+<<<<<<< HEAD
 import Login from "./host/components/login/Login.jsx";
+=======
+import Signup from "./host/components/signup/Signup.jsx";
+>>>>>>> dcaaf5ff22f3a3127cd9ac9ebf49ac6b8d8f84ce
 
 function ApplicationRouter() {
   return (
     <Router>
       <Routes>
+<<<<<<< HEAD
         <Route path="/" element={<Login />} />
+=======
+        <Route path="/" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
+>>>>>>> dcaaf5ff22f3a3127cd9ac9ebf49ac6b8d8f84ce
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/host" element={<ContestCreation />} />
         <Route path="/submissions" element={<ContestDetails />} />
@@ -50,7 +57,6 @@ function ApplicationRouter() {
           <Route path="about" element={<AboutContest />} />
           <Route path="challenge" element={<Challenge />} />
           <Route path="prizes" element={<Prizes />} />
-          <Route path="rules" element={<Rules />} />
         </Route>
       </Routes>
     </Router>

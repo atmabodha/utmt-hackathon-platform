@@ -25,6 +25,7 @@ const ThemeButton = () => {
       root.style.setProperty('--bottom-border-color', 'rgb(43, 38, 38)');
       root.style.setProperty('--active-color', '#2EA043');
       root.style.setProperty('--card-color', 'rgb(50, 50, 50)')
+      root.style.setProperty('--signup-card-color', 'rgb(1, 0, 0)')
     } else {
       root.style.setProperty('--background-color', '#FFFFFF');
       root.style.setProperty('--text-color', '#000000');
@@ -34,6 +35,7 @@ const ThemeButton = () => {
       root.style.setProperty('--active-color', '#2EA043');
       root.style.setProperty('--bottom-border-color', 'rgb(250, 246, 246)');
       root.style.setProperty('--card-color', 'rgb(237, 231, 231)')
+      root.style.setProperty('--signup-card-color', 'rgb(219, 219, 160)')
     }
   };
 
