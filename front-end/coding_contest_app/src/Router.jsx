@@ -11,16 +11,18 @@ import ContestRegistration from "./host/components/contest creation/ContestRegis
 import Challenge from "./host/components/contest creation/Challenge.jsx";
 import Prizes from "./host/components/contest creation/Prizes.jsx";
 import QuestionsPage from "./participant/pages/QuestionsPage.jsx";
-import Signup from "./host/components/signup/Signup.jsx";
+import Login from "./host/components/login/Login.jsx";
+import SignUp from "./host/components/signup/Signup.jsx";
 
 function ApplicationRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HostDashboard />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/dashboard" element={<HostDashboard />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/host" element={<ContestCreation/>} />
+        <Route path="/host" element={<ContestCreation />} />
         <Route path="/submissions" element={<ContestDetails />} />
         <Route path="/support" element={<NotFound />} />
         <Route path="/profile" element={<NotFound />} />
@@ -28,8 +30,24 @@ function ApplicationRouter() {
         <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/logout" element={<NotFound />} />
         <Route path="/analytics/" element={<ContestEdit />}>
-          <Route index element={<ContestRegistration pageTitle={"Edit Basic Registration Details"} isRegistration={false}/>} />
-          <Route path="basic details" element={<ContestRegistration pageTitle={"Edit Basic Registration Details"} isRegistration={false}/>} />
+          <Route
+            index
+            element={
+              <ContestRegistration
+                pageTitle={"Edit Basic Registration Details"}
+                isRegistration={false}
+              />
+            }
+          />
+          <Route
+            path="basic details"
+            element={
+              <ContestRegistration
+                pageTitle={"Edit Basic Registration Details"}
+                isRegistration={false}
+              />
+            }
+          />
           <Route path="about" element={<AboutContest />} />
           <Route path="challenge" element={<Challenge />} />
           <Route path="prizes" element={<Prizes />} />

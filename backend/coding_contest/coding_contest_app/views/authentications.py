@@ -28,6 +28,7 @@ def signup(request):
 
         try:
             result = account.create(ID.unique(), email=email, password=password, name=name)
+            print("result: ", result)
             return JsonResponse({'status': 'success', 'user_id': result['$id']})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
@@ -40,11 +41,14 @@ def login(request):
         data = request.POST
         email = data.get('email')
         password = data.get('password')
+        print(password)
 
         try:
-            result = account.create_session(email=email, password=password)
+            result = account.create_email_password_session(email = email, password = password )
+            print("login data: ", result)
             return JsonResponse({'status': 'success', 'session_id': result['$id']})
         except Exception as e:
+            print("exception: ", e)
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
