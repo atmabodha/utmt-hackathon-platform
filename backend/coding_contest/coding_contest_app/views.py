@@ -18,15 +18,21 @@ class AddContestDetailsView(APIView):
                 data['start_date_time'] = datetime.strptime(data['start_date_time'], '%a %b %d %Y %H:%M:%S GMT%z').isoformat()
             if 'end_date_time' in data:
                 data['end_date_time'] = datetime.strptime(data['end_date_time'], '%a %b %d %Y %H:%M:%S GMT%z').isoformat()
+            if 'registration_deadline' in data:
+                data['registration_deadline'] = datetime.strptime(data['registration_deadline'], '%a %b %d %Y %H:%M:%S GMT%z').isoformat()
         except ValueError as e:
             return Response({"error": f"Date format error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
-
+        data['host'] = int(data['host'])
+        print("type", type(data['host']))
         serializer = ContestsSerializer(data=data)
+        print("data", data)
         if serializer.is_valid():
+            print("seria")
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print("vlidation" , serializer.errors)
+        return Response({"error": f"Kuch aur:"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ContestDetailsView(APIView):

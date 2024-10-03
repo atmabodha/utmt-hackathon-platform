@@ -11,7 +11,6 @@ import ContestCreation from "./host/pages/ContestCreation.jsx";
 import ContestRegistration from "./host/components/contest creation/ContestRegistration.jsx";
 import Challenge from "./host/components/contest creation/Challenge.jsx";
 import Prizes from "./host/components/contest creation/Prizes.jsx";
-import Rules from "./host/components/contest creation/Rules.jsx";
 import QuestionsPage from "./participant/pages/QuestionsPage.jsx";
 
 function ApplicationRouter() {
@@ -33,7 +32,6 @@ function ApplicationRouter() {
           <Route path="about" element={<AboutContest />} />
           <Route path="challenge" element={<Challenge />} />
           <Route path="prizes" element={<Prizes />} />
-          <Route path="rules" element={<Rules />} />
         </Route>
       </Routes>
     </Router>

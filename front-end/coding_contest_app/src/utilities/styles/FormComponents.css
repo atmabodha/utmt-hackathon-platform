@@ -1,0 +1,20 @@
+#file-input {
+    display: none;
+  }
+  
+  .custom-file-button {
+    display: block;
+    padding: 10px;
+    background-color: var(--card-color);
+    color: var(--text-color);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+.custom-file-button:hover {
+    background-color: var(--background-color);
+  }
