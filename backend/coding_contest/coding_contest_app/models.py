@@ -1,12 +1,12 @@
 from django.db import models
 
 class Users(models.Model):
-    user_id = models.AutoField(primary_key=True)
+    user_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
     login_password = models.CharField(max_length=255)
-    overall_rank = models.IntegerField()
+    overall_rank = models.IntegerField(null=True, blank=True)
     user_created_at = models.DateTimeField(auto_now_add=True)
     user_updated_at = models.DateTimeField(auto_now=True)
 
@@ -15,15 +15,15 @@ class Users(models.Model):
         verbose_name = 'User'
 
     def __str__(self):
-        return self.name
+        return f"{self.name}, {self.user_id}, {self.email}"
 
 
 class UserDetails(models.Model):
     detail_id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(Users, on_delete=models.CASCADE,)
-    bio = models.TextField(blank=True, null=True)
-    skills = models.TextField(blank=True, null=True)
-    achievements = models.TextField(blank=True, null=True)
+    user = models.OneToOneField(Users, on_delete=models.CASCADE)
+    bio = models.TextField(null=True, blank=True)
+    skills = models.TextField(null=True, blank=True)
+    achievements = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'user_details'
@@ -50,10 +50,10 @@ class SocialMediaLink(models.Model):
 class UserAddress(models.Model):
     address_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
-    address = models.TextField()
+    address = models.TextField(null=True, blank=True)
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
-    pincode = models.CharField(max_length=10)
+    pincode = models.CharField(max_length=10, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -68,16 +68,15 @@ class Contests(models.Model):
     contest_id = models.AutoField(primary_key=True)
     host = models.ForeignKey(Users, on_delete=models.CASCADE)
     contest_name = models.CharField(max_length=100)
-    contest_start_date = models.DateField()
-    contest_end_date = models.DateField()
+    start_date_time = models.DateTimeField()
+    end_date_time = models.DateTimeField()
     organization_type = models.CharField(max_length=50)
     organization_name = models.CharField(max_length=100)
     participant_limit = models.IntegerField()
-    contest_visibility = models.BooleanField(default=True)
-    contest_status = models.CharField(max_length=50)
+    contest_visibility = models.CharField(max_length=100)
     contest_created_at = models.DateTimeField(auto_now_add=True)
     contest_updated_at = models.DateTimeField(auto_now=True)
-    registration_deadline = models.DateField()
+    registration_deadline = models.DateTimeField()
 
     class Meta:
         db_table = 'contests'
@@ -88,13 +87,13 @@ class Contests(models.Model):
 
 
 class ContestDetails(models.Model):
-    contest_id = models.OneToOneField(Contests, on_delete=models.CASCADE, primary_key=True)
-    contest_banner_image = models.CharField(max_length=255)
-    contest_default_banner_image = models.CharField(max_length=255)
-    about = models.TextField()
-    eligibility = models.TextField()
-    rules = models.TextField()
-    others = models.TextField()
+    contest = models.OneToOneField(Contests, on_delete=models.CASCADE, primary_key=True)
+    contest_banner_image = models.CharField(max_length=255, null=True, blank=True)
+    contest_default_banner_image = models.CharField(max_length=255, null=True, blank=True)
+    about = models.TextField(null=True, blank=True)
+    eligibility = models.TextField(null=True, blank=True)
+    rules = models.TextField(null=True, blank=True)
+    others = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'contest_details'
@@ -107,10 +106,10 @@ class ContestDetails(models.Model):
 class ContestPrizes(models.Model):
     prize_id = models.AutoField(primary_key=True)
     contest = models.ForeignKey(Contests, on_delete=models.CASCADE)
-    prize_position = models.IntegerField()
-    prize_description = models.TextField()
-    prize_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    others = models.TextField()
+    prize_position = models.CharField(max_length=100)
+    prize_description = models.TextField(null=True, blank=True)
+    prize_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    others = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'contest_prizes'
@@ -127,7 +126,7 @@ class Problems(models.Model):
     description = models.TextField()
     input_format = models.TextField()
     output_format = models.TextField()
-    constraints = models.TextField()
+    constraints = models.TextField(null=True, blank=True)
     difficulty_level = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -156,7 +155,7 @@ class ContestProblems(models.Model):
     contest_problem_id = models.AutoField(primary_key=True)
     contest = models.ForeignKey(Contests, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
-    order_of_problem_in_contest = models.IntegerField()
+    order_of_problem_in_contest = models.IntegerField(null=True, blank=True)
     weightage = models.IntegerField()
 
     class Meta:
@@ -172,8 +171,8 @@ class ContestRegistration(models.Model):
     participant = models.ForeignKey(Users, on_delete=models.CASCADE)
     contest = models.ForeignKey(Contests, on_delete=models.CASCADE)
     registration_date_and_time = models.DateTimeField(auto_now_add=True)
-    contest_submission_time = models.DateTimeField()
-    total_time_taken = models.DurationField()
+    contest_submission_time = models.DateTimeField(null=True, blank=True)
+    total_time_taken = models.DurationField(null=True, blank=True)
 
     class Meta:
         db_table = 'contest_registration'
@@ -190,7 +189,7 @@ class Submissions(models.Model):
     participant = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submissions')
     submitted_at = models.DateTimeField()
     language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name='submissions')
-    code = models.TextField()
+    code = models.TextField(null=True, blank=True)
     score = models.DecimalField(max_digits=5, decimal_places=2)
 
     class Meta:
@@ -206,7 +205,7 @@ class TestCases(models.Model):
     problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
     input = models.TextField()
     expected_output = models.TextField()
-    time_limit = models.IntegerField() 
+    time_limit = models.IntegerField()
     memory_limit = models.IntegerField()
 
     class Meta:
@@ -254,7 +253,7 @@ class Samples(models.Model):
     problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
     sample_input = models.TextField()
     sample_output = models.TextField()
-    sample_order = models.IntegerField()
+    sample_order = models.IntegerField(null=True, blank=True)
 
     class Meta:
         db_table = 'sample_input_output'

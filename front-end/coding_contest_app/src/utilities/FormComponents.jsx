@@ -1,5 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css";
 import CreatableSelect from "react-select/creatable";
 import "./styles/FormComponents.css";
 
@@ -39,23 +41,22 @@ export const TextInputField = ({
   groupClass,
   labelClass,
   controlClass,
-  required = false, // Default to false
-  placeholder = "", // Default placeholder
+  required = false,
+  placeholder = "",
 }) => {
   return (
     <Form.Group controlId={controlId} className={groupClass}>
       <Form.Label className={labelClass}>
-        {label} {required && <span>*</span>}{" "}
-        {/* Optional asterisk for required */}
+        {label} {required && <span>*</span>}
       </Form.Label>
       <Form.Control
         type={type || "text"}
         name={name}
         value={value}
         onChange={onChange}
-        required={required} // Set the required attribute
+        required={required}
         className={controlClass}
-        placeholder={placeholder} // Allow custom placeholder text
+        placeholder={placeholder}
       />
     </Form.Group>
   );
@@ -70,26 +71,24 @@ export const SelectInputField = ({
   groupClass,
   labelClass,
   controlClass,
-  required = false, // Default to false
-  options = [], // Array of options for the dropdown
-  ariaLabel = "", // Accessibility label for the select
+  required = false,
+  options = [],
+  ariaLabel = "",
 }) => {
   return (
     <Form.Group controlId={controlId} className={groupClass}>
       <Form.Label className={labelClass}>
-        {label} {required && <span>*</span>}{" "}
-        {/* Optional asterisk for required */}
+        {label} {required && <span>*</span>}
       </Form.Label>
       <Form.Select
         name={name}
         value={value}
         onChange={onChange}
-        required={required} // Set the required attribute
+        required={required}
         className={controlClass}
-        aria-label={ariaLabel} // Accessibility label
+        aria-label={ariaLabel}
       >
-        <option value="">Select {label.toLowerCase()}</option>{" "}
-        {/* Default placeholder */}
+        <option value="">Select {label.toLowerCase()}</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -108,31 +107,31 @@ export const FileInputField = ({
   groupClass,
   labelClass,
   controlClass,
-  required = false, // Default to false
-  accept = "", // Allowed file types
-  value, // Current file object for displaying file name
-  helperText = "", // Additional helper text
+  required = false,
+  accept = "",
+  value,
+  helperText = "",
   uploadStatus = "",
 }) => {
   return (
-    <Form.Group controlId={controlId} className={groupClass}>
+    <Form.Group controlId={"file-input"} className={groupClass}>
       <Form.Label className={labelClass}>
-        {label} {required && <span>*</span>}{" "}
-        {/* Optional asterisk for required */}
+        {label} {required && <span>*</span>}
       </Form.Label>
       <Form.Control
         type="file"
+        name={name}
         accept={accept}
         onChange={onChange}
         required={required}
         className={controlClass}
       />
-      <label htmlFor={controlId} className="custom-file-button">
+      <label htmlFor={"file-input"} className={`custom-file-button ${controlClass}`}>
         Choose File
       </label>
       {value && value.name && (
         <div className="file-name-display">
-          Selected file: {value.name} {/* Display the selected file name */}
+          Selected file: {value.name}
         </div>
       )}
       <Form.Text muted>{helperText}</Form.Text>
@@ -186,4 +185,61 @@ export const SelectMultipleOptions = ({ label, name, id, value, options, groupCl
     </div>
   );
 };
+
+export const DateTimeInputField = ({
+  label,
+  name,
+  value,
+  onChange,
+  controlId,
+  groupClass,
+  labelClass,
+  inputClass,
+  required = false, 
+  placeholder = "Select date and time",
+}) => {
+
+  const handleOkClick = () => {
+    const outsideClickTarget = document.body;
+    if (outsideClickTarget) {
+      const event = new MouseEvent("mousedown", { bubbles: true });
+      outsideClickTarget.dispatchEvent(event);
+    }
+  };
+
+  const customRenderView = (viewMode, renderDefault) => {
+    return (
+      <div>
+        {renderDefault()}
+        {viewMode === "time" && (
+          <button type="button" id="ok-button" onClick={handleOkClick}>
+            OK
+          </button>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <Form.Group controlId={controlId} className={groupClass}>
+      <Form.Label className={labelClass}>
+        {label} {required && <span>*</span>}
+      </Form.Label>
+      <Datetime
+        className={inputClass}
+        timeFormat={true}
+        dateFormat={true}
+        renderView={customRenderView}
+        inputProps={{
+          placeholder: placeholder,
+          className: "form-control-custom",
+        }}
+        value={value}
+        onChange={(date) => onChange(name, date)}
+        required={required}
+      />
+    </Form.Group>
+  );
+};
+
 export default TextAreaField;

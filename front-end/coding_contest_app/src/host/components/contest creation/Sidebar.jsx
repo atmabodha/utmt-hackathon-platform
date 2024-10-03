@@ -12,7 +12,6 @@ function Sidebar({contestName}) {
     { label: "About the Contest", to: "about" },
     { label: "Challenges", to: "challenge" },
     { label: "Prizes", to: "prizes" },
-    { label: "Rules", to: "rules" },
     { label: "Analytics", to: "" },
     { label: "Delete contest", to: "" },
   ];

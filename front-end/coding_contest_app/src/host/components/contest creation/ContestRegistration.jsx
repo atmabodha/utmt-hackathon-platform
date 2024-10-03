@@ -1,7 +1,5 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import Datetime from "react-datetime";
-import "react-datetime/css/react-datetime.css";
 import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
 import "./ContestRegistration.css";
@@ -13,7 +11,7 @@ import {
 import {
   TextInputField,
   SelectInputField,
-  FileInputField,
+  DateTimeInputField
 } from "../../../utilities/FormComponents.jsx";
 
 const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
@@ -21,44 +19,22 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
   const {
     formData,
     handleInputChange,
-    handleFileChange,
-    imageUploadStatus,
-    handleOtherInputChange
+    handleOtherInputChange,
   } = useFormHandler({
+    host: 1,
     contestName: "",
-    organisationType: "",
-    organisationName: "",
+    organizationType: "",
+    organizationName: "",
     startDateTime: "",
     endDateTime: "",
     contestVisibility: "",
     participantLimit: 500,
-    contestImage: null,
+    registrationDeadline: "",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
     handleSubmit(formData);
-  };
-
-  const handleOkClick = () => {
-    const outsideClickTarget = document.body;
-    if (outsideClickTarget) {
-      const event = new MouseEvent("mousedown", { bubbles: true });
-      outsideClickTarget.dispatchEvent(event);
-    }
-  };
-
-  const customRenderView = (viewMode, renderDefault) => {
-    return (
-      <div>
-        {renderDefault()}
-        {viewMode === "time" && (
-          <button type="button" id="ok-button" onClick={handleOkClick}>
-            OK
-          </button>
-        )}
-      </div>
-    );
   };
 
   return (
@@ -103,18 +79,18 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               onChange={handleInputChange}
               required={true}
               groupClass="mb-3"
-              controlClass="form-control-custom" // Custom control class
-              placeholder="Enter contest name" // Placeholder can be customized
+              controlClass="form-control-custom"
+              placeholder="Enter contest name"
             />
 
             <SelectInputField
               label="Organization Type"
-              name="organisationType"
-              value={formData.organisationType}
+              name="organizationType"
+              value={formData.organizationType}
               onChange={handleInputChange}
-              required={true} // Mark this field as required
-              groupClass="mb-3" // Bootstrap margin bottom
-              controlClass="form-control-custom" // Custom control class
+              required={true}
+              groupClass="mb-3"
+              controlClass="form-control-custom"
               options={[
                 { value: "university", label: "University" },
                 { value: "company", label: "Company" },
@@ -122,56 +98,56 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               ]}
               ariaLabel="Select Organization type"
             />
+            
             <TextInputField
               label="Organisation Name"
-              name="organisationName"
-              value={formData.organisationName}
+              name="organizationName"
+              value={formData.organizationName}
               onChange={handleInputChange}
               required={true}
               groupClass="mb-3"
               controlClass="form-control-custom"
-              placeholder="Enter organisation name" // Placeholder can be customized
+              placeholder="Enter organisation name"
             />
 
-            <Form.Group
-              className="mb-3"
+            <DateTimeInputField
+              label="Select Start Date and Time"
+              name="startDateTime"
+              value={formData.startDateTime}
+              onChange={handleOtherInputChange}
               controlId="formGroupStartDateTime"
-              required
-            >
-              <Form.Label>Select Start Date and Time *</Form.Label>
-              <Datetime
-                className="start-date date-picker"
-                timeFormat={true}
-                dateFormat={true}
-                renderView={customRenderView}
-                inputProps={{
-                  placeholder: "Select start date and time",
-                  className: "form-control-custom",
-                }}
-                onChange={(date) => handleOtherInputChange("startDateTime", date)
-                }
-              />
-            </Form.Group>
+              groupClass="mb-3"
+              labelClass=""
+              inputClass="start-date date-picker"
+              required={true}
+              placeholder="Select start date and time"
+            />
 
-            <Form.Group
-              className="mb-3"
+            <DateTimeInputField
+              label="Select End Date and Time"
+              name="endDateTime"
+              value={formData.endDateTime}
+              onChange={handleOtherInputChange}
               controlId="formGroupEndDateTime"
-              required
-            >
-              <Form.Label>Select End Date and Time *</Form.Label>
-              <Datetime
-                className="end-date date-picker"
-                timeFormat={true}
-                dateFormat={true}
-                renderView={customRenderView}
-                inputProps={{
-                  placeholder: "Select end date and time",
-                  className: "form-control-custom",
-                }}
-                onChange={(date) => handleOtherInputChange("endDateTime", date)
-                }
-              />
-            </Form.Group>
+              groupClass="mb-3"
+              labelClass=""
+              inputClass="end-date date-picker"
+              required={true}
+              placeholder="Select end date and time"
+            />
+
+            <DateTimeInputField
+              label="Select registration deadline"
+              name="registrationDeadline"
+              value={formData.registrationDeadline}
+              onChange={handleOtherInputChange}
+              controlId="formGroupRegistrationDeadline"
+              groupClass="mb-3"
+              labelClass=""
+              inputClass="start-date date-picker"
+              required={true}
+              placeholder="Select registration deadline"
+            />
 
             <SelectInputField
               name="contestVisibility"
@@ -179,29 +155,15 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               aria-label="Select contest visibility"
               value={formData.contestVisibility}
               onChange={handleInputChange}
-              required={true} // Mark this field as required
-              groupClass="mb-3" // Bootstrap margin bottom
-              controlClass="form-control-custom" // Custom control class
+              required={true}
+              groupClass="mb-3"
+              controlClass="form-control-custom"
               options={[
                 { value: "public", label: "Public" },
                 { value: "private", label: "Private" },
               ]}
             />
 
-            <FileInputField
-              label="Contest Banner Image"
-              name="contestImage"
-              onChange={(event) => handleFileChange(event, 1024 * 1024)}
-              controlId="file-input"
-              required={true} // Mark this field as required
-              groupClass="mb-3" // Bootstrap margin bottom
-              labelClass="form-label" // Custom label class
-              controlClass="form-control-custom" // Custom control class
-              accept=".jpg, .png, .jpeg, .svg" // Allowed file types
-              value={formData.contestImage} // Current file object
-              helperText="Please select a JPG, PNG, JPEG, or SVG file." // Helper text
-              uploadStatus={imageUploadStatus} // Upload status message
-            />
             <TextInputField
               label="Participant Limit"
               type="number"
