@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
-import FetchContestDetails from "../../apis/Contests";
+import { getData } from "../../apis/ApiRequests";
 import PastContest from "../../../utilities/PastContest";
 import ScheduledContest from "../../../utilities/ScheduledContest";
 import LiveContests from "../../../utilities/LiveContests";
+import  {BASE_SERVER_URL, HOST_ENDPOINT} from "../../../Constants.js";
 
 const contestType = ["live", "scheduled", "past"];
 
@@ -15,7 +16,7 @@ const ContestHistory = () => {
 
   useEffect(() => {
     const fetchContest = async () => {
-      const response = await FetchContestDetails();
+      const response = await getData(BASE_SERVER_URL + HOST_ENDPOINT + "contests/").data;
       if (response) {
         const past = [];
         const scheduled = [];

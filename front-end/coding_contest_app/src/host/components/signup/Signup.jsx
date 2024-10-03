@@ -1,17 +1,23 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {TextInputField} from '../../../utilities/FormComponents';
 import './Signup.css';
 import {Button} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
-import Header from '../header/Header';
+import AuthContext from '../../../context/AuthContext';
 import {useFormHandler} from '../contest creation/FormHandlers';
 
 const SignUp = () => {
+  const { signup } = useContext(AuthContext)
   const {formData: signUpData, handleInputChange} = useFormHandler ({
     name: '',
     email: '',
     password: '',
   });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await signup(signUpData.email, signUpData.password, signUpData.name);
+};
 
   const signUpFields = [
     {
@@ -39,7 +45,6 @@ const SignUp = () => {
 
   return (
     <div className="signup-page">
-      {/* <Header headerType={'host'} /> */}
       <div className="signup-form">
         <div>
           <h1>Code Hut</h1>
@@ -63,7 +68,7 @@ const SignUp = () => {
           </Form>
         </div>
         <div className="signup-form-footer">
-          <Button className="signup-btn">Submit</Button>
+          <Button className="signup-btn" onClick={handleSubmit}>Submit</Button>
           <div className="signup-footer-text">
             <p className="signup-footer-text">
               Already have an account? <a href="/login">Log in</a>
