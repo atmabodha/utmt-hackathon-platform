@@ -6,7 +6,6 @@ import NotFound from "./host/pages/Notfound/notfound";
 import ContestDetails from "./utilities/ContestDetails";
 import ContestEdit from "./host/pages/ContestEdit.jsx";
 import AboutContest from "./host/components/contest creation/AboutContest";
-import ContestEditFooter from "./host/components/contest creation/ContestEditFooter";
 import ContestCreation from "./host/pages/ContestCreation.jsx";
 import ContestRegistration from "./host/components/contest creation/ContestRegistration.jsx";
 import Challenge from "./host/components/contest creation/Challenge.jsx";

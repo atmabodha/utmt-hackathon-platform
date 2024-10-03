@@ -19,7 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('auth/', include('coding_contest_app.urls.auth')),
     path('admin/', admin.site.urls),
-    path('host/', include('coding_contest_app.urls.host_urls')),
-    path('participant/', include('coding_contest_app.urls.participant_urls')),
+    path('host/', include('coding_contest_app.urls.host')),
+    path('participant/', include('coding_contest_app.urls.participant')),
 ]

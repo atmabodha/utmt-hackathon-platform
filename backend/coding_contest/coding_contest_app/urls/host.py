@@ -1,5 +1,5 @@
 from django.urls import path
-from coding_contest_app import views
+from ..views import views
 
 urlpatterns = [
     path('add-contest-details/', views.AddContestDetailsView.as_view(), name='add_contest_details'),
