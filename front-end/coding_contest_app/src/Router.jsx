@@ -13,12 +13,14 @@ import Challenge from "./host/components/contest creation/Challenge.jsx";
 import Prizes from "./host/components/contest creation/Prizes.jsx";
 import Rules from "./host/components/contest creation/Rules.jsx";
 import QuestionsPage from "./participant/pages/QuestionsPage.jsx";
+import Signup from "./host/components/signup/Signup.jsx";
 
 function ApplicationRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HostDashboard />} />
+        <Route path="/" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/host" element={<ContestCreation/>} />
         <Route path="/submissions" element={<ContestDetails />} />
