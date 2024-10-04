@@ -6,19 +6,21 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
   const baseUrl = BASE_SERVER_URL + AUTH_ENDPOINT;
+  const session_id = localStorage.getItem("session_id");
+
   useEffect(() => {
+    const formDataToSend = new FormData();
+    formDataToSend.append("session_id", session_id)
     const checkUser = async () => {
-      try {
         const response = await getData(baseUrl + "me/");
-        const data = await response.json();
-        if (data.user) {
-          setUser(data.user);
+        if(response){
+          const data = response.data;
+          console.log("data, ", data)
+          if (data.user) {
+            setUser(data.user);
+          }
         }
-      } catch (err) {
-        console.error(err);
-      }
     };
     checkUser();
   }, []);
@@ -30,13 +32,15 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const res = await sendData(baseUrl + "login/", formDataToSend);
-      const data = await res.json();
+      if (res) {
+        const data = await res.data;
 
-      if (data.status === "success") {
-        setUser(data.user);
-        localStorage.setItem("session_id", data.session_id);
+        if (data.status === "success") {
+          setUser(data.session);
+          localStorage.setItem("session_id", data.session_id);
+        }
+        return data;
       }
-      return data;
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -52,11 +56,13 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await sendData(url, formDataToSend);
-      const data = await response.json();
-      if (data.status === "success") {
-        setUser(data.user);
+      if (response) {
+        const data = await response.data;
+        if (data.status === "success") {
+          setUser(data.session);
+        }
+        return data;
       }
-      return response;
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -64,7 +70,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     const formDataToSend = new FormData();
-    const session_id = localStorage.getItem("session_id");
     formDataToSend.append("session_id", session_id);
 
     if (!session_id) {

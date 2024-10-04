@@ -3,6 +3,7 @@ import { TextInputField } from "../../../utilities/FormComponents";
 import AuthContext from "../../../context/AuthContext";
 import { useNavigate, Link } from 'react-router-dom';
 import { useFormHandler } from "../contest creation/FormHandlers";
+import Swal from "sweetalert2";
 import "./Login.css";
 
 const Login = () => {
@@ -16,9 +17,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(loginData.email, loginData.password);
-      navigate('/host');
-      console.log("user data: ", user)
+      const data = await login(loginData.email, loginData.password);
+      if (user){
+        navigate('/host');
+      }else {
+        Swal.fire(
+          data.status,
+          data.message,
+        );
+      }
+      console.log("login user data", user)
     } catch (e) {
       console.log(e);
     }

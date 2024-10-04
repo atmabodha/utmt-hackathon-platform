@@ -5,6 +5,7 @@ import './Signup.css';
 import {Button} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
 import AuthContext from '../../../context/AuthContext';
+import Swal from 'sweetalert2';
 import {useFormHandler} from '../contest creation/FormHandlers';
 
 const SignUp = () => {
@@ -20,8 +21,15 @@ const SignUp = () => {
     e.preventDefault();
     try {
       await signup(signUpData.email, signUpData.password, signUpData.name);
-      navigate('/host')
-      console.log("user data: ", user)
+      if (user){
+        navigate('/host');
+      }else {
+        Swal.fire(
+          data.status,
+          data.message,
+        );
+      }
+      console.log("user register data: ", user)
     } catch (e) {
       console.log(e)
     }
