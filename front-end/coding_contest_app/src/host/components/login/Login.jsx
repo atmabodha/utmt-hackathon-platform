@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { TextInputField } from "../../../utilities/FormComponents";
-import AuthContext from "../../../context/AuthContext";
+import { useUser } from "../../../context/user";
 import { useNavigate, Link } from 'react-router-dom';
 import { useFormHandler } from "../contest creation/FormHandlers";
 import Swal from "sweetalert2";
@@ -8,7 +8,7 @@ import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { user, login } = useContext(AuthContext);
+  const { current: user, login } = useUser()
   const { formData: loginData, handleInputChange } = useFormHandler({
     email: "",
     password: "",
@@ -17,16 +17,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await login(loginData.email, loginData.password);
+      await login(loginData.email, loginData.password);
       if (user){
         navigate('/host');
-      }else {
-        Swal.fire(
-          data.status,
-          data.message,
-        );
       }
-      console.log("login user data", user)
     } catch (e) {
       console.log(e);
     }

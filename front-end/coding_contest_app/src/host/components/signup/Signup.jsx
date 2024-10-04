@@ -1,16 +1,16 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {TextInputField} from '../../../utilities/FormComponents';
 import { useNavigate, Link } from 'react-router-dom';
 import './Signup.css';
 import {Button} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
-import AuthContext from '../../../context/AuthContext';
+import { useUser } from "../../../context/user";
 import Swal from 'sweetalert2';
 import {useFormHandler} from '../contest creation/FormHandlers';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { user, signup } = useContext(AuthContext)
+  const { current: user, signup } = useUser()
   const {formData: signUpData, handleInputChange} = useFormHandler ({
     name: '',
     email: '',
@@ -23,11 +23,6 @@ const SignUp = () => {
       await signup(signUpData.email, signUpData.password, signUpData.name);
       if (user){
         navigate('/host');
-      }else {
-        Swal.fire(
-          data.status,
-          data.message,
-        );
       }
       console.log("user register data: ", user)
     } catch (e) {

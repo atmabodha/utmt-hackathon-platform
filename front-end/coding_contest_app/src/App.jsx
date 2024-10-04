@@ -1,15 +1,15 @@
 import ApplicationRouter from "./Router";
 import { ToastContainer } from "react-toastify";
-import { AuthProvider } from "./context/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
+import { UserProvider } from "./context/user";
 
 function App() {
   return (
     <div>
-      <AuthProvider>
+      <UserProvider>
         <ToastContainer />
         <ApplicationRouter />
-      </AuthProvider>
+      </UserProvider>
     </div>
   );
 }
