@@ -13,4 +13,4 @@ class SignUpView(APIView):
             serializer.save()
             return Response({'status': 'success', 'message': 'User added successfully'}, status=200)
         else:
-            return Response({'status': 'error', 'message' : 'Internal server error'}, status=400)
+            return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)

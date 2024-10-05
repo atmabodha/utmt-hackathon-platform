@@ -1,10 +1,9 @@
 // useContestSubmit.js
 import { useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
+import { sendData } from "../../apis/ApiRequests";
 import { toast } from "react-toastify";
 import moment from "moment";
-import { BASE_SERVER_URL } from "../../../Constants.js";
 
 export const useFormHandler = (initialState) => {
   const [formData, setFormData] = useState(initialState);
@@ -23,7 +22,7 @@ export const useFormHandler = (initialState) => {
       ...prevData,
       [name]: object,
     }));
-    console.log(object)
+    console.log(object);
   };
 
   const handleFileChange = (e, maxFileSize) => {
@@ -37,7 +36,9 @@ export const useFormHandler = (initialState) => {
         }));
         setImageUploadStatus("Image uploaded successfully");
       } else {
-        setImageUploadStatus(`Error: File size exceeds ${maxFileSize / (1024 * 1024)} MB`);
+        setImageUploadStatus(
+          `Error: File size exceeds ${maxFileSize / (1024 * 1024)} MB`
+        );
       }
     }
   };
@@ -47,12 +48,11 @@ export const useFormHandler = (initialState) => {
     handleInputChange,
     handleFileChange,
     imageUploadStatus,
-    handleOtherInputChange
+    handleOtherInputChange,
   };
 };
 
-
-export const useContestRegistrationSubmit = () => {
+export const useContestRegistrationSubmit = (url) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (formData) => {
@@ -73,60 +73,24 @@ export const useContestRegistrationSubmit = () => {
       return;
     }
 
-    try {
-      let formDataToSend = new FormData();
-      formDataToSend.append("host", formData.host);
-      formDataToSend.append("contest_name", formData.contestName);
-      formDataToSend.append("organization_type", formData.organizationType);
-      formDataToSend.append("organization_name", formData.organizationName);
-      formDataToSend.append("start_date_time", formData.startDateTime);
-      formDataToSend.append("end_date_time", formData.endDateTime);
-      formDataToSend.append("contest_visibility", formData.contestVisibility);
-      formDataToSend.append("participant_limit", formData.participantLimit);
-      formDataToSend.append("registration_deadline", formData.registrationDeadline);
+    let formDataToSend = new FormData();
+    formDataToSend.append("host", formData.host);
+    formDataToSend.append("contest_name", formData.contestName);
+    formDataToSend.append("organization_type", formData.organizationType);
+    formDataToSend.append("organization_name", formData.organizationName);
+    formDataToSend.append("start_date_time", formData.startDateTime);
+    formDataToSend.append("end_date_time", formData.endDateTime);
+    formDataToSend.append("contest_visibility", formData.contestVisibility);
+    formDataToSend.append("participant_limit", formData.participantLimit);
+    formDataToSend.append(
+      "registration_deadline",
+      formData.registrationDeadline
+    );
 
-      setLoading(true);
-      const response = await axios.post(
-        BASE_SERVER_URL + "host/add-contest-details/",
-        formDataToSend
-      );
-
-      Swal.fire(
-        "Contest Created",
-        "Now move to forward for questions",
-        "success"
-      );
-    } catch (error) {
-      if (!error.response) {
-        Swal.fire(
-          "Network Error",
-          "Please check your internet connection and try again",
-          "error"
-        );
-      } else if (error.response.status === 500) {
-        Swal.fire(
-          "Contest not created",
-          "Oops! Facing internal server error",
-          "error"
-        );
-      } else if (error.response.status === 400) {
-        console.log("message: ", error.response)
-        Swal.fire(
-          "Bad Request",
-          "Please check the submitted data and try again",
-          "error"
-        );
-      } else {
-        Swal.fire(
-          "Error",
-          `An error occurred: ${error.response.statusText}`,
-          "error"
-        );
-      }
-    }
+    setLoading(true);
+    await sendData(url, formDataToSend);
     setLoading(false);
   };
 
   return { loading, handleSubmit };
 };
-

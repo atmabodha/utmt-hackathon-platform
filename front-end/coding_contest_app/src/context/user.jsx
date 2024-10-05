@@ -10,7 +10,6 @@ import showSwalAlert from "../utilities/AlertComponents";
 import {sendData} from "../host/apis/ApiRequests";
 import {BASE_SERVER_URL, AUTH_ENDPOINT} from "../Constants";
 
-
 const UserContext = createContext();
 
 export function useUser() {
@@ -46,7 +45,7 @@ export function UserProvider(props) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const signupData = new FormData();
-      signupData.append("user_id", userCredential.user.uid)
+      signupData.append("user_id", "userCredential.user.uid")
       signupData.append("emsil", email)
       signupData.append("name", name)
       await sendData(baseUrl, signupData)

@@ -1,14 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import Contests
-from ..serializers.serializers import ContestsSerializer
+from ..serializers.contests import ContestsSerializer
 from datetime import datetime
 
-DRIVE_FOLDERS = {}
 
-class AddContestDetailsView(APIView):
+class ContestsRegistrationView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     
     def post(self, request, *args, **kwargs):
@@ -21,29 +18,14 @@ class AddContestDetailsView(APIView):
             if 'registration_deadline' in data:
                 data['registration_deadline'] = datetime.strptime(data['registration_deadline'], '%a %b %d %Y %H:%M:%S GMT%z').isoformat()
         except ValueError as e:
-            return Response({"error": f"Date format error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "error", "message": f"Date format error: {str(e)}"}, status=400)
         data['host'] = int(data['host'])
-        print("type", type(data['host']))
         serializer = ContestsSerializer(data=data)
         print("data", data)
         if serializer.is_valid():
-            print("seria")
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({"status": "success", "message": "Contest has been created successfully"}, status=201)
         
         print("vlidation" , serializer.errors)
-        return Response({"error": f"Kuch aur:"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": "error", "message": "Internal Server Error"}, status=500)
 
-
-class ContestDetailsView(APIView):
-
-    def get(self, request, *args, **kwargs):
-        contests = Contests.objects.all()
-        
-        if contests:
-            serializer = ContestsSerializer(contests, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"Message": "No data to show"}, status=status.HTTP_204_NO_CONTENT)
-
-    def handle_method_not_allowed(self, request, *args, **kwargs):
-        return Response({'error': 'Only GET method is allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)

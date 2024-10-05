@@ -13,9 +13,12 @@ import {
   SelectInputField,
   DateTimeInputField
 } from "../../../utilities/FormComponents.jsx";
+import {BASE_SERVER_URL, HOST_ENDPOINT, CONTESTS} from "../../../Constants.js";
 
 const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
-  const { loading, handleSubmit } = useContestRegistrationSubmit();
+  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/"
+  console.log("url--------", url)
+  const { loading, handleSubmit } = useContestRegistrationSubmit(url);
   const {
     formData,
     handleInputChange,
