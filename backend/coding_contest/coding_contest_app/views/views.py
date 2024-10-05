@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import Contests
-from ..serializers import ContestsSerializer
+from ..serializers.serializers import ContestsSerializer
 from datetime import datetime
 
 DRIVE_FOLDERS = {}

@@ -1,11 +1,10 @@
 from django.db import models
 
 class Users(models.Model):
-    user_id = models.IntegerField(primary_key=True)
+    user_id = models.CharField(primary_key=True, max_length=100)
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
-    login_password = models.CharField(max_length=255)
     overall_rank = models.IntegerField(null=True, blank=True)
     user_created_at = models.DateTimeField(auto_now_add=True)
     user_updated_at = models.DateTimeField(auto_now=True)

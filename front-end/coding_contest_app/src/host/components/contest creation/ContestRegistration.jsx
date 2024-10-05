@@ -21,7 +21,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
     handleInputChange,
     handleOtherInputChange,
   } = useFormHandler({
-    host: 1,
+    host: 2,
     contestName: "",
     organizationType: "",
     organizationName: "",

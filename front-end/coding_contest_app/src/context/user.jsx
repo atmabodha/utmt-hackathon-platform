@@ -7,6 +7,8 @@ import {
   onAuthStateChanged
 } from "firebase/auth";
 import showSwalAlert from "../utilities/AlertComponents";
+import {sendData} from "../host/apis/ApiRequests";
+import {BASE_SERVER_URL, AUTH_ENDPOINT} from "../Constants";
 
 
 const UserContext = createContext();
@@ -23,6 +25,7 @@ export function UserProvider(props) {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       setUser(userCredential.user);
       showSwalAlert({ icon: "success", title: "Login Successful", text: "You have been logged in!" });
+      return userCredential;
     } catch (error) {
       showSwalAlert({ icon: "error", title: error.code, text: error.message });
     }
@@ -39,10 +42,15 @@ export function UserProvider(props) {
   }
 
   async function signup(email, password, name) {
+    const baseUrl = BASE_SERVER_URL + AUTH_ENDPOINT + "signup/"
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-      showSwalAlert({ icon: "success", title: "Account Created", text: `Welcome, ${name}!` });
+      const signupData = new FormData();
+      signupData.append("user_id", userCredential.user.uid)
+      signupData.append("emsil", email)
+      signupData.append("name", name)
+      await sendData(baseUrl, signupData)
+      return userCredential;
     } catch (error) {
       console.log("error", error)
       showSwalAlert({ icon: "error", title: error.code, text: error.message });

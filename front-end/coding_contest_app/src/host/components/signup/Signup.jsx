@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {TextInputField} from '../../../utilities/FormComponents';
 import { useNavigate, Link } from 'react-router-dom';
 import './Signup.css';
 import {Button} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
 import { useUser } from "../../../context/user";
-import Swal from 'sweetalert2';
 import {useFormHandler} from '../contest creation/FormHandlers';
+import LoadingOverlay from "react-loading-overlay-ts";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { current: user, signup } = useUser()
   const {formData: signUpData, handleInputChange} = useFormHandler ({
@@ -19,15 +21,17 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
-      await signup(signUpData.email, signUpData.password, signUpData.name);
-      if (user){
+      const userCredentials = await signup(signUpData.email, signUpData.password, signUpData.name);
+      console.log("signup", userCredentials)
+      if (userCredentials){
         navigate('/host');
       }
-      console.log("user register data: ", user)
     } catch (e) {
       console.log(e)
     }
+    setLoading(false);
 };
 
   const signUpFields = [
@@ -56,6 +60,20 @@ const SignUp = () => {
 
   return (
     <div className="signup-page">
+      <LoadingOverlay
+        active={loading}
+        text="It will not take more than few seconds"
+        spinner={
+          <PulseLoader
+            color={"var(--text-color)"}
+            loading={true}
+            size={15}
+            margin={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        }
+      >
       <div className="signup-form">
         <div>
           <h1>Code Hut</h1>
@@ -87,6 +105,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+      </LoadingOverlay>
     </div>
   );
 };

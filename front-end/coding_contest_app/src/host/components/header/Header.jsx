@@ -41,11 +41,11 @@ function Header({ headerType }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLogout = (index) => {
-      if(index === profileItems.length - 1 || index === menuItems.length - 1){
+  const handleLogout = () => {
+      // if(index === profileItems.length - 1 || index === menuItems.length - 1){
         logout()
       navigte("/")
-      }
+      // }
   }
   return (
     <Navbar expand={expand} id="header" className="fixed-top">
@@ -102,7 +102,6 @@ function Header({ headerType }) {
               id="nav-item"
               key={index}
               to={`/${navItem.linksTo}`}
-              // onClick={handleLogout(index)}
             >
               {navItem.name}
             </Nav.Link>
@@ -131,13 +130,12 @@ function Header({ headerType }) {
               }
               id="profile-dropdown"
             >
-              {profileItems.map((item, index) => (
+              {profileItems.slice(0, -1).map((item, index) => (
                 <NavDropdown.Item
                   as={Link}
                   key={index}
                   to={`/${item.linksTo}`}
                   className="dropdown-card"
-                  onClick={() => handleLogout(index)}
                   style={{
                     backgroundColor: "var(--background-color)",
                     color: "var(--text-color)",
@@ -146,7 +144,7 @@ function Header({ headerType }) {
                   {item.name}
                 </NavDropdown.Item>
               ))}
-              {/* <NavDropdown.Item
+              <NavDropdown.Item
                   as="button"
                   className="dropdown-card"
                   onClick={() => handleLogout()}
@@ -156,7 +154,7 @@ function Header({ headerType }) {
                   }}
                 >
                   Logout
-                </NavDropdown.Item> */}
+                </NavDropdown.Item>
               <NavDropdown.Item
                 style={{
                   backgroundColor: "var(--background-color)",
