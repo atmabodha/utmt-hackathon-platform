@@ -1,9 +1,9 @@
 # coding_contest_app/urls/participant_urls.py
 
 from django.urls import path
-from ..views.contests import ContestsDetailsView
+from coding_contest_app.views import contests
 
 urlpatterns = [
-    path('contests/', ContestsDetailsView.as_view(), name='contest_details'),
+    # path('contests/', contests.ContestDetailsView.as_view(), name='contest_details'),
 ]
 
