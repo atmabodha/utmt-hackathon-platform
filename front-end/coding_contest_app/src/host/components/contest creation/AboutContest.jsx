@@ -9,8 +9,16 @@ import TextAreaField, {
 } from "../../../utilities/FormComponents";
 import { HOST_ENDPOINT, BASE_SERVER_URL, CONTESTS } from "../../../Constants";
 import { sendData } from "../../apis/ApiRequests";
+import { storage } from "../../../firebase/firebase"; // Import the firebase configuration
+import showSwalAlert from "../../../utilities/AlertComponents";
+import { useUser } from "../../../context/user";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import LoadingOverlay from "react-loading-overlay-ts";
+import PulseLoader from "react-spinners/PulseLoader";
 
 function AboutContest({ contestUrl }) {
+  const {current: user} = useUser()
+  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "details/";
   const inputFields = [
     {
       label: "About",
@@ -43,22 +51,51 @@ function AboutContest({ contestUrl }) {
     bannerImage: null,
   });
 
-  // Handle form submission
+  console.log("user", user)
   const handleAboutSubmit = async () => {
     const aboutFormData = new FormData();
     aboutFormData.append("about", aboutData.about);
     aboutFormData.append("eligibility", aboutData.eligibility);
     aboutFormData.append("rules", aboutData.rules);
     aboutFormData.append("others", aboutData.others);
+
     if (aboutData.bannerImage) {
-      aboutFormData.append("contest_banner_image", aboutData.bannerImage);
+      const uniqueImageName = user?.uid + aboutData.bannerImage.name;
+      const storageRef = ref(storage, `images/${uniqueImageName}`);
+      uploadBytes(storageRef, aboutData.bannerImage)
+        .then((snapshot) => {
+          return getDownloadURL(snapshot.ref);
+        })
+        .then( async (imageUrl) => {
+          aboutFormData.append("contest_banner_image", imageUrl);
+          await sendData(url, aboutFormData);
+        })
+        .catch((error) => {
+          showSwalAlert({
+            icon: "error",
+            title: error.code,
+            text: error.message,
+          });
+        });
     }
-    const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "details/";
-    await sendData(url, aboutFormData);
   };
 
   return (
     <div>
+      <LoadingOverlay
+        active={true}
+        text="Hold tight digesting the details..."
+        spinner={
+          <PulseLoader
+            color={"black"}
+            loading={true}
+            size={15}
+            margin={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        }
+      >
       <div className="about-contest">
         <div className="about-contest-header">
           <h2 style={{ fontWeight: 600 }}>About the Contest</h2>
@@ -101,6 +138,7 @@ function AboutContest({ contestUrl }) {
         </div>
       </div>
       <ContestEditFooter saveChanges={handleAboutSubmit} />
+      </LoadingOverlay>
     </div>
   );
 }

@@ -33,11 +33,11 @@ class ContestsRegistrationView(APIView):
 class ContestsDetailsView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, *args, **kwargs):
-        print("Error caugth here")
         serializer = ContestDetailsSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
-            return Response({'status': 'success', 'message': 'updated about page successfully'}, status=200)
+            return Response({'status': 'success', 'message': 'updated contest details successfully'}, status=201)
         else:
+            print(serializer.errors)
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)

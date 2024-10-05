@@ -87,8 +87,8 @@ class Contests(models.Model):
 
 class ContestDetails(models.Model):
     contest = models.OneToOneField(Contests, on_delete=models.CASCADE, primary_key=True)
-    contest_banner_image = models.CharField(max_length=255, null=True, blank=True)
-    contest_default_banner_image = models.CharField(max_length=255, null=True, blank=True)
+    contest_banner_image = models.URLField(null=True, blank=True)
+    contest_default_banner_image = models.URLField(null=True, blank=True)
     about = models.TextField(null=True, blank=True)
     eligibility = models.TextField(null=True, blank=True)
     rules = models.TextField(null=True, blank=True)
