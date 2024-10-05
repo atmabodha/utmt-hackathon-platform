@@ -7,6 +7,8 @@ import { useFormHandler } from "./FormHandlers";
 import TextAreaField, {
   FileInputField,
 } from "../../../utilities/FormComponents";
+import { HOST_ENDPOINT, BASE_SERVER_URL, CONTESTS } from "../../../Constants";
+import { sendData } from "../../apis/ApiRequests";
 
 function AboutContest({ contestUrl }) {
   const inputFields = [
@@ -27,18 +29,33 @@ function AboutContest({ contestUrl }) {
       name: "others",
     },
   ];
+
   const {
     formData: aboutData,
     handleInputChange,
     handleFileChange,
     imageUploadStatus,
   } = useFormHandler({
-    about: "sdfsafa",
+    about: "",
     eligibility: "",
     others: "",
     rules: "",
     bannerImage: null,
   });
+
+  // Handle form submission
+  const handleAboutSubmit = async () => {
+    const aboutFormData = new FormData();
+    aboutFormData.append("about", aboutData.about);
+    aboutFormData.append("eligibility", aboutData.eligibility);
+    aboutFormData.append("rules", aboutData.rules);
+    aboutFormData.append("others", aboutData.others);
+    if (aboutData.bannerImage) {
+      aboutFormData.append("contest_banner_image", aboutData.bannerImage);
+    }
+    const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "details/";
+    await sendData(url, aboutFormData);
+  };
 
   return (
     <div>
@@ -83,7 +100,7 @@ function AboutContest({ contestUrl }) {
           </Form>
         </div>
       </div>
-      <ContestEditFooter />
+      <ContestEditFooter saveChanges={handleAboutSubmit} />
     </div>
   );
 }
