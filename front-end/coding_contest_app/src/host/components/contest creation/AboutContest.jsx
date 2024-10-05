@@ -36,6 +36,7 @@ function AboutContest({ contestUrl }) {
     handleFileChange,
     imageUploadStatus,
   } = useFormHandler({
+    contest: 1,
     about: "",
     eligibility: "",
     others: "",
@@ -46,6 +47,7 @@ function AboutContest({ contestUrl }) {
   // Handle form submission
   const handleAboutSubmit = async () => {
     const aboutFormData = new FormData();
+    aboutFormData.append("contest", aboutData.contest);
     aboutFormData.append("about", aboutData.about);
     aboutFormData.append("eligibility", aboutData.eligibility);
     aboutFormData.append("rules", aboutData.rules);
@@ -53,7 +55,7 @@ function AboutContest({ contestUrl }) {
     if (aboutData.bannerImage) {
       aboutFormData.append("contest_banner_image", aboutData.bannerImage);
     }
-    const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "details/";
+    const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/details/";
     await sendData(url, aboutFormData);
   };
 

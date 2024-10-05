@@ -5,32 +5,45 @@ import { Form } from "react-bootstrap";
 import ContestEditFooter from "./ContestEditFooter";
 import { useFormHandler } from "./FormHandlers";
 import TextAreaField from "../../../utilities/FormComponents";
+import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 
 function Prizes({ contestUrl }) {
   const inputFields = [
     {
-      label: "Winner Prizes",
-      name: "winnerPrize",
+      label: "Prize Position",
+      name: "prizePosition",
     },
     {
-      label: "1st Runner up prize",
-      name: "firstRunnerUpPrize",
+      label: "Prize Description",
+      name: "prizeDescription",
     },
     {
-      label: "2nd Runner up prize",
-      name: "secondRunnerUpPrize",
+      label: "Prize Amount",
+      name: "prizeAmount",
     },
     {
-        label: "Others",
-        name: "others",
-      },
+      label: "Others",
+      name: "others",
+    },
   ];
   const { formData: prizeData, handleInputChange } = useFormHandler({
-    winnerPrize: "",
-    firstRunnerUpPrize: "",
-    secondRunnerUpPrize: "",
-    others: ""
+    contest: 1,
+    prizePosition: "",
+    prizeDescription: "",
+    prizeAmount: "",
+    others: "",
   });
+
+  const handlePrizeSubmit = async () => {
+    const prizeFormData = new FormData();
+    prizeFormData.append("contest", prizeData.contest);
+    prizeFormData.append("prize_position", prizeData.prizePosition);
+    prizeFormData.append("prizeDescription", prizeData.prizeDescription);
+    prizeFormData.append("prizeAmount", prizeData.prizeAmount);
+    prizeFormData.append("others", prizeData.others);
+    const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/prizes/";
+    await sendData(url, prizeFormData);
+  };
 
   return (
     <div>
@@ -62,7 +75,7 @@ function Prizes({ contestUrl }) {
           </Form>
         </div>
       </div>
-      <ContestEditFooter />
+      <ContestEditFooter saveChanges={handlePrizeSubmit} />
     </div>
   );
 }
