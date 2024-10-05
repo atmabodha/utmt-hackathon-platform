@@ -11,29 +11,30 @@ import {
 import {
   TextInputField,
   SelectInputField,
-  DateTimeInputField
+  DateTimeInputField,
 } from "../../../utilities/FormComponents.jsx";
-import {BASE_SERVER_URL, HOST_ENDPOINT, CONTESTS} from "../../../Constants.js";
+import {
+  BASE_SERVER_URL,
+  HOST_ENDPOINT,
+  CONTESTS,
+} from "../../../Constants.js";
 
 const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
-  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/"
-  console.log("url--------", url)
+  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/";
+  console.log("url--------", url);
   const { loading, handleSubmit } = useContestRegistrationSubmit(url);
-  const {
-    formData,
-    handleInputChange,
-    handleOtherInputChange,
-  } = useFormHandler({
-    host: 2,
-    contestName: "",
-    organizationType: "",
-    organizationName: "",
-    startDateTime: "",
-    endDateTime: "",
-    contestVisibility: "",
-    participantLimit: 500,
-    registrationDeadline: "",
-  });
+  const { formData, handleInputChange, handleOtherInputChange } =
+    useFormHandler({
+      host: 2,
+      contestName: "",
+      organizationType: "",
+      organizationName: "",
+      startDateTime: "",
+      endDateTime: "",
+      contestVisibility: "",
+      participantLimit: 500,
+      registrationDeadline: "",
+    });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -44,10 +45,10 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
     <div className="contest-detail-filling">
       <LoadingOverlay
         active={loading}
-        text="Hold tight digesting the details..."
+        text="It will not take more than few seconds"
         spinner={
           <PulseLoader
-            color={"black"}
+            color={"var(--text-color)"}
             loading={true}
             size={15}
             margin={10}
@@ -101,7 +102,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               ]}
               ariaLabel="Select Organization type"
             />
-            
+
             <TextInputField
               label="Organisation Name"
               name="organizationName"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./AboutContest.css";
 import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
@@ -17,7 +17,8 @@ import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function AboutContest({ contestUrl }) {
-  const {current: user} = useUser()
+  const { current: user } = useUser();
+  const [loading, setLoading] = useState();
   const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "details/";
   const inputFields = [
     {
@@ -44,6 +45,7 @@ function AboutContest({ contestUrl }) {
     handleFileChange,
     imageUploadStatus,
   } = useFormHandler({
+    contest: 1,
     about: "",
     eligibility: "",
     others: "",
@@ -51,9 +53,10 @@ function AboutContest({ contestUrl }) {
     bannerImage: null,
   });
 
-  console.log("user", user)
   const handleAboutSubmit = async () => {
+    setLoading(true)
     const aboutFormData = new FormData();
+    aboutFormData.append("contest", aboutData.contest);
     aboutFormData.append("about", aboutData.about);
     aboutFormData.append("eligibility", aboutData.eligibility);
     aboutFormData.append("rules", aboutData.rules);
@@ -66,9 +69,10 @@ function AboutContest({ contestUrl }) {
         .then((snapshot) => {
           return getDownloadURL(snapshot.ref);
         })
-        .then( async (imageUrl) => {
+        .then(async (imageUrl) => {
           aboutFormData.append("contest_banner_image", imageUrl);
           await sendData(url, aboutFormData);
+          setLoading(false);
         })
         .catch((error) => {
           showSwalAlert({
@@ -83,11 +87,11 @@ function AboutContest({ contestUrl }) {
   return (
     <div>
       <LoadingOverlay
-        active={true}
-        text="Hold tight digesting the details..."
+        active={loading}
+        text="It will not take more than few seconds"
         spinner={
           <PulseLoader
-            color={"black"}
+            color={"var(--text-color)"}
             loading={true}
             size={15}
             margin={10}
@@ -96,48 +100,48 @@ function AboutContest({ contestUrl }) {
           />
         }
       >
-      <div className="about-contest">
-        <div className="about-contest-header">
-          <h2 style={{ fontWeight: 600 }}>About the Contest</h2>
-          <Link
-            to=""
-            style={{ textDecoration: "none", color: "var(--text-color)" }}
-          >
-            {contestUrl}www.codehut.com/hackHard
-          </Link>
-        </div>
-        <div className="about-form">
-          <Form>
-            <FileInputField
-              label="Contest Banner Image"
-              name="bannerImage"
-              onChange={(event) => handleFileChange(event, 1024 * 1024)}
-              required={false}
-              groupClass="mb-3 about-input-field"
-              labelClass="text-area-label"
-              controlClass="form-control-custom"
-              accept=".jpg, .png, .jpeg, .svg"
-              value={aboutData.bannerImage}
-              helperText="Please select a JPG, PNG, JPEG, or SVG file."
-              uploadStatus={imageUploadStatus}
-            />
-            {inputFields.map((field, index) => (
-              <TextAreaField
-                key={index}
-                label={field.label}
-                name={field.name}
-                value={aboutData[field.name]}
-                onChange={handleInputChange}
-                controlId={`ControlTextarea${index}`}
-                groupClass={"about-input-field"}
-                labelClass={"text-area-label"}
-                controlClass={"text-area-control"}
+        <div className="about-contest">
+          <div className="about-contest-header">
+            <h2 style={{ fontWeight: 600 }}>About the Contest</h2>
+            <Link
+              to=""
+              style={{ textDecoration: "none", color: "var(--text-color)" }}
+            >
+              {contestUrl}www.codehut.com/hackHard
+            </Link>
+          </div>
+          <div className="about-form">
+            <Form>
+              <FileInputField
+                label="Contest Banner Image"
+                name="bannerImage"
+                onChange={(event) => handleFileChange(event, 1024 * 1024)}
+                required={false}
+                groupClass="mb-3 about-input-field"
+                labelClass="text-area-label"
+                controlClass="form-control-custom"
+                accept=".jpg, .png, .jpeg, .svg"
+                value={aboutData.bannerImage}
+                helperText="Please select a JPG, PNG, JPEG, or SVG file."
+                uploadStatus={imageUploadStatus}
               />
-            ))}
-          </Form>
+              {inputFields.map((field, index) => (
+                <TextAreaField
+                  key={index}
+                  label={field.label}
+                  name={field.name}
+                  value={aboutData[field.name]}
+                  onChange={handleInputChange}
+                  controlId={`ControlTextarea${index}`}
+                  groupClass={"about-input-field"}
+                  labelClass={"text-area-label"}
+                  controlClass={"text-area-control"}
+                />
+              ))}
+            </Form>
+          </div>
         </div>
-      </div>
-      <ContestEditFooter saveChanges={handleAboutSubmit} />
+        <ContestEditFooter saveChanges={handleAboutSubmit} />
       </LoadingOverlay>
     </div>
   );

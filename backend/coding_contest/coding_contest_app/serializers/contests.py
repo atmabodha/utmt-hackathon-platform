@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from ..models import Contests, ContestDetails
+from ..models import ContestDetails, ContestPrizes, Contests
 
 class ContestsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,3 +22,9 @@ class ContestDetailsSerializer(serializers.ModelSerializer):
             'rules',
             'others'
         ]
+
+
+class ContestPrizesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContestPrizes
+        fields = ['contest', 'prize_position', 'prize_description', 'prize_amount', 'others']

@@ -7,8 +7,8 @@ function App() {
   return (
     <div>
       <UserProvider>
-        <ToastContainer />
-        <ApplicationRouter />
+          <ToastContainer />
+          <ApplicationRouter />
       </UserProvider>
     </div>
   );
