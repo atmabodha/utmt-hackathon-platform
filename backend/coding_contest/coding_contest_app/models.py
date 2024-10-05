@@ -252,6 +252,7 @@ class Samples(models.Model):
     problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
     sample_input = models.TextField()
     sample_output = models.TextField()
+    explanation = models.TextField(null=True, blank=True)
     sample_order = models.IntegerField(null=True, blank=True)
 
     class Meta:

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {TextInputField} from '../../../utilities/FormComponents';
-import { useNavigate, Link } from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import './Signup.css';
 import {Button} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
@@ -29,7 +29,7 @@ const SignUp = () => {
         navigate('/host');
       }
     } catch (e) {
-      console.log(e)
+      console.log (e);
     }
     setLoading(false);
 };

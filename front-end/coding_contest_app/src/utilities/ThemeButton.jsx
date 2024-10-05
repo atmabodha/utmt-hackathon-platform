@@ -35,7 +35,7 @@ const ThemeButton = () => {
       root.style.setProperty('--active-color', '#2EA043');
       root.style.setProperty('--bottom-border-color', 'rgb(250, 246, 246)');
       root.style.setProperty('--card-color', 'rgb(237, 231, 231)')
-      root.style.setProperty('--signup-card-color', 'rgb(219, 219, 160)')
+      root.style.setProperty('--signup-card-color', 'rgb(219, 219, 160')
     }
   };
 
