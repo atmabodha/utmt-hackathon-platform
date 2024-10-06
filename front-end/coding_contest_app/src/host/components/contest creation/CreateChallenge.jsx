@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import "./Challenge.css";
+import "./CreateChallenge.css";
 import ContestEditFooter from "./ContestEditFooter.jsx";
 import { useFormHandler } from "./FormHandlers.js";
 import {
@@ -9,7 +9,7 @@ import {
   SelectMultipleOptions,
 } from "../../../utilities/FormComponents.jsx";
 
-const Challenge = ({ contestUrl }) => {
+const CreateChallenge = ({ contestUrl }) => {
   const predefinedOptions = [
     { value: "frontend", label: "Frontend" },
     { value: "backend", label: "Backend" },
@@ -145,4 +145,4 @@ const Challenge = ({ contestUrl }) => {
   );
 };
 
-export default Challenge;
+export default CreateChallenge;

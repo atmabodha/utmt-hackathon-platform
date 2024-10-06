@@ -1,29 +1,35 @@
 import React from "react";
-import "./Prizes.css";
+import "./AddPrizes.css";
 import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import ContestEditFooter from "./ContestEditFooter";
 import { useFormHandler } from "./FormHandlers";
-import TextAreaField from "../../../utilities/FormComponents";
+import TextAreaField, { TextInputField } from "../../../utilities/FormComponents";
 import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 
-function Prizes({ contestUrl }) {
-  const inputFields = [
-    {
-      label: "Prize Position",
-      name: "prizePosition",
-    },
+function AddPrizes({ contestUrl }) {
+  const textAreaFields = [
     {
       label: "Prize Description",
       name: "prizeDescription",
     },
     {
-      label: "Prize Amount",
-      name: "prizeAmount",
-    },
-    {
       label: "Others",
       name: "others",
+    },
+  ];
+
+  const inputFields = [
+    {
+      label: "Prize Position",
+      name: "prizePosition",
+      type: "text"
+    },
+
+    {
+      label: "Prize Amount",
+      name: "prizeAmount",
+      type: "number"
     },
   ];
   const { formData: prizeData, handleInputChange } = useFormHandler({
@@ -59,7 +65,22 @@ function Prizes({ contestUrl }) {
         </div>
         <div className="prize-form">
           <Form>
-            {inputFields.map((field, index) => (
+          {inputFields.map((field, index) => (
+              <TextInputField
+                key={index}
+                type={field.type}
+                label={field.label}
+                name={field.name}
+                value={prizeData[field.name]}
+                onChange={handleInputChange}
+                controlId={`ControlTextarea${index}`}
+                groupClass={"prize-input-field"}
+                labelClass={"text-area-label"}
+                controlClass={"text-area-control"}
+              />
+            ))}
+
+            {textAreaFields.map((field, index) => (
               <TextAreaField
                 key={index}
                 label={field.label}
@@ -80,4 +101,4 @@ function Prizes({ contestUrl }) {
   );
 }
 
-export default Prizes;
+export default AddPrizes;

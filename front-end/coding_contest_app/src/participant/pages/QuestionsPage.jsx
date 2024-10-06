@@ -94,7 +94,7 @@ const QuestionsPage = () => {
             />
             <i className="fas fa-search search-icon"></i>
           </div>
-          {/* <button className="questions-download-btn">Download</button> */}
+          <button className="questions-download-btn">Download</button>
           <div className="questions">
             {filteredQuestions.map((q) => (
               <div
