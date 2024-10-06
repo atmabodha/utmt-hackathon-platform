@@ -127,6 +127,9 @@ class Problems(models.Model):
     output_format = models.TextField()
     constraints = models.TextField(null=True, blank=True)
     difficulty_level = models.CharField(max_length=50)
+    doc_references = models.TextField(null=True, blank=True)
+    weightage = models.IntegerField(default=10)
+    tags = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
