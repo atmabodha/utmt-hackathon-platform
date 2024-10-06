@@ -14,6 +14,7 @@ import SignUp from "./host/components/signup/Signup.jsx";
 import SelectedChallenges from "./host/components/contest creation/SelectedChallenges.jsx";
 import CreateChallenge from "./host/components/contest creation/CreateChallenge.jsx";
 import AddPrizes from "./host/components/contest creation/AddPrizes.jsx";
+import Prizes from "./host/components/contest creation/Prizes.jsx";
 
 function ApplicationRouter() {
   return (
@@ -50,9 +51,10 @@ function ApplicationRouter() {
             }
           />
           <Route path="about" element={<AboutContest />} />
-          <Route path="challenge" element={<SelectedChallenges/>} />
+          <Route path="challenge" element={<SelectedChallenges />} />
           <Route path="prizes" element={<AddPrizes />} />
           <Route path="create/challenge" element={<CreateChallenge />} />
+          <Route path="create/prizes" element={<Prizes />} />
         </Route>
       </Routes>
     </Router>
