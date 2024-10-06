@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from ..serializers.contests import ContestDetailsSerializer, ContestPrizesSerializer,ContestsSerializer
+from ..serializers.contests import ContestDetailsSerializer, ContestPrizesSerializer, ContestsSerializer, ContestChallengesSerializer
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from datetime import datetime
@@ -52,3 +52,21 @@ class ContestsPrizesView(APIView):
             return Response({'status': 'success', 'message': 'updated about page successfully'}, status=200)
         else:
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
+        
+
+class ContestsChallengesView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    def post(self, request, *args, **kwargs):
+        data = request.data.copy()
+        data['weightage'] = int(data['weightage'])
+        print(type(data))
+        print(data['tags'])
+        serializer = ContestChallengesSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'message': 'Challenge added successfully'}, status=200)
+        else:
+            print(serializer.data)
+            print(serializer.errors)
+            return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
+        
