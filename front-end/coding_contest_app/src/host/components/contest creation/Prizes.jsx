@@ -38,8 +38,8 @@ function Prizes({ contestUrl }) {
     const prizeFormData = new FormData();
     prizeFormData.append("contest", prizeData.contest);
     prizeFormData.append("prize_position", prizeData.prizePosition);
-    prizeFormData.append("prizeDescription", prizeData.prizeDescription);
-    prizeFormData.append("prizeAmount", prizeData.prizeAmount);
+    prizeFormData.append("prize_description", prizeData.prizeDescription);
+    prizeFormData.append("prize_amount", prizeData.prizeAmount);
     prizeFormData.append("others", prizeData.others);
     const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/prizes/";
     await sendData(url, prizeFormData);

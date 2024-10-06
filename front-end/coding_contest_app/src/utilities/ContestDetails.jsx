@@ -3,7 +3,7 @@ import { Image } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarCheck, faCalendarAlt, faUniversity, faCalendarTimes, faMapMarkerAlt, faListOl, faInfoCircle, faClock, faUserFriends, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import "./styles/ContestDetails.css";
-import img1 from "../media/contest detailes/contestDetailbg.jpeg";
+import img1 from "../media/contest detailes/ban2.png";
 import img2 from "../media/contest_images/coding.png";
 import Header from "../host/components/header/Header";
 
