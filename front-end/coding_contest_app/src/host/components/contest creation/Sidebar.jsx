@@ -10,8 +10,8 @@ function Sidebar({ contestName }) {
   const links = [
     { label: "Basic Contest Details", to: "basic details" },
     { label: "About the Contest", to: "about" },
-    { label: "Challenges", to: "challenge" },
-    { label: "Prizes", to: "create/prizes" },
+    { label: "Challenges", to: "challenges" },
+    { label: "Prizes", to: "prizes" },
     { label: "Analytics", to: "" },
     { label: "Delete contest", to: "" },
   ];

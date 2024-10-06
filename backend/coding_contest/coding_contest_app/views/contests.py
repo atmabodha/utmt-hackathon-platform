@@ -19,14 +19,13 @@ class ContestsRegistrationView(APIView):
                 data['registration_deadline'] = datetime.strptime(data['registration_deadline'], '%a %b %d %Y %H:%M:%S GMT%z').isoformat()
         except ValueError as e:
             return Response({"status": "error", "message": f"Date format error: {str(e)}"}, status=400)
-        data['host'] = int(data['host'])
         serializer = ContestsSerializer(data=data)
         print("data", data)
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "message": "Contest has been created successfully"}, status=201)
         
-        print("vlidation" , serializer.errors)
+        print("vlAidation" , serializer.errors)
         return Response({"status": "error", "message": "Internal Server Error"}, status=500)
 
 

@@ -30,7 +30,7 @@ const SignUp = () => {
       );
       console.log("signup", userCredentials);
       if (userCredentials) {
-        navigate("/host");
+        navigate("/administration/dashboard");
       }
     } catch (e) {
       console.log(e);

@@ -1,0 +1,150 @@
+/* General contests list container */
+.contests-list {
+    background-color: var(--background-color);
+    width: 100%;
+    padding: 100px;
+    color: var(--text-color);
+    height: 100vh;
+  }
+  
+  .contests-list-header {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  .contests-search-container {
+    position: relative;
+    margin-top: 50px;
+    width: 100%;
+    margin-left: 70%;
+    bottom: 30px;
+}
+.contests-s-b {
+  width: 100%;
+  padding: 15px 45px 15px 15px;
+  border-radius: 40px;
+  background-color: #f2e9e9;
+  font-family: var(--font-family);
+  border: none;
+}
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #333;
+  cursor: pointer;
+}
+  /* Table container */
+  .table-container {
+    padding: 20px;
+    background-color: var(--card-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 50px auto;
+  }
+  
+  /* Centered heading and aligned add button */
+  .table-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .add-btn {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-btn:hover {
+    background-color: #1976d2;
+  }
+  
+  /* Table styling */
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .custom-table th {
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .custom-table tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+  }
+  
+  .custom-table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button styling for actions */
+  .edit-btn,
+  .delete-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  .edit-btn {
+    padding: 8px 23px;
+  }
+  
+  .delete-btn {
+    background-color: #f44336;
+  }
+  
+  .edit-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+  
+  .delete-btn:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .custom-table th,
+    .custom-table td {
+      padding: 10px;
+      font-size: 14px;
+    }
+  
+    .edit-btn,
+    .delete-btn {
+      padding: 6px 10px;
+    }
+  
+    .add-btn {
+      padding: 8px 12px;
+    }
+  }
+  

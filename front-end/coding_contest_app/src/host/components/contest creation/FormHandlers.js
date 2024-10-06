@@ -54,8 +54,10 @@ export const useFormHandler = (initialState) => {
 
 export const useContestRegistrationSubmit = (url) => {
   const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (formData) => {
+  const [isSuccessful, setIsSuccessful] = useState(false)
+  
+  const handleSubmit = async (formData, host) => {
+    setLoading(true);
     if (!formData.startDateTime) {
       document.querySelector(".start-date input").focus();
       return;
@@ -74,7 +76,7 @@ export const useContestRegistrationSubmit = (url) => {
     }
 
     let formDataToSend = new FormData();
-    formDataToSend.append("host", formData.host);
+    formDataToSend.append("host", host);
     formDataToSend.append("contest_name", formData.contestName);
     formDataToSend.append("organization_type", formData.organizationType);
     formDataToSend.append("organization_name", formData.organizationName);
@@ -86,9 +88,7 @@ export const useContestRegistrationSubmit = (url) => {
       "registration_deadline",
       formData.registrationDeadline
     );
-
-    setLoading(true);
-    await sendData(url, formDataToSend);
+    const response = await sendData(url, formDataToSend);
     setLoading(false);
   };
 

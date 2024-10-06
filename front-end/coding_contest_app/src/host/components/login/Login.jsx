@@ -24,7 +24,7 @@ const Login = () => {
       const userCredentials = await login(loginData.email, loginData.password);
       console.log("user login page usercredentials", userCredentials);
       if (userCredentials) {
-        navigate("/host");
+        navigate("/administration/dashboard");
       }
     } catch (e) {
       console.log(e);

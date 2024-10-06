@@ -2,24 +2,24 @@
   "host": {
     "brandData": {
       "name": "Code Hut",
-      "linksTo": "dashboard"
+      "linksTo": "administration/dashboard"
     },
     "pages": [
       {
-        "name": "Leaderboard",
-        "linksTo": "leaderboard"
+        "name": "Leaderboards",
+        "linksTo": "administration/leaderboard"
       },
       {
-        "name": "Host",
-        "linksTo": "host"
+        "name": "Host Contest",
+        "linksTo": "administration/contests/create"
       },
       {
-        "name": "Submissions",
-        "linksTo": "submissions"
+        "name": "Manage Contests",
+        "linksTo": "administration/contests"
       },
       {
-        "name": "Analytics",
-        "linksTo": "analytics"
+        "name": "Participate",
+        "linksTo": "participate"
       },
       {
         "name": "Support",
@@ -30,7 +30,7 @@
   "participant": {
     "brandData": {
       "name": "Code Hut",
-      "linksTo": "participant dashboard"
+      "linksTo": "dashboard"
     },
     "pages": [
       {
@@ -38,8 +38,8 @@
         "linksTo": "leaderboard"
       },
       {
-        "name": "Participate",
-        "linksTo": "participate"
+        "name": "Host Contest",
+        "linksTo": "administration/contest/create"
       },
       {
         "name": "Submissions",
@@ -90,7 +90,7 @@
     },
     {
       "name": "Logout",
-      "linksTo": "logout"
+      "linksTo": ""
     }
   ]
 }

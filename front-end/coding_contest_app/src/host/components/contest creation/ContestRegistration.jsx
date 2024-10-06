@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -18,14 +18,18 @@ import {
   HOST_ENDPOINT,
   CONTESTS,
 } from "../../../Constants.js";
+import { useUser } from "../../../context/user.jsx";
+import { useNavigate } from "react-router-dom";
+import showSwalAlert from "../../../utilities/AlertComponents.jsx";
 
 const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
+  const {current: user} = useUser()
+  console.log("in regist", user?.uid)
+  const navigate = useNavigate();
   const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/";
-  console.log("url--------", url);
-  const { loading, handleSubmit } = useContestRegistrationSubmit(url);
+  const { loading, handleSubmit} = useContestRegistrationSubmit(url);
   const { formData, handleInputChange, handleOtherInputChange } =
     useFormHandler({
-      host: 2,
       contestName: "",
       organizationType: "",
       organizationName: "",
@@ -38,7 +42,15 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    handleSubmit(formData);
+    if (user?.uid) {
+      handleSubmit(formData, user.uid);
+    }    
+    if (isRegistration){
+      navigate("/administration/contests/edit");
+    }else{
+      showSwalAlert({ icon: "success", title: "Saved", text: "Details has been updated!" });
+
+    }
   };
 
   return (

@@ -45,8 +45,8 @@ export function UserProvider(props) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const signupData = new FormData();
-      signupData.append("user_id", "userCredential.user.uid")
-      signupData.append("emsil", email)
+      signupData.append("user_id", userCredential.user.uid)
+      signupData.append("email", email)
       signupData.append("name", name)
       await sendData(baseUrl, signupData)
       return userCredential;
@@ -56,8 +56,8 @@ export function UserProvider(props) {
     }
   }
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+  useEffect( () => {
+    const unsubscribe =  onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
         showSwalAlert({ icon: "success", title: "Welcome!", text: "You are already logged in." });

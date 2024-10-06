@@ -55,7 +55,7 @@ function AddPrizes({ contestUrl }) {
     <div>
       <div className="prize-contest">
         <div className="prize-contest-header">
-          <h2 style={{ fontWeight: 600 }}>Prizes</h2>
+          <h2 style={{ fontWeight: 600 }}>Add Prize</h2>
           <Link
             to=""
             style={{ textDecoration: "none", color: "var(--text-color)" }}

@@ -15,6 +15,7 @@ import SelectedChallenges from "./host/components/contest creation/SelectedChall
 import CreateChallenge from "./host/components/contest creation/CreateChallenge.jsx";
 import AddPrizes from "./host/components/contest creation/AddPrizes.jsx";
 import Prizes from "./host/components/contest creation/Prizes.jsx";
+import HostedContests from "./host/components/contests/HostedContests.jsx";
 
 function ApplicationRouter() {
   return (
@@ -22,16 +23,16 @@ function ApplicationRouter() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<HostDashboard />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/host" element={<ContestCreation />} />
+        <Route path="/administration/dashboard" element={<HostDashboard />} />
+        <Route path="/administration/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/administration/contests/create" element={<ContestCreation />} />
         <Route path="/submissions" element={<ContestDetails />} />
         <Route path="/support" element={<NotFound />} />
         <Route path="/profile" element={<NotFound />} />
         <Route path="/settings" element={<NotFound />} />
         <Route path="/questions" element={<QuestionsPage />} />
-        <Route path="/logout" element={<NotFound />} />
-        <Route path="/analytics/" element={<ContestEdit />}>
+        <Route path="/administration/create/challenge" element={<CreateChallenge />} />
+        <Route path="/administration/contests/edit" element={<ContestEdit />}>
           <Route
             index
             element={
@@ -51,11 +52,14 @@ function ApplicationRouter() {
             }
           />
           <Route path="about" element={<AboutContest />} />
-          <Route path="challenge" element={<SelectedChallenges />} />
-          <Route path="prizes" element={<AddPrizes />} />
-          <Route path="create/challenge" element={<CreateChallenge />} />
-          <Route path="create/prizes" element={<Prizes />} />
+          <Route path="challenges" element={<SelectedChallenges />} />
+          <Route path="prizes" element={<Prizes />} />
+          
+          <Route path="create/prizes" element={<AddPrizes />} />
+          
         </Route>
+        <Route path="administration/create/challenge" element={<CreateChallenge />} />
+        <Route path="administration/contests" element={<HostedContests />} />
       </Routes>
     </Router>
   );

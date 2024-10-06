@@ -4,7 +4,7 @@ import "./SelectedChallenges.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const SelectedChallenges = ({ contestUrl }) => {
-const navigate  = useNavigate()
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCard, setExpandedCard] = useState(null);
 
@@ -84,8 +84,23 @@ const navigate  = useNavigate()
   };
 
   const handleAddChallenge = () => {
-    navigate("/analytics/create/challenge")
-  }
+    const newTab = window.open("/administration/create/challenge", "_blank");
+
+    // Create an event listener to listen for the form submission message
+    const handleMessage = (event) => {
+      // Ensure it's the message you're expecting
+      if (event.data === "formSubmitted") {
+        // Close the new tab after form submission
+        newTab.close();
+
+        // Navigate back to the current page or some other page
+        navigate("/administration/contests/edit/challenges"); // Change '/current-page' to the route you want to go back to
+      }
+    };
+
+    // Add the event listener
+    window.addEventListener("message", handleMessage, false);
+  };
 
   return (
     <>
@@ -111,7 +126,9 @@ const navigate  = useNavigate()
             <i className="fas fa-search search-icon"></i>
           </div>
           <div className="questions-add">
-            <button className="questions-add-btn" onClick={handleAddChallenge}>Add Challenge</button>
+            <button className="questions-add-btn" onClick={handleAddChallenge}>
+              Add Challenge
+            </button>
           </div>
           <div className="questions">
             {filteredQuestions.map((q) => (

@@ -26,7 +26,7 @@ const ContestDetails = () => {
   return (
     <>
       <div className="contest-detail-page">
-        <Header headerType={"participant"} />
+        <Header headerType={"host"} />
         <div className="contest-details">
           <div className="contest-details-images">
             <div className="image1-div">
