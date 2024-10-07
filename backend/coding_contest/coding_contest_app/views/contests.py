@@ -41,7 +41,6 @@ class ContestsDetailsView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, *args, **kwargs):
         serializer = ContestDetailsSerializer(data=request.data)
-
         if serializer.is_valid():
             serializer.save()
             return Response({'status': 'success', 'message': 'updated contest details successfully'}, status=201)
