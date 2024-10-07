@@ -8,6 +8,7 @@
     font-family: var(--font-family);
     font-weight: 900;
     padding-bottom: 50px;
+    /* height: 100vh; */
   }
   .css-13cymwt-control {
     background-color: black !important;

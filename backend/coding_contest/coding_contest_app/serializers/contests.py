@@ -9,6 +9,7 @@ class ContestsCreateUpdateSerializer(serializers.ModelSerializer):
                   'start_date_time', 'end_date_time', 'contest_visibility',
                   'participant_limit', 'registration_deadline']
         
+        
 class ContestViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contests
@@ -36,14 +37,15 @@ class ContestPrizesSerializer(serializers.ModelSerializer):
         fields = ['contest', 'prize_position', 'prize_description', 'prize_amount', 'others']
 
 
-class ContestChallengesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Problems
-        fields = ['host', 'name', 'description', 'input_format', 'output_format', 
-                  'constraints', 'difficulty_level', 'doc_references', 'weightage', 'tags']
-
-
 class ContestProblemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContestProblems
         fields = ['contest', 'problem', 'order_of_problem_in_contest', 'weightage']
+
+
+### Problems Serialiser
+class ProblemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Problems
+        fields = ['host', 'name', 'description', 'input_format', 'output_format', 
+                  'constraints', 'difficulty_level', 'doc_references', 'weightage', 'tags']

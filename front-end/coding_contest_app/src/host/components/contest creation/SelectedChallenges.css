@@ -3,6 +3,7 @@
     width: 100%;
     padding: 100px;
     color: var(--text-color);
+    height: 100vh;
 }
 .selected-questions-header {
     width: fit-content;

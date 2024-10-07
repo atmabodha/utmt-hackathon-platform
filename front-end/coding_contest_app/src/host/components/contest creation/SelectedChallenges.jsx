@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SelectedChallenges.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 import { useParams } from "react-router-dom";
 import { getData } from "../../apis/ApiRequests";
@@ -12,18 +11,37 @@ import { getData } from "../../apis/ApiRequests";
 const SelectedChallenges = ({ contestUrl }) => {
   const { contestId } = useParams();
   const navigate = useNavigate();
+  const [problems, setProblems] = useState()
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCard, setExpandedCard] = useState(null);
   const [questions, setQuestions] = useState([]);
   const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/"
   
+  // useEffect(() => {
+  //   const fetchProblems = async () => {
+  //     try {
+  //       const response = await getData(url);
+  //       const data = response.data;
+  //       if (data){
+  //         setQuestions(data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching problems:", error);
+  //     }
+  //   };
+
+  //   fetchProblems();
+  // }, [contestId]);
+
   useEffect(() => {
     const fetchProblems = async () => {
       try {
+        const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/challenge/"
         const response = await getData(url);
-        const data = response.data;
+        const data = response.data.data;
         if (data){
-          setQuestions(data);
+          setProblems(data);
+          console.log("listed", data)
         }
       } catch (error) {
         console.error("Error fetching problems:", error);
@@ -31,7 +49,7 @@ const SelectedChallenges = ({ contestUrl }) => {
     };
 
     fetchProblems();
-  }, [contestId]);
+  }, []);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);

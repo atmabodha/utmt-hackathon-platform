@@ -4,3 +4,4 @@ backend/coding_contest/coding_contest/__pycache__
 */*token.json
 */*google_credentials.json
 **/.vscode/
+__pycache__/

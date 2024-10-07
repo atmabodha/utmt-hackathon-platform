@@ -1,12 +1,13 @@
 from rest_framework.views import APIView
-from ..serializers.contests import ContestDetailsSerializer, ContestPrizesSerializer, ContestsCreateUpdateSerializer, ContestViewSerializer, ContestChallengesSerializer, ContestProblemsSerializer
+from ..serializers.contests import ContestDetailsSerializer, ContestPrizesSerializer, ContestsCreateUpdateSerializer, ContestViewSerializer,  ContestProblemsSerializer, ProblemsSerializer
 from rest_framework.response import Response
+from django.core import serializers
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import Contests, ContestProblems
+from ..models import Contests, ContestProblems, ContestDetails, Problems
 from datetime import datetime
 
 
-class ContestsRegistrationView(APIView):
+class ContestCreateUpdateView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     
     def post(self, request, *args, **kwargs):
@@ -23,6 +24,7 @@ class ContestsRegistrationView(APIView):
         serializer = ContestsCreateUpdateSerializer(data=data)
         if serializer.is_valid():
             contest = serializer.save()
+            ContestDetails.objects.create(contest=contest)
             return Response({"status": "success", "message": "Contest has been created successfully", "data": contest.contest_id}, status=201)
         
         print("vlAidation" , serializer.errors)
@@ -48,6 +50,43 @@ class ContestsDetailsView(APIView):
             print(serializer.errors)
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
 
+    def get(self, request, user_id, *args, **kwargs):
+        try:
+            contests = Contests.objects.filter(host=user_id).prefetch_related('details')  # Prefetch related contest details
+            contest_data = []
+            for contest in contests:
+                contest_dict = {
+                    "contest_id": contest.contest_id,
+                    "host": contest.host.user_id,
+                    "contest_name": contest.contest_name,  # Assuming "contest_name" is equivalent to the title of the contest
+                    "organization_type": contest.organization_type,
+                    "organization_name": contest.organization_name,
+                    "start_date_time": contest.start_date_time,
+                    "end_date_time": contest.end_date_time,
+                    "contest_visibility": contest.contest_visibility,  # Assuming contest_visibility exists in the Contest model
+                    "participant_limit": contest.participant_limit,
+                    "registration_deadline": contest.registration_deadline,
+                    "created_at": contest.contest_created_at,
+                    "updated_at": contest.contest_updated_at,
+                    "about": contest.details.about,
+                    "eligibility": contest.details.eligibility,
+                    "contest_banner_image": contest.details.contest_banner_image,
+                    'contest_default_banner_image': contest.details.contest_default_banner_image,
+                    "rules": contest.details.rules,
+                    "others": contest.details.others
+                }
+                contest_data.append(contest_dict)
+
+            print(contest_data)
+            return Response({
+                'status': 'success',
+                'message': 'Contests fetched successfully',
+                'data': contest_data
+            }, status=200)
+        except Exception as e:
+            return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)
+
+
 class ContestsProblemsView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, *args, **kwargs):
@@ -60,10 +99,8 @@ class ContestsProblemsView(APIView):
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
 
     def get(self, request, contest_id, *args, **kwargs):
-
-        contests = Contests.objects.all()
         try:
-            problems = ContestProblems.objects.filter(contest__id=contest_id)
+            problems = ContestProblems.objects.filter(contest=contest_id)
             serializer = ContestProblemsSerializer(problems, many=True) 
             return Response({'status': 'success', 'message': 'Contest fetched successfully', 'data': serializer.data}, status=200)
         except:
@@ -81,21 +118,26 @@ class ContestsPrizesView(APIView):
         else:
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
 
-class ContestsChallengesView(APIView):
+class ProblemsCreateUpdateView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
         data['weightage'] = int(data['weightage'])
-        print(type(data))
-        print(data['tags'])
-        serializer = ContestChallengesSerializer(data=data)
+        serializer = ProblemsSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({'status': 'success', 'message': 'Challenge added successfully'}, status=200)
         else:
-            print(serializer.data)
-            print(serializer.errors)
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
+    
+    def get(self, request, *args, **kwargs):
+        problems = Problems.objects.all()
+        try:
+            serializer = ProblemsSerializer(problems, many=True)
+            print(serializer.data)
+            return Response({'status': 'success', 'message': 'Contest fetched successfully', 'data': serializer.data}, status=200)
+        except:
+            return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)
 
 class ContestsView(APIView):
     parser_classes = [MultiPartParser, FormParser]
@@ -104,7 +146,7 @@ class ContestsView(APIView):
         data['weightage'] = int(data['weightage'])
         print(type(data))
         print(data['tags'])
-        serializer = ContestChallengesSerializer(data=data)
+        serializer = ProblemsSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({'status': 'success', 'message': 'Challenge added successfully'}, status=200)
