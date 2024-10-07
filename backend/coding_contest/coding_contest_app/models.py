@@ -87,8 +87,8 @@ class Contests(models.Model):
 
 class ContestDetails(models.Model):
     contest = models.OneToOneField(Contests, on_delete=models.CASCADE, primary_key=True)
-    contest_banner_image = models.URLField(null=True, blank=True)
-    contest_default_banner_image = models.URLField(null=True, blank=True)
+    contest_banner_image = models.URLField(null=True, blank=True, max_length=500)  # Increase the length
+    contest_default_banner_image = models.URLField(null=True, blank=True, max_length=500)
     about = models.TextField(null=True, blank=True)
     eligibility = models.TextField(null=True, blank=True)
     rules = models.TextField(null=True, blank=True)
@@ -99,7 +99,7 @@ class ContestDetails(models.Model):
         verbose_name = 'Contest Details'
 
     def __str__(self):
-        return f"Details of Contest {self.contest_id}"
+        return f"Details of Contest {self.contest}"
 
 
 class ContestPrizes(models.Model):

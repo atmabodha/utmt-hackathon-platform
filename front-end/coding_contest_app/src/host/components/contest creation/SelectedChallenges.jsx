@@ -3,18 +3,38 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SelectedChallenges.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Swal from 'sweetalert2';
-import axios from 'axios'; 
+import axios from 'axios';
+import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
+
 
 const SelectedChallenges = ({ contestUrl }) => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCard, setExpandedCard] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const [contestData, setContestData] = useState(null);
+  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS
+  useEffect(() => {
+    // Define an async function inside the useEffect
+    const fetchData = async () => {
+      try {
+        const response = await getData(url); // Wait for the async function to resolve
+        const data = response.data;
+        if (data) {
+          setContestData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [url]);
 
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get(`/api/contests/${contestId}/problems`);
+        const response = await axios.get(`/api/contests/12/problems`);
         setQuestions(response.data);
       } catch (error) {
         console.error("Error fetching problems:", error);
@@ -22,7 +42,7 @@ const SelectedChallenges = ({ contestUrl }) => {
     };
 
     fetchProblems();
-  }, [contestId]);
+  }, []);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);

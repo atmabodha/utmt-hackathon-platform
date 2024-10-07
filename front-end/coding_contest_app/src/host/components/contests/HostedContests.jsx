@@ -1,33 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./HostedContests.css";
 import { Link } from "react-router-dom";
 import Header from "../header/Header";
+import { getData } from "../../apis/ApiRequests";
+import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 
 const HostedContests = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      position: "Manager",
-      description: "Oversees operations",
-      amount: "$4000",
-      others: "Full-time",
-    },
-    {
-      id: 2,
-      position: "Developer",
-      description: "Builds software",
-      amount: "$3000",
-      others: "Remote",
-    },
-    {
-      id: 3,
-      position: "Designer",
-      description: "Designs UI/UX",
-      amount: "$3500",
-      others: "Freelance",
-    },
-  ]);
+  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS
+  const [contestData, setContestData] = useState(null);
+  useEffect(() => {
+    // Define an async function inside the useEffect
+    const fetchData = async () => {
+      try {
+        const response = await getData(url); // Wait for the async function to resolve
+        const data = response.data;
+        if (data) {
+          setContestData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
+    fetchData();
+  }, [url]);
+
+  console.log("data", contestData)
   return (
     <div className="contests-page">
       <Header headerType={"host"} />
@@ -54,12 +52,13 @@ const HostedContests = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => (
-              <tr key={row.id}>
-                <td>{row.position}</td>
-                <td>{row.description}</td>
-                <td>{row.amount}</td>
-                <td>{row.others}</td>
+            {contestData ? contestData.map((row, index) => (
+              <tr key={index}>
+                <td>{row.contest_name}</td>
+                <td>{row.start_date_time}</td>
+                <td>{row.end_date_time}</td>
+                <td>{row.registration_deadline}</td>
+                <td>{row.contest_visibility}</td>
                 <td>
                   <button className="edit-btn">
                     <Link
@@ -72,7 +71,7 @@ const HostedContests = () => {
                   <button className="delete-btn">Delete</button>
                 </td>
               </tr>
-            ))}
+            )) : ""}
           </tbody>
         </table>
       </div>
