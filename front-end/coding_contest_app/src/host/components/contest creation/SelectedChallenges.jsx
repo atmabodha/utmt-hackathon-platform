@@ -2,61 +2,27 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SelectedChallenges.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import Swal from 'sweetalert2';
+import axios from 'axios'; 
 
 const SelectedChallenges = ({ contestUrl }) => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCard, setExpandedCard] = useState(null);
+  const [questions, setQuestions] = useState([]);
 
-  const questions = [
-    {
-      id: 1,
-      title: "Max Pair sum",
-      statement: `Given an array of distinct integers A, find the largest sum of any pair of elements.`,
-      input: `
-      6 
-      1 2 3 89 4 10`,
-      output: `99
-      and so on. The largest sum out of these pairs is 99.`,
-    },
-    {
-      id: 2,
-      title: "Find pair in an array with given sum",
-      statement: `Given an array of integers A and an integer S, determines whether there exist two elements in the array whose sum is exactly equal to S.`,
-      input: `
-      6 
-      5 
-      1 -2 3 8 7`,
-      output: `1`,
-    },
-    {
-      id: 3,
-      title: "Largest sum of contiguous sub-array",
-      statement: `Given an array of integers A. Find the largest sum of contiguous elements in a sub-array of an array.`,
-      input: `
-      5 
-      -20 -12 42 -10 25`,
-      output: `57`,
-    },
-    {
-      id: 4,
-      title: "Leaders in an array",
-      statement: `Given an array of integers A. Find all the Leaders(An element is a leader if it is greater than all the elements to its right side. The rightmost is always a leader).`,
-      input: `
-      5 
-      9 0 5 6 4 `,
-      output: `3`,
-    },
-    {
-      id: 5,
-      title: "Rotate an array to left side",
-      statement: `Given an array of integers, write a program to rotate the array to the left side K times.`,
-      input: `
-      10 
-      10 20 30 40 50 60 70 80 90 100 `,
-      output: `40 50 60 70 80 90 100 10 20 30`,
-    },
-  ];
+  useEffect(() => {
+    const fetchProblems = async () => {
+      try {
+        const response = await axios.get(`/api/contests/${contestId}/problems`);
+        setQuestions(response.data);
+      } catch (error) {
+        console.error("Error fetching problems:", error);
+      }
+    };
+
+    fetchProblems();
+  }, [contestId]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -83,24 +49,63 @@ const SelectedChallenges = ({ contestUrl }) => {
     setExpandedCard(expandedCard === id ? null : id);
   };
 
-  const handleAddChallenge = () => {
+  const handleCreateChallenge = () => {
     const newTab = window.open("/administration/create/challenge", "_blank");
-
     // Create an event listener to listen for the form submission message
     const handleMessage = (event) => {
       // Ensure it's the message you're expecting
       if (event.data === "formSubmitted") {
         // Close the new tab after form submission
         newTab.close();
-
         // Navigate back to the current page or some other page
         navigate("/administration/contests/edit/challenges"); // Change '/current-page' to the route you want to go back to
       }
     };
-
     // Add the event listener
     window.addEventListener("message", handleMessage, false);
   };
+
+  const handleAddChallenge = () => {
+    Swal.fire({
+      title: 'Add Problems to Contest',
+      html: `
+        <input id="contest-name" class="swal2-input custom-input" placeholder="Name of Contest" />
+        <input id="contest-score" class="swal2-input custom-input" placeholder="Score of Contest" />
+        <input id="contest-tag" class="swal2-input custom-input" placeholder="Tag of Contest" />
+      `,
+      focusConfirm: false,
+      showCancelButton: true,
+      reverseButtons: true, // This places "OK" to the right of "Cancel"
+      preConfirm: () => {
+        const name = document.getElementById('contest-name').value;
+        const score = document.getElementById('contest-score').value;
+        const tag = document.getElementById('contest-tag').value;
+  
+        // Ensure all fields are filled
+        if (!name || !score || !tag) {
+          Swal.showValidationMessage('All fields are required!');
+          return false;
+        }
+  
+        return { name, score, tag };
+      },
+      customClass: {
+        confirmButton: 'swal2-ok-btn',
+        cancelButton: 'swal2-cancel-btn'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const { name, score, tag } = result.value;
+  
+        // Logic to handle adding the problem to the contest
+        console.log(`Problem added with Name: ${name}, Score: ${score}, Tag: ${tag}`);
+  
+        // Example: Navigate to another page after adding the challenge
+        navigate('/administration/contests/edit/challenges');
+      }
+    });
+  };
+  
 
   return (
     <>
@@ -126,6 +131,14 @@ const SelectedChallenges = ({ contestUrl }) => {
             <i className="fas fa-search search-icon"></i>
           </div>
           <div className="questions-add">
+            <div className="question-create-txt">
+              <p>To create your own problem. Click <a
+                href="/administration/create/challenge"
+                target="_blank"
+                onClick={handleCreateChallenge}>
+                Here
+              </a>
+              </p></div>
             <button className="questions-add-btn" onClick={handleAddChallenge}>
               Add Challenge
             </button>
