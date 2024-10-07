@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AboutContest.css";
 import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
@@ -9,43 +9,36 @@ import TextAreaField, {
 } from "../../../utilities/FormComponents";
 import { HOST_ENDPOINT, BASE_SERVER_URL, CONTESTS } from "../../../Constants";
 import { sendData } from "../../apis/ApiRequests";
-import { storage } from "../../../firebase/firebase"; // Import the firebase configuration
+import { storage } from "../../../firebase/firebase";
 import showSwalAlert from "../../../utilities/AlertComponents";
 import { useUser } from "../../../context/user";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
+import { useParams } from "react-router-dom";
 
 function AboutContest({ contestUrl }) {
+  const { contestId } = useParams();
   const { current: user } = useUser();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
+  console.log(contestId);
   const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/details/";
-  const inputFields = [
-    {
-      label: "About",
-      name: "about",
-    },
-    {
-      label: "Eligibility",
-      name: "eligibility",
-    },
-    {
-      label: "Rules",
-      name: "rules",
-    },
-    {
-      label: "Others",
-      name: "others",
-    },
-  ];
 
+  // Input fields definition
+  const inputFields = [
+    { label: "About", name: "about" },
+    { label: "Eligibility", name: "eligibility" },
+    { label: "Rules", name: "rules" },
+    { label: "Others", name: "others" },
+  ];
+  // Form handler for input fields
   const {
     formData: aboutData,
     handleInputChange,
     handleFileChange,
     imageUploadStatus,
   } = useFormHandler({
-    contest: 1,
+    contest: "",
     about: "",
     eligibility: "",
     others: "",
@@ -53,35 +46,52 @@ function AboutContest({ contestUrl }) {
     bannerImage: null,
   });
 
+  // Function to handle form submission
   const handleAboutSubmit = async () => {
-    setLoading(true);
+    setLoading(true); // Set loading to true at the start
     const aboutFormData = new FormData();
-    aboutFormData.append("contest", aboutData.contest);
+    aboutFormData.append("contest", contestId);
     aboutFormData.append("about", aboutData.about);
     aboutFormData.append("eligibility", aboutData.eligibility);
     aboutFormData.append("rules", aboutData.rules);
     aboutFormData.append("others", aboutData.others);
 
+    // Handle banner image upload if available
     if (aboutData.bannerImage) {
       const uniqueImageName = user?.uid + aboutData.bannerImage.name;
       const storageRef = ref(storage, `images/${uniqueImageName}`);
-      uploadBytes(storageRef, aboutData.bannerImage)
-        .then((snapshot) => {
-          return getDownloadURL(snapshot.ref);
-        })
-        .then(async (imageUrl) => {
-          console.log("isfsfsfds", imageUrl);
-          aboutFormData.append("contest_banner_image", imageUrl);
-          await sendData(url, aboutFormData);
-          setLoading(false);
-        })
-        .catch((error) => {
-          showSwalAlert({
-            icon: "error",
-            title: error.code,
-            text: error.message,
-          });
+
+      try {
+        const snapshot = await uploadBytes(storageRef, aboutData.bannerImage);
+        const imageUrl = await getDownloadURL(snapshot.ref);
+        aboutFormData.append("contest_banner_image", imageUrl);
+      } catch (error) {
+        showSwalAlert({
+          icon: "error",
+          title: "Image Upload Error",
+          text: "Failed to upload contest banner image. Please try again.",
         });
+        setLoading(false);
+        return; // Stop further execution if image upload fails
+      }
+    }
+
+    // Send form data to the backend
+    try {
+      await sendData(url, aboutFormData);
+      showSwalAlert({
+        icon: "success",
+        title: "Success",
+        text: "Contest details updated successfully!",
+      });
+    } catch (error) {
+      showSwalAlert({
+        icon: "error",
+        title: "Submission Error",
+        text: "Failed to submit contest details. Please try again.",
+      });
+    } finally {
+      setLoading(false); // Always set loading to false after submission
     }
   };
 

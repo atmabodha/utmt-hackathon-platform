@@ -21,18 +21,30 @@ function ApplicationRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HostedContests />} />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/administration/dashboard" element={<HostDashboard />} />
-        <Route path="/administration/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/administration/contests/create" element={<ContestCreation />} />
-        <Route path="/submissions" element={<ContestDetails />} />
+        <Route
+          path="/administration/leaderboard"
+          element={<LeaderboardPage />}
+        />
+        <Route
+          path="/administration/contests/create"
+          element={<ContestCreation />}
+        />
+        <Route path="/submissions" element={<Login />} />
         <Route path="/support" element={<NotFound />} />
         <Route path="/profile" element={<NotFound />} />
         <Route path="/settings" element={<NotFound />} />
         <Route path="/questions" element={<QuestionsPage />} />
-        <Route path="/administration/create/challenge" element={<CreateChallenge />} />
-        <Route path="/administration/contests/:contestId/edit" element={<ContestEdit />}>
+        <Route
+          path="/administration/create/challenge"
+          element={<CreateChallenge />}
+        />
+        <Route
+          path="/administration/contests/:contestId/edit"
+          element={<ContestEdit />}
+        >
           <Route
             index
             element={
@@ -54,11 +66,13 @@ function ApplicationRouter() {
           <Route path="about" element={<AboutContest />} />
           <Route path="challenges" element={<SelectedChallenges />} />
           <Route path="prizes" element={<Prizes />} />
-          
+
           <Route path="create/prizes" element={<AddPrizes />} />
-          
         </Route>
-        <Route path="administration/create/challenge" element={<CreateChallenge />} />
+        <Route
+          path="administration/create/challenge"
+          element={<CreateChallenge />}
+        />
         <Route path="administration/contests" element={<HostedContests />} />
       </Routes>
     </Router>
