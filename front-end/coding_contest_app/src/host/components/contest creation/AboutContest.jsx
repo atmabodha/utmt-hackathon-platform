@@ -19,7 +19,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 function AboutContest({ contestUrl }) {
   const { current: user } = useUser();
   const [loading, setLoading] = useState();
-  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "details/";
+  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/details/";
   const inputFields = [
     {
       label: "About",
@@ -54,7 +54,7 @@ function AboutContest({ contestUrl }) {
   });
 
   const handleAboutSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
     const aboutFormData = new FormData();
     aboutFormData.append("contest", aboutData.contest);
     aboutFormData.append("about", aboutData.about);
@@ -70,6 +70,7 @@ function AboutContest({ contestUrl }) {
           return getDownloadURL(snapshot.ref);
         })
         .then(async (imageUrl) => {
+          console.log("isfsfsfds", imageUrl);
           aboutFormData.append("contest_banner_image", imageUrl);
           await sendData(url, aboutFormData);
           setLoading(false);
