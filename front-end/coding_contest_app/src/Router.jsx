@@ -21,7 +21,7 @@ function ApplicationRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<HostedContests />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/administration/dashboard" element={<HostDashboard />} />
         <Route path="/administration/leaderboard" element={<LeaderboardPage />} />
