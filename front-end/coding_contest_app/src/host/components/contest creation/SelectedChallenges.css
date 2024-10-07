@@ -14,9 +14,11 @@
     max-width: 100%;
     margin: 0 auto;
     padding: 20px;
+    padding-bottom: 500px;
     background-color: var(--background-color);
     font-family: var(--font-family);
     color: var(--text-color);
+    /* height: 500vh; */
 }
 
 .questions-search-container {
@@ -143,6 +145,20 @@
 }
 .questions-add-btn:hover {
     background-color: var(--secondary-color);
+}
+/* Add this CSS to your stylesheet */
+
+.custom-input {
+    width: 250px;
+  }
+  
+.swal2-ok-btn {
+margin-left: 20px !important;
+}
+
+.question-create-txt {
+    text-align: center;
+    margin-right: 26%;
 }
 
 /* Responsive styles for devices 768px and below */

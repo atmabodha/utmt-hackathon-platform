@@ -6,6 +6,7 @@ import LoadingOverlay from "react-loading-overlay-ts";
 import PulseLoader from "react-spinners/PulseLoader";
 import { useFormHandler } from "./FormHandlers.js";
 import { sendData } from "../../apis/ApiRequests";
+import showSwalAlert from "../../../utilities/AlertComponents.jsx";
 
 import {
   TextInputField,
@@ -18,8 +19,10 @@ import {
   HOST_ENDPOINT,
 } from "../../../Constants.js";
 import Header from "../header/Header.jsx";
+import { useUser } from "../../../context/user.jsx";
 
 const CreateChallenge = ({ contestUrl }) => {
+  const {current: user} = useUser()
   const [loading, setLoading] = useState();
   const predefinedOptions = [
     { value: "frontend", label: "Frontend" },
@@ -35,7 +38,7 @@ const CreateChallenge = ({ contestUrl }) => {
     handleInputChange,
     handleOtherInputChange,
   } = useFormHandler({
-    host: "codeHut",
+    host: "",
     name: "",
     description: "",
     inputFormat: "",
@@ -50,7 +53,9 @@ const CreateChallenge = ({ contestUrl }) => {
   const handleChallengeSubmit = async () => {
     setLoading(true);
     const challengeFormData = new FormData();
-    challengeFormData.append("host", challengeData.host);
+    if (user?.uid){
+      challengeFormData.append("host", user?.uid)
+    }
     challengeFormData.append("name", challengeData.name);
     challengeFormData.append("description", challengeData.description);
     challengeFormData.append("input_format", challengeData.inputFormat);
@@ -64,7 +69,9 @@ const CreateChallenge = ({ contestUrl }) => {
       BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/challenge/";
     await sendData(challengeURL, challengeFormData);
     setLoading(false);
-    window.opener.postMessage("formSubmitted", "*");
+    showSwalAlert({ icon: "success", title: "Challenge Added", text: "Redirecting to contest challenges" });
+    setTimeout(() => {
+      window.opener.postMessage("formSubmitted", "*");  }, 1500);   
   };
   const inputFields = [
     {
