@@ -74,7 +74,7 @@ export const useContestRegistrationSubmit = (url) => {
 
     let formDataToSend = new FormData();
     formDataToSend.append("host", host);
-    formDataToSend.append("contes_name", formData.contestName);
+    formDataToSend.append("contest_name", formData.contestName);
     formDataToSend.append("organization_type", formData.organizationType);
     formDataToSend.append("organization_name", formData.organizationName);
     formDataToSend.append("start_date_time", formData.startDateTime);
