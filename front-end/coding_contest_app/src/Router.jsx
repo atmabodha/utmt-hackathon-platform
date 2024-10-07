@@ -32,7 +32,7 @@ function ApplicationRouter() {
         <Route path="/settings" element={<NotFound />} />
         <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/administration/create/challenge" element={<CreateChallenge />} />
-        <Route path="/administration/contests/edit" element={<ContestEdit />}>
+        <Route path="/administration/contests/:contestId/edit" element={<ContestEdit />}>
           <Route
             index
             element={

@@ -7,7 +7,5 @@ urlpatterns = [
     path('contests/registration/', ContestsRegistrationView.as_view(), name='contest_registration'),
     path('contests/edit/challenge/', ContestsChallengesView.as_view(), name='contest_challenge'),
     path('contests/', ContestsRegistrationView.as_view(), name='contests'),
-    path('contests/problems/', ContestsProblemsView.as_view(), name='contests_problems'),
-
-
+path('contests/<int:contest_id>/problems/', ContestsProblemsView.as_view(), name='contests_problems'),
 ]

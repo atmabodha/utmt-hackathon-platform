@@ -23,11 +23,12 @@ import { useNavigate } from "react-router-dom";
 import showSwalAlert from "../../../utilities/AlertComponents.jsx";
 
 const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
+  const [loading, setLoading] = useState(false);
   const {current: user} = useUser()
   console.log("in regist", user?.uid)
   const navigate = useNavigate();
   const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/";
-  const { loading, handleSubmit} = useContestRegistrationSubmit(url);
+  const [ handleSubmit ] = useContestRegistrationSubmit(url);
   const { formData, handleInputChange, handleOtherInputChange } =
     useFormHandler({
       contestName: "",
@@ -40,17 +41,20 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
       registrationDeadline: "",
     });
 
+  const afterSubmission = (contestId) => { 
+      if (isRegistration){ 
+          navigate(`/administration/contests/${contestId}/edit`);
+      }else{
+        showSwalAlert({ icon: "success", title: "Saved", text: "Details has been updated!" });
+      }
+    }
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     if (user?.uid) {
-      handleSubmit(formData, user.uid);
-    }    
-    if (isRegistration){
-      navigate("/administration/contests/edit");
-    }else{
-      showSwalAlert({ icon: "success", title: "Saved", text: "Details has been updated!" });
-
+      handleSubmit(formData, user.uid, afterSubmission);
     }
+    setLoading(false);
   };
 
   return (

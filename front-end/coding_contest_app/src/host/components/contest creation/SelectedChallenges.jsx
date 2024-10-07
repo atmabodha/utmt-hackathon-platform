@@ -1,48 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SelectedChallenges.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
+import { useParams } from "react-router-dom";
+import { getData } from "../../apis/ApiRequests";
 
 
 const SelectedChallenges = ({ contestUrl }) => {
+  const { contestId } = useParams();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCard, setExpandedCard] = useState(null);
   const [questions, setQuestions] = useState([]);
-  const [contestData, setContestData] = useState(null);
-  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS
-  useEffect(() => {
-    // Define an async function inside the useEffect
-    const fetchData = async () => {
-      try {
-        const response = await getData(url); // Wait for the async function to resolve
-        const data = response.data;
-        if (data) {
-          setContestData(data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [url]);
-
+  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/"
+  
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get(`/api/contests/12/problems`);
-        setQuestions(response.data);
+        const response = await getData(url);
+        const data = response.data;
+        if (data){
+          setQuestions(data);
+        }
       } catch (error) {
         console.error("Error fetching problems:", error);
       }
     };
 
     fetchProblems();
-  }, []);
+  }, [contestId]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -153,8 +142,6 @@ const SelectedChallenges = ({ contestUrl }) => {
           <div className="questions-add">
             <div className="question-create-txt">
               <p>To create your own problem. Click <a
-                href="/administration/create/challenge"
-                target="_blank"
                 onClick={handleCreateChallenge}>
                 Here
               </a>

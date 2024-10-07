@@ -7,7 +7,7 @@ import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 
 const HostedContests = () => {
   const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS
-  const [contestData, setContestData] = useState(null);
+  const [contestData, setContestData] = useState([]);
   useEffect(() => {
     // Define an async function inside the useEffect
     const fetchData = async () => {
@@ -15,7 +15,7 @@ const HostedContests = () => {
         const response = await getData(url); // Wait for the async function to resolve
         const data = response.data;
         if (data) {
-          setContestData(data);
+          setContestData(data.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -26,6 +26,9 @@ const HostedContests = () => {
   }, [url]);
 
   console.log("data", contestData)
+  if (!contestData){
+    return 
+  }
   return (
     <div className="contests-page">
       <Header headerType={"host"} />
@@ -52,7 +55,7 @@ const HostedContests = () => {
             </tr>
           </thead>
           <tbody>
-            {contestData ? contestData.map((row, index) => (
+            {contestData.map((row, index) => (
               <tr key={index}>
                 <td>{row.contest_name}</td>
                 <td>{row.start_date_time}</td>
@@ -62,7 +65,7 @@ const HostedContests = () => {
                 <td>
                   <button className="edit-btn">
                     <Link
-                      to={"/administration/contests/edit"}
+                      to={`/administration/contests/${row.contest_id}/edit`}
                       style={{ textDecoration: "none", color: "white" }}
                     >
                       Edit
@@ -71,7 +74,7 @@ const HostedContests = () => {
                   <button className="delete-btn">Delete</button>
                 </td>
               </tr>
-            )) : ""}
+            ))}
           </tbody>
         </table>
       </div>
