@@ -49,3 +49,9 @@ class ProblemsSerializer(serializers.ModelSerializer):
         model = Problems
         fields = ['host', 'name', 'description', 'input_format', 'output_format', 
                   'constraints', 'difficulty_level', 'doc_references', 'weightage', 'tags']
+    
+    # Override the to_representation method to add problem_id
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['problem_id'] = instance.problem_id  # Add problem_id here
+        return representation

@@ -1,47 +1,29 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SelectedChallenges.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 import { useParams } from "react-router-dom";
 import { getData } from "../../apis/ApiRequests";
 
-
 const SelectedChallenges = ({ contestUrl }) => {
   const { contestId } = useParams();
   const navigate = useNavigate();
-  const [problems, setProblems] = useState()
+  const [problems, setProblems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCard, setExpandedCard] = useState(null);
   const [questions, setQuestions] = useState([]);
-  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/"
-  
-  // useEffect(() => {
-  //   const fetchProblems = async () => {
-  //     try {
-  //       const response = await getData(url);
-  //       const data = response.data;
-  //       if (data){
-  //         setQuestions(data);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching problems:", error);
-  //     }
-  //   };
-
-  //   fetchProblems();
-  // }, [contestId]);
 
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/challenge/"
+        const url =
+          BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/challenge/";
         const response = await getData(url);
         const data = response.data.data;
-        if (data){
+        if (data) {
           setProblems(data);
-          console.log("listed", data)
         }
       } catch (error) {
         console.error("Error fetching problems:", error);
@@ -55,22 +37,22 @@ const SelectedChallenges = ({ contestUrl }) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredQuestions = questions
-    .filter(
-      (q) =>
-        q.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (q.statement &&
-          q.statement.toLowerCase().includes(searchTerm.toLowerCase()))
-    )
-    .sort((a, b) => {
-      const aMatchIndex = a.title
-        .toLowerCase()
-        .indexOf(searchTerm.toLowerCase());
-      const bMatchIndex = b.title
-        .toLowerCase()
-        .indexOf(searchTerm.toLowerCase());
-      return aMatchIndex - bMatchIndex;
-    });
+  // const filteredQuestions = questions
+  //   .filter(
+  //     (q) =>
+  //       q.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //       (q.statement &&
+  //         q.statement.toLowerCase().includes(searchTerm.toLowerCase()))
+  //   )
+  //   .sort((a, b) => {
+  //     const aMatchIndex = a.title
+  //       .toLowerCase()
+  //       .indexOf(searchTerm.toLowerCase());
+  //     const bMatchIndex = b.title
+  //       .toLowerCase()
+  //       .indexOf(searchTerm.toLowerCase());
+  //     return aMatchIndex - bMatchIndex;
+  //   });
 
   const toggleExpand = (id) => {
     setExpandedCard(expandedCard === id ? null : id);
@@ -93,46 +75,95 @@ const SelectedChallenges = ({ contestUrl }) => {
   };
 
   const handleAddChallenge = () => {
+    const filterSuggestions = (query, suggestions) => {
+      if (!query) return [];
+      return suggestions.filter((item) =>
+        item.name.toLowerCase().includes(query.toLowerCase())
+      );
+    };
+
+    let nameInput, tagInput;
+
     Swal.fire({
-      title: 'Add Problems to Contest',
+      title: "Add Problems to Contest",
       html: `
-        <input id="contest-name" class="swal2-input custom-input" placeholder="Name of Contest" />
-        <input id="contest-score" class="swal2-input custom-input" placeholder="Score of Contest" />
-        <input id="contest-tag" class="swal2-input custom-input" placeholder="Tag of Contest" />
-      `,
+          <input id="contest-name" class="swal2-input custom-input" placeholder="Name of Contest" autocomplete="off" />
+          <ul id="name-list" class="autocomplete-list"></ul>
+          <input id="contest-score" class="swal2-input custom-input" placeholder="Score of Contest" />
+        `,
+      // <input id="contest-tag" class="swal2-input custom-input" placeholder="Tag of Contest" autocomplete="off" />
+      // <ul id="tag-list" class="autocomplete-list"></ul>
       focusConfirm: false,
       showCancelButton: true,
       reverseButtons: true, // This places "OK" to the right of "Cancel"
       preConfirm: () => {
-        const name = document.getElementById('contest-name').value;
-        const score = document.getElementById('contest-score').value;
-        const tag = document.getElementById('contest-tag').value;
-  
-        // Ensure all fields are filled
-        if (!name || !score || !tag) {
-          Swal.showValidationMessage('All fields are required!');
+        const name = nameInput?.name || "";
+        const score = document.getElementById("contest-score").value;
+        // const tag = tagInput?.value || '';
+
+        if (!name || !score) {
+          Swal.showValidationMessage("All fields are required!");
           return false;
         }
-  
-        return { name, score, tag };
+
+        return { name, score };
       },
-      customClass: {
-        confirmButton: 'swal2-ok-btn',
-        cancelButton: 'swal2-cancel-btn'
-      }
+      didOpen: () => {
+        nameInput = document.getElementById("contest-name");
+        // tagInput = document.getElementById('contest-tag');
+        const nameList = document.getElementById("name-list");
+        // const tagList = document.getElementById('tag-list');
+
+        const handleAutocomplete = (
+          inputElement,
+          suggestionsList,
+          suggestionsArray
+        ) => {
+          inputElement.addEventListener("input", () => {
+            const query = inputElement.value;
+            const suggestions = filterSuggestions(query, suggestionsArray);
+
+            suggestionsList.innerHTML = ""; // Clear the list
+            if (suggestions.length === 0) {
+              suggestionsList.style.display = "none";
+              return;
+            }
+
+            suggestions.map((suggestion, index) => {
+              const li = document.createElement("li");
+              li.textContent = suggestion.name;
+              li.addEventListener("click", () => {
+                inputElement.value = suggestion.name; // Set the clicked value
+                inputElement.name = index;
+                suggestionsList.style.display = "none"; // Hide dropdown
+              });
+              suggestionsList.appendChild(li);
+            });
+
+            suggestionsList.style.display = "block"; // Show the dropdown
+          });
+        };
+
+        handleAutocomplete(nameInput, nameList, problems);
+
+        // Hide dropdown when clicked outside
+        document.addEventListener("click", (event) => {
+          if (!nameInput.contains(event.target))
+            nameList.style.display = "none";
+          // if (!tagInput.contains(event.target)) tagList.style.display = 'none';
+        });
+      },
     }).then((result) => {
       if (result.isConfirmed) {
-        const { name, score, tag } = result.value;
-  
-        // Logic to handle adding the problem to the contest
-        console.log(`Problem added with Name: ${name}, Score: ${score}, Tag: ${tag}`);
-  
-        // Example: Navigate to another page after adding the challenge
-        navigate('/administration/contests/edit/challenges');
+        const { name, score } = result.value;
+        if (problems) {
+          setQuestions((prev) => [...prev, problems[name]]);  
+        }
+        console.log("questions", problems[name]);
+        console.log(`Problem added with Name: ${name}, Score: ${score}`);
       }
     });
   };
-  
 
   return (
     <>
@@ -159,25 +190,25 @@ const SelectedChallenges = ({ contestUrl }) => {
           </div>
           <div className="questions-add">
             <div className="question-create-txt">
-              <p>To create your own problem. Click <a
-                onClick={handleCreateChallenge}>
-                Here
-              </a>
-              </p></div>
+              <p>
+                To create your own problem. Click{" "}
+                <a onClick={handleCreateChallenge}>Here</a>
+              </p>
+            </div>
             <button className="questions-add-btn" onClick={handleAddChallenge}>
               Add Challenge
             </button>
           </div>
           <div className="questions">
-            {filteredQuestions.map((q) => (
+            {questions.map((q) => (
               <div
-                key={q.id}
+                key={q.problem_id}
                 className="question-card"
-                onClick={() => toggleExpand(q.id)}
+                onClick={() => toggleExpand(q.problem_id)}
               >
                 <div className="question-header">
                   <p>
-                    <strong>{q.title}</strong>
+                    <strong>{q.name}</strong>
                   </p>
                 </div>
                 <div

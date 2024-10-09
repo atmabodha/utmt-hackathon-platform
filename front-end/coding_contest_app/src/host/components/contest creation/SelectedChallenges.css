@@ -1,3 +1,28 @@
+/* App.css */
+
+.autocomplete-list {
+    border: 1px solid #ddd;
+    background-color: white;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    width: calc(100% - 40px);
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+  
+  .autocomplete-list li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .autocomplete-list li:hover {
+    background-color: #f0f0f0;
+  }
+  
+
 .selected-questions {
     background-color: var(--background-color);
     width: 100%;
