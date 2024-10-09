@@ -8,7 +8,7 @@ import TextAreaField, {
   FileInputField,
 } from "../../../utilities/FormComponents";
 import { HOST_ENDPOINT, BASE_SERVER_URL, CONTESTS } from "../../../Constants";
-import { sendData } from "../../apis/ApiRequests";
+import { getData, sendData } from "../../apis/ApiRequests";
 import { storage } from "../../../firebase/firebase";
 import showSwalAlert from "../../../utilities/AlertComponents";
 import { useUser } from "../../../context/user";
@@ -18,11 +18,19 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { useParams } from "react-router-dom";
 
 function AboutContest({ contestUrl }) {
-  const { contestId } = useParams();
-  const { current: user } = useUser();
+  const { contestId } = useParams(); // Get the contestId from URL params
+  const { current: user } = useUser(); // User context
   const [loading, setLoading] = useState(false);
-  console.log(contestId);
-  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/details/";
+  const [initialState, setInitialState] = useState({
+    about: "",
+    eligibility: "",
+    others: "",
+    rules: "",
+    bannerImage: null,
+  });
+
+  const url =
+    BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + `edit/${contestId}/details/`;
 
   // Input fields definition
   const inputFields = [
@@ -31,26 +39,49 @@ function AboutContest({ contestUrl }) {
     { label: "Rules", name: "rules" },
     { label: "Others", name: "others" },
   ];
+
   // Form handler for input fields
   const {
     formData: aboutData,
     handleInputChange,
     handleFileChange,
+    setFormData,
     imageUploadStatus,
-  } = useFormHandler({
-    contest: "",
-    about: "",
-    eligibility: "",
-    others: "",
-    rules: "",
-    bannerImage: null,
-  });
+  } = useFormHandler(initialState);
+
+  // Fetch contest data on component mount
+  useEffect(() => {
+    const fetchContestData = async () => {
+      try {
+        const response = await getData(url); // Fetch data for the specific contestId
+        const contestDetails = response.data.data;
+
+        // Update formData with the fetched data
+        if (contestDetails) {
+          setFormData({
+            contest: contestDetails.contest_id || "",
+            about: contestDetails.about || "",
+            eligibility: contestDetails.eligibility || "",
+            others: contestDetails.others,
+            rules: contestDetails.rules,
+            bannerImage: null, // Keep this as null initially
+          });
+
+          console.log(contestDetails);
+          console.log(initialState);
+        }
+      } catch (error) {
+        console.error("Error fetching contest details:", error);
+      }
+    };
+
+    fetchContestData();
+  }, [url]);
 
   // Function to handle form submission
   const handleAboutSubmit = async () => {
     setLoading(true); // Set loading to true at the start
     const aboutFormData = new FormData();
-    aboutFormData.append("contest", contestId);
     aboutFormData.append("about", aboutData.about);
     aboutFormData.append("eligibility", aboutData.eligibility);
     aboutFormData.append("rules", aboutData.rules);
@@ -76,14 +107,17 @@ function AboutContest({ contestUrl }) {
       }
     }
 
+    console.log(aboutFormData);
     // Send form data to the backend
     try {
-      await sendData(url, aboutFormData);
-      showSwalAlert({
-        icon: "success",
-        title: "Success",
-        text: "Contest details updated successfully!",
-      });
+      const response = await sendData(url, aboutFormData);
+      if (response) {
+        showSwalAlert({
+          icon: "success",
+          title: "Success",
+          text: "Contest details updated successfully!",
+        });
+      }
     } catch (error) {
       showSwalAlert({
         icon: "error",

@@ -5,6 +5,7 @@ from django.core import serializers
 from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import Contests, ContestProblems, ContestDetails, Problems
 from datetime import datetime
+from django.shortcuts import get_object_or_404
 
 
 class ContestCreateUpdateView(APIView):
@@ -41,18 +42,23 @@ class ContestCreateUpdateView(APIView):
 
 class ContestsDetailsView(APIView):
     parser_classes = [MultiPartParser, FormParser]
-    def post(self, request, *args, **kwargs):
-        serializer = ContestDetailsSerializer(data=request.data)
+    def post(self, request, contest_id, *args, **kwargs):
+        contest_instance = get_object_or_404(ContestDetails, pk=contest_id)
+        serializer = ContestDetailsSerializer(contest_instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status': 'success', 'message': 'updated contest details successfully'}, status=201)
+            return Response({'status': 'success', 'message': 'Updated contest details successfully'}, status=201)
         else:
-            print(serializer.errors)
-            return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
+            print(serializer.errors)  # For debugging purposes
+            return Response({'status': 'error', 'message': 'Validation error', 'errors': serializer.errors}, status=500)
+        
 
-    def get(self, request, user_id, *args, **kwargs):
+    def get(self, request, user_id=None, contest_id=None, *args, **kwargs):
         try:
-            contests = Contests.objects.filter(host=user_id).prefetch_related('details')  # Prefetch related contest details
+            if user_id:
+                contests = Contests.objects.filter(host=user_id).prefetch_related('details')  # Prefetch related contest details
+            elif contest_id:
+                contests = Contests.objects.filter(contest_id=contest_id).prefetch_related('details')
             contest_data = []
             for contest in contests:
                 contest_dict = {
@@ -81,7 +87,7 @@ class ContestsDetailsView(APIView):
             return Response({
                 'status': 'success',
                 'message': 'Contests fetched successfully',
-                'data': contest_data
+                'data': contest_data if user_id else contest_dict
             }, status=200)
         except Exception as e:
             return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)

@@ -1,6 +1,5 @@
 // useContestSubmit.js
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { sendData } from "../../apis/ApiRequests";
 import { toast } from "react-toastify";
 import moment from "moment";
@@ -48,12 +47,12 @@ export const useFormHandler = (initialState) => {
     handleInputChange,
     handleFileChange,
     imageUploadStatus,
+    setFormData,
     handleOtherInputChange,
   };
 };
 
 export const useContestRegistrationSubmit = (url) => {
-  
   const handleSubmit = async (formData, host, callback) => {
     if (!formData.startDateTime) {
       document.querySelector(".start-date input").focus();
@@ -87,11 +86,11 @@ export const useContestRegistrationSubmit = (url) => {
     );
     const response = await sendData(url, formDataToSend);
     const data = response.data.data;
-    if (data){
+    if (data) {
       callback(data);
     }
     setLoading(false);
   };
 
-  return [ handleSubmit ];
+  return [handleSubmit];
 };
