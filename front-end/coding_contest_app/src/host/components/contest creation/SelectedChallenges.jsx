@@ -67,7 +67,7 @@ const SelectedChallenges = ({ contestUrl }) => {
         // Close the new tab after form submission
         newTab.close();
         // Navigate back to the current page or some other page
-        navigate("/administration/contests/edit/challenges"); // Change '/current-page' to the route you want to go back to
+        navigate(`/administration/contests/${contestId}/edit/challenges`); // Change '/current-page' to the route you want to go back to
       }
     };
     // Add the event listener
@@ -95,7 +95,13 @@ const SelectedChallenges = ({ contestUrl }) => {
       // <ul id="tag-list" class="autocomplete-list"></ul>
       focusConfirm: false,
       showCancelButton: true,
-      reverseButtons: true, // This places "OK" to the right of "Cancel"
+      reverseButtons: true,
+      customClass: {
+        popup: 'custom-swal-popup', // Custom class for the popup card
+        title: 'custom-swal-title',  // Custom class for the title
+        confirmButton: 'custom-swal-confirm-button', // Custom class for confirm button
+        cancelButton: 'custom-swal-cancel-button' // Custom class for cancel button
+      },
       preConfirm: () => {
         const name = nameInput?.name || "";
         const score = document.getElementById("contest-score").value;

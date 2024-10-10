@@ -172,12 +172,33 @@
 .questions-add-btn:hover {
     background-color: var(--secondary-color);
 }
-/* Add this CSS to your stylesheet */
 
+/* Add challenge pop up CSS */
 .custom-input {
     width: 250px;
+    
   }
   
+.custom-swal-popup {
+    background-color: var(--card-color) !important;
+    color: var(--text-color) !important;
+}
+
+.swal2-input custom-input {
+    color: var(--text-color) !important;
+}
+
+.autocomplete-list {
+    background-color: var(--card-color) !important;
+    width: 350px;
+    margin-left: 50px;
+    border: none;
+    max-height: 150px;
+}
+.autocomplete-list li:hover {
+    color: var(--text-color) !important;
+    background-color: var(--hover-background-color) !important;
+}
 .swal2-ok-btn {
 margin-left: 20px !important;
 }
