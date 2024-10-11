@@ -3,6 +3,7 @@ import { useState } from "react";
 import { sendData } from "../../apis/ApiRequests";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { convertToDbDateTime } from "../../../utilities/TimeConversion";
 
 export const useFormHandler = (initialState) => {
   const [formData, setFormData] = useState(initialState);
@@ -52,8 +53,8 @@ export const useFormHandler = (initialState) => {
   };
 };
 
-export const useContestRegistrationSubmit = (url) => {
-  const handleSubmit = async (formData, host, callback) => {
+export const useContestRegistrationSubmit = () => {
+  const handleSubmit = async (formData, host, callback, url) => {
     if (!formData.startDateTime) {
       document.querySelector(".start-date input").focus();
       return;
@@ -71,18 +72,19 @@ export const useContestRegistrationSubmit = (url) => {
       return;
     }
 
+    console.log(formData)
     let formDataToSend = new FormData();
     formDataToSend.append("host", host);
     formDataToSend.append("contest_name", formData.contestName);
     formDataToSend.append("organization_type", formData.organizationType);
     formDataToSend.append("organization_name", formData.organizationName);
-    formDataToSend.append("start_date_time", formData.startDateTime);
-    formDataToSend.append("end_date_time", formData.endDateTime);
+    formDataToSend.append("start_date_time", convertToDbDateTime(formData.startDateTime));
+    formDataToSend.append("end_date_time", convertToDbDateTime(formData.endDateTime));
     formDataToSend.append("contest_visibility", formData.contestVisibility);
     formDataToSend.append("participant_limit", formData.participantLimit);
     formDataToSend.append(
       "registration_deadline",
-      formData.registrationDeadline
+      convertToDbDateTime(formData.registrationDeadline)
     );
     const response = await sendData(url, formDataToSend);
     const data = response.data.data;

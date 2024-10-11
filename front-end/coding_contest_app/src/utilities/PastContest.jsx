@@ -18,7 +18,7 @@ const LiveContests = ({ data }) => {
           <div className="col" key={index}>
             <div className="card" id="contest-card">
               <img
-                src={contest.contest_image}
+                src={contest.contest_banner_image}
                 alt={index}
                 className="card-img-top"
                 style={{ height: "150px", objectFit: "cover" }}
@@ -27,13 +27,13 @@ const LiveContests = ({ data }) => {
                 <h5 className="card-title">{contest.contest_name}</h5>
                 <p className="card-text">
                   Contest ended on{" "}
-                  <MonthFormattedDate utcTime={contest.start_date_time} />
+                  <MonthFormattedDate utcTime={contest.end_date_time} />
                 </p>
                 <div className="d-flex justify-content-between">
                   <div className="d-flex">
                     <FaUsers size={20} />
                     <p className="ms-2" style={{ fontSize: "smaller" }}>
-                      465 Reg'd
+                      465 R'g
                     </p>
                   </div>
                   <div className="d-flex">

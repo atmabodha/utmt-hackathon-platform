@@ -21,15 +21,51 @@ import {
 import { useUser } from "../../../context/user.jsx";
 import { useNavigate } from "react-router-dom";
 import showSwalAlert from "../../../utilities/AlertComponents.jsx";
+import { useParams } from "react-router-dom";
+import { getData } from "../../apis/ApiRequests.js";
+import { convertToMomentFormat } from "../../../utilities/TimeConversion.jsx";
 
 const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
+  const { contestId } = useParams();
+  if (!isRegistration) {
+    const contestDetailsUrl =
+      BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + `edit/${contestId}/details/`;
+      useEffect(() => {
+        const fetchContestData = async () => {
+          const response = await getData(contestDetailsUrl); // Fetch data for the specific contestId
+          const contestDetails = response.data.data;
+    
+          // Update formData with the fetched data
+          if (contestDetails) {
+            setFormData({
+              contestName: contestDetails.contest_name || "",
+              organizationType: contestDetails.organization_type || "",
+              organizationName: contestDetails.organization_name || "",
+              startDateTime: convertToMomentFormat(contestDetails.start_date_time) || "",
+              endDateTime: convertToMomentFormat(contestDetails.end_date_time) || "",
+              contestVisibility: contestDetails.contest_visibility || "",
+              participantLimit: contestDetails.participant_limit || 500,
+              registrationDeadline: convertToMomentFormat(contestDetails.registration_deadline) || "",
+            });
+    
+            console.log(contestDetails);
+            console.log(initialState);
+          }
+        };
+    
+        if (!isRegistration) {
+          fetchContestData();
+        }
+      }, [contestDetailsUrl]);
+  }
+  
   const [loading, setLoading] = useState(false);
-  const {current: user} = useUser()
-  console.log("in regist", user?.uid)
+  const { current: user } = useUser();
+  console.log("in regist", user?.uid);
   const navigate = useNavigate();
-  const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/";
-  const [ handleSubmit ] = useContestRegistrationSubmit(url);
-  const { formData, handleInputChange, handleOtherInputChange } =
+
+  const [handleSubmit] = useContestRegistrationSubmit();
+  const { formData, handleInputChange, handleOtherInputChange, setFormData } =
     useFormHandler({
       contestName: "",
       organizationType: "",
@@ -41,21 +77,60 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
       registrationDeadline: "",
     });
 
-  const afterSubmission = (contestId) => { 
-      if (isRegistration){ 
-          navigate(`/administration/contests/${contestId}/edit`);
-      }else{
-        showSwalAlert({ icon: "success", title: "Saved", text: "Details has been updated!" });
-      }
+  const afterSubmission = (contestId) => {
+    if (isRegistration) {
+      navigate(`/administration/contests/${contestId}/edit`);
+    } else {
+      showSwalAlert({
+        icon: "success",
+        title: "Saved",
+        text: "Details has been updated!",
+      });
     }
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     if (user?.uid) {
-      handleSubmit(formData, user.uid, afterSubmission);
+      if (isRegistration){
+        const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/";
+        handleSubmit(formData, user.uid, afterSubmission, url);
+      }else{
+        const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/registration/";
+        handleSubmit(formData, user.uid, afterSubmission, url);
+      }
+      
     }
     setLoading(false);
   };
+
+  // useEffect(() => {
+  //   const fetchContestData = async () => {
+  //     const response = await getData(contestDetailsUrl); // Fetch data for the specific contestId
+  //     const contestDetails = response.data.data;
+
+  //     // Update formData with the fetched data
+  //     if (contestDetails) {
+  //       setFormData({
+  //         contestName: contestDetails.contest_name || "",
+  //         organizationType: contestDetails.organization_type || "",
+  //         organizationName: contestDetails.organization_name || "",
+  //         startDateTime: contestDetails.start_date_time || "",
+  //         endDateTime: contestDetails.end_date_time || "",
+  //         contestVisibility: contestDetails.contest_visibility || "",
+  //         participantLimit: contestDetails.participant_limit || 500,
+  //         registrationDeadline: contestDetails.registration_deadline || "",
+  //       });
+
+  //       console.log(contestDetails);
+  //       console.log(initialState);
+  //     }
+  //   };
+
+  //   if (!isRegistration) {
+  //     fetchContestData();
+  //   }
+  // }, [contestDetailsUrl]);
 
   return (
     <div className="contest-detail-filling">

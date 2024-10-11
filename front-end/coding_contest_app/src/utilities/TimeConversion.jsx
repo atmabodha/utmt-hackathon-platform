@@ -1,3 +1,6 @@
+import moment from "moment";
+
+
 const MonthFormattedDate = ({ utcTime }) => {
     const date = new Date(utcTime);
     const day = date.getDate();
@@ -40,5 +43,37 @@ const TimeDifference = ({ startDate, endDate }) => {
   return `${differenceInMinutes} Mins`
   };
 
+  function formatDateTime(dbDateTime) {
+  // Create a new Date object from the database format
+  const date = new Date(dbDateTime);
 
-export {MonthFormattedDate, TimeFromDate, TimeDifference};
+  // Get month, day, year
+  const month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are zero-indexed
+  const day = ("0" + date.getDate()).slice(-2);
+  const year = date.getFullYear();
+
+  // Get hours and minutes
+  let hours = date.getHours();
+  const minutes = ("0" + date.getMinutes()).slice(-2);
+  let ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12; // Convert to 12-hour format
+
+  // Format the date as MM/DD/YYYY HH:MM AM/PM
+  return `${month}/${day}/${year} ${hours}:${minutes} ${ampm}`;
+}
+
+
+function convertToMomentFormat(inputDate) {
+  // Convert the input date (Date object) to a moment object
+  const momentDate = moment(inputDate);
+
+  // Format the moment object to "MM/DD/YYYY h:mm A"
+  return momentDate.format("MM/DD/YYYY h:mm A");
+}
+
+const convertToDbDateTime = (date) => {
+  // Ensure the date is in moment format and convert it to ISO string
+  return moment(date).toISOString(); // Output: "2024-09-30T18:30:00Z"
+};
+
+export {MonthFormattedDate, TimeFromDate, TimeDifference, convertToMomentFormat, convertToDbDateTime};

@@ -28,7 +28,6 @@ const SignUp = () => {
         signUpData.password,
         signUpData.name
       );
-      console.log("signup", userCredentials);
       if (userCredentials) {
         navigate("/administration/dashboard");
       }

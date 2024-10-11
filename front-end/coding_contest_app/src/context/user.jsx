@@ -60,7 +60,7 @@ export function UserProvider(props) {
     const unsubscribe =  onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        showSwalAlert({ icon: "success", title: "Welcome!", text: "You are already logged in." });
+        // showSwalAlert({ icon: "success", title: "Welcome!", text: "You are already logged in." });
       } else {
         setUser(null);
       }

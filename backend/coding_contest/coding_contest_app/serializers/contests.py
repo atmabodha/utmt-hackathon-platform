@@ -22,6 +22,7 @@ class ContestDetailsSerializer(serializers.ModelSerializer):
         model = ContestDetails
         fields = [
             'contest_banner_image',
+            'contest_banner_image_name',
             'contest_default_banner_image',
             'about',
             'eligibility',

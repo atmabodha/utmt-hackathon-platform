@@ -16,13 +16,11 @@ const Login = () => {
     password: "",
   });
 
-  console.log("login page", user);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const userCredentials = await login(loginData.email, loginData.password);
-      console.log("user login page usercredentials", userCredentials);
       if (userCredentials) {
         navigate("/administration/dashboard");
       }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import Datetime from 'react-datetime';
+import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import CreatableSelect from "react-select/creatable";
 import "./styles/FormComponents.css";
@@ -112,6 +112,7 @@ export const FileInputField = ({
   value,
   helperText = "",
   uploadStatus = "",
+  imageName,
 }) => {
   return (
     <Form.Group controlId={"file-input"} className={groupClass}>
@@ -126,13 +127,19 @@ export const FileInputField = ({
         required={required}
         className={controlClass}
       />
-      <label htmlFor={"file-input"} className={`custom-file-button ${controlClass}`}>
+      <label
+        htmlFor={"file-input"}
+        className={`custom-file-button ${controlClass}`}
+      >
         Choose File
       </label>
       {value && value.name && (
-        <div className="file-name-display">
-          Selected file: {value.name}
-        </div>
+        <div className="file-name-display">Selected file: {value.name}</div>
+      )}
+      {imageName ? (
+        <div className="file-name-display">Selected file: {imageName}</div>
+      ) : (
+        ""
       )}
       <Form.Text muted>{helperText}</Form.Text>
       {uploadStatus && (
@@ -142,7 +149,16 @@ export const FileInputField = ({
   );
 };
 
-export const SelectMultipleOptions = ({ label, name, id, value, options, groupClass, handleChange, placeholder }) => {
+export const SelectMultipleOptions = ({
+  label,
+  name,
+  id,
+  value,
+  options,
+  groupClass,
+  handleChange,
+  placeholder,
+}) => {
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -174,9 +190,7 @@ export const SelectMultipleOptions = ({ label, name, id, value, options, groupCl
         options={options}
         value={value}
         groupClass={groupClass}
-        onChange={(selectedTags) =>
-          handleChange("tags", selectedTags)
-        }
+        onChange={(selectedTags) => handleChange("tags", selectedTags)}
         placeholder={placeholder}
         formatCreateLabel={(inputValue) => `Add "${inputValue}" as a new tag`}
         className="form-control-custom"
@@ -195,10 +209,9 @@ export const DateTimeInputField = ({
   groupClass,
   labelClass,
   inputClass,
-  required = false, 
+  required = false,
   placeholder = "Select date and time",
 }) => {
-
   const handleOkClick = () => {
     const outsideClickTarget = document.body;
     if (outsideClickTarget) {

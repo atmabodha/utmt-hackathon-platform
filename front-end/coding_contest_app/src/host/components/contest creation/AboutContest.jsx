@@ -21,13 +21,14 @@ function AboutContest({ contestUrl }) {
   const { contestId } = useParams(); // Get the contestId from URL params
   const { current: user } = useUser(); // User context
   const [loading, setLoading] = useState(false);
-  const [initialState, setInitialState] = useState({
+  const [fileName, setFileName] = useState("");
+  const initialState = {
     about: "",
     eligibility: "",
     others: "",
     rules: "",
     bannerImage: null,
-  });
+  };
 
   const url =
     BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + `edit/${contestId}/details/`;
@@ -66,9 +67,7 @@ function AboutContest({ contestUrl }) {
             rules: contestDetails.rules,
             bannerImage: null, // Keep this as null initially
           });
-
-          console.log(contestDetails);
-          console.log(initialState);
+          setFileName(contestDetails.contest_banner_image_name || "");
         }
       } catch (error) {
         console.error("Error fetching contest details:", error);
@@ -86,10 +85,12 @@ function AboutContest({ contestUrl }) {
     aboutFormData.append("eligibility", aboutData.eligibility);
     aboutFormData.append("rules", aboutData.rules);
     aboutFormData.append("others", aboutData.others);
+    
 
     // Handle banner image upload if available
     if (aboutData.bannerImage) {
       const uniqueImageName = user?.uid + aboutData.bannerImage.name;
+      aboutFormData.append("contest_banner_image_name", aboutData.bannerImage.name)
       const storageRef = ref(storage, `images/${uniqueImageName}`);
 
       try {
@@ -106,9 +107,6 @@ function AboutContest({ contestUrl }) {
         return; // Stop further execution if image upload fails
       }
     }
-
-    console.log(aboutFormData);
-    // Send form data to the backend
     try {
       const response = await sendData(url, aboutFormData);
       if (response) {
@@ -128,7 +126,6 @@ function AboutContest({ contestUrl }) {
       setLoading(false); // Always set loading to false after submission
     }
   };
-
   return (
     <div>
       <LoadingOverlay
@@ -169,6 +166,7 @@ function AboutContest({ contestUrl }) {
                 value={aboutData.bannerImage}
                 helperText="Please select a JPG, PNG, JPEG, or SVG file."
                 uploadStatus={imageUploadStatus}
+                imageName={fileName}
               />
               {inputFields.map((field, index) => (
                 <TextAreaField

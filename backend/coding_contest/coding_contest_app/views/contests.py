@@ -10,25 +10,19 @@ from django.shortcuts import get_object_or_404
 
 class ContestCreateUpdateView(APIView):
     parser_classes = [MultiPartParser, FormParser]
-    
-    def post(self, request, *args, **kwargs):
-        data = request.data.copy()
-        try:
-            if 'start_date_time' in data:
-                data['start_date_time'] = datetime.strptime(data['start_date_time'], '%a %b %d %Y %H:%M:%S GMT%z').isoformat()
-            if 'end_date_time' in data:
-                data['end_date_time'] = datetime.strptime(data['end_date_time'], '%a %b %d %Y %H:%M:%S GMT%z').isoformat()
-            if 'registration_deadline' in data:
-                data['registration_deadline'] = datetime.strptime(data['registration_deadline'], '%a %b %d %Y %H:%M:%S GMT%z').isoformat()
-        except ValueError as e:
-            return Response({"status": "error", "message": f"Date format error: {str(e)}"}, status=400)
-        serializer = ContestsCreateUpdateSerializer(data=data)
+    def post(self, request, contest_id=None, *args, **kwargs):
+        if contest_id:
+            contest_instance = get_object_or_404(Contests, pk=contest_id)
+            serializer = ContestsCreateUpdateSerializer(contest_instance, data=request.data)
+        else:
+            serializer = ContestsCreateUpdateSerializer(data=request.data)
+
         if serializer.is_valid():
             contest = serializer.save()
-            ContestDetails.objects.create(contest=contest)
+            if not contest_id:      #Save if no contest ID mean new registration.
+                ContestDetails.objects.create(contest=contest)
             return Response({"status": "success", "message": "Contest has been created successfully", "data": contest.contest_id}, status=201)
         
-        print("vlAidation" , serializer.errors)
         return Response({"status": "error", "message": "Internal Server Error"}, status=500)
     
     def get(self, request, *args, **kwargs):
@@ -49,7 +43,6 @@ class ContestsDetailsView(APIView):
             serializer.save()
             return Response({'status': 'success', 'message': 'Updated contest details successfully'}, status=201)
         else:
-            print(serializer.errors)  # For debugging purposes
             return Response({'status': 'error', 'message': 'Validation error', 'errors': serializer.errors}, status=500)
         
 
@@ -77,17 +70,17 @@ class ContestsDetailsView(APIView):
                     "about": contest.details.about,
                     "eligibility": contest.details.eligibility,
                     "contest_banner_image": contest.details.contest_banner_image,
+                    "contest_banner_image_name": contest.details.contest_banner_image_name,
                     'contest_default_banner_image': contest.details.contest_default_banner_image,
                     "rules": contest.details.rules,
                     "others": contest.details.others
                 }
                 contest_data.append(contest_dict)
 
-            print(contest_data)
             return Response({
                 'status': 'success',
                 'message': 'Contests fetched successfully',
-                'data': contest_data if user_id else contest_dict
+                'data': contest_data     if user_id else contest_dict
             }, status=200)
         except Exception as e:
             return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)
@@ -140,7 +133,6 @@ class ProblemsCreateUpdateView(APIView):
         problems = Problems.objects.all()
         try:
             serializer = ProblemsSerializer(problems, many=True)
-            print(serializer.data)
             return Response({'status': 'success', 'message': 'Contest fetched successfully', 'data': serializer.data}, status=200)
         except:
             return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)
@@ -150,14 +142,10 @@ class ContestsView(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
         data['weightage'] = int(data['weightage'])
-        print(type(data))
-        print(data['tags'])
         serializer = ProblemsSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({'status': 'success', 'message': 'Challenge added successfully'}, status=200)
         else:
-            print(serializer.data)
-            print(serializer.errors)
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
   
