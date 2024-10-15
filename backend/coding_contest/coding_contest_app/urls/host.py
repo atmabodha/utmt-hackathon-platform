@@ -4,7 +4,7 @@ from  ..views.contests import ContestsDetailsView, ContestsPrizesView, ContestsP
 
 urlpatterns = [
     re_path(r'^contests/edit(?:/(?P<contest_id>[\w-]+))?(?:/(?P<user_id>[\w-]+))?/details/$', ContestsDetailsView.as_view(), name='contest_details'),
-    path('contests/edit/prizes/', ContestsPrizesView.as_view(), name='contest_prizes'),
+    path('contests/<int:contest_id>/edit/prizes/', ContestsPrizesView.as_view(), name='contest_prizes'),
     path('contests/registration/', ContestCreateUpdateView.as_view(), name='contest_registration'),
     path('contests/<int:contest_id>/registration/', ContestCreateUpdateView.as_view(), name='contest_update'),
     path('contests/edit/challenge/', ProblemsCreateUpdateView.as_view(), name='contest_challenge'),

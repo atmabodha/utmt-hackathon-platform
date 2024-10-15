@@ -18,6 +18,7 @@ class ContestViewSerializer(serializers.ModelSerializer):
                   'participant_limit', 'registration_deadline']
         
 class ContestDetailsSerializer(serializers.ModelSerializer):
+    # contest = ContestViewSerializer(read_only=True)
     class Meta:
         model = ContestDetails
         fields = [
@@ -37,12 +38,6 @@ class ContestPrizesSerializer(serializers.ModelSerializer):
         fields = ['contest', 'prize_position', 'prize_description', 'prize_amount', 'others']
 
 
-class ContestProblemsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ContestProblems
-        fields = ['contest', 'problem', 'order_of_problem_in_contest', 'weightage']
-
-
 ### Problems Serialiser
 class ProblemsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,3 +50,10 @@ class ProblemsSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['problem_id'] = instance.problem_id  # Add problem_id here
         return representation
+    
+
+class ContestProblemsSerializer(serializers.ModelSerializer):
+    problem = ProblemsSerializer(read_only=True)  # Nested serializer for Problem
+    class Meta:
+        model = ContestProblems
+        fields = ['contest', 'problem', 'order_of_problem_in_contest', 'weightage']

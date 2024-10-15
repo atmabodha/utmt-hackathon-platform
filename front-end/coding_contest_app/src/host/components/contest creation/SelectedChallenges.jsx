@@ -5,7 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Swal from "sweetalert2";
 import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 import { useParams } from "react-router-dom";
-import { getData } from "../../apis/ApiRequests";
+import { sendData, getData } from "../../apis/ApiRequests";
 
 const SelectedChallenges = ({ contestUrl }) => {
   const { contestId } = useParams();
@@ -33,6 +33,24 @@ const SelectedChallenges = ({ contestUrl }) => {
     fetchProblems();
   }, []);
 
+  useEffect(() => {
+    const fetchContestProblems = async () => {
+      try {
+        const url =
+          BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/";
+        const response = await getData(url);
+        const data = response.data.data;
+        if (data) {
+          setQuestions(data);
+        }
+        
+      } catch (error) {
+        console.error("Error fetching problems:", error);
+      }
+    };
+
+    fetchContestProblems();
+  }, [contestId]);
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -74,6 +92,27 @@ const SelectedChallenges = ({ contestUrl }) => {
     window.addEventListener("message", handleMessage, false);
   };
 
+  const handleQuestionSelection = async (result) => {
+    if (result.isConfirmed) {
+      const { name, score } = result.value;
+      const problem = problems[name]
+      const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/"
+      const problemData = new FormData();
+      problemData.append("contest", contestId)
+      problemData.append("problem", problem.problem_id)
+      problemData.append("order_of_problem_in_contest", 12)
+      problemData.append("weightage", score)
+      if (problems) {
+        console.log("repsonse bhejne gaya")
+        const response = await sendData(url, problemData)
+        if (response){
+          setQuestions((prev) => [...prev, problems[name]]);
+        }
+      }
+      console.log("questions", problems[name]);
+      console.log(`Problem added with Name: ${name}, Score: ${score}`);
+    }
+  }
   const handleAddChallenge = () => {
     const filterSuggestions = (query, suggestions) => {
       if (!query) return [];
@@ -160,15 +199,9 @@ const SelectedChallenges = ({ contestUrl }) => {
         });
       },
     }).then((result) => {
-      if (result.isConfirmed) {
-        const { name, score } = result.value;
-        if (problems) {
-          setQuestions((prev) => [...prev, problems[name]]);  
-        }
-        console.log("questions", problems[name]);
-        console.log(`Problem added with Name: ${name}, Score: ${score}`);
+      handleQuestionSelection(result)
       }
-    });
+    );
   };
 
   return (
@@ -208,24 +241,24 @@ const SelectedChallenges = ({ contestUrl }) => {
           <div className="questions">
             {questions.map((q) => (
               <div
-                key={q.problem_id}
+                key={q.problem.problem_id}
                 className="question-card"
-                onClick={() => toggleExpand(q.problem_id)}
+                onClick={() => toggleExpand(q.problem.problem_id)}
               >
                 <div className="question-header">
                   <p>
-                    <strong>{q.name}</strong>
+                    <strong>{q.problem.name}</strong>
                   </p>
                 </div>
                 <div
                   className={`question-body ${
-                    expandedCard === q.id ? "expanded" : ""
+                    expandedCard === q.problem.problem_id ? "expanded" : ""
                   }`}
                 >
-                  {Object.entries(q).map(
+                  {Object.entries(q.problem).map(
                     ([key, value]) =>
-                      key !== "id" &&
-                      key !== "title" && (
+                      key !== "problem_id" &&
+                      key !== "name" && (
                         <p key={key}>
                           <strong>
                             {key.charAt(0).toUpperCase() + key.slice(1)}:
@@ -240,9 +273,9 @@ const SelectedChallenges = ({ contestUrl }) => {
                   <button className="questions-edit-btn">Edit</button>
                   <button
                     className="read-more-button"
-                    onClick={() => toggleExpand(q.id)}
+                    onClick={() => toggleExpand(q.problem.problem_id)}
                   >
-                    {expandedCard === q.id ? "Read Less" : "Read More"}
+                    {expandedCard === q.problem.problem_id ? "Read Less" : "Read More"}
                   </button>
                 </div>
               </div>

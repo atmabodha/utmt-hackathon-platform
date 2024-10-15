@@ -4,10 +4,16 @@ import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import ContestEditFooter from "./ContestEditFooter";
 import { useFormHandler } from "./FormHandlers";
-import TextAreaField, { TextInputField } from "../../../utilities/FormComponents";
+import TextAreaField, {
+  TextInputField,
+} from "../../../utilities/FormComponents";
 import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
+import { useParams } from "react-router-dom";
+import showSwalAlert from "../../../utilities/AlertComponents.jsx";
+import { sendData } from "../../apis/ApiRequests";
 
 function AddPrizes({ contestUrl }) {
+  const { contestId } = useParams();
   const textAreaFields = [
     {
       label: "Prize Description",
@@ -23,17 +29,16 @@ function AddPrizes({ contestUrl }) {
     {
       label: "Prize Position",
       name: "prizePosition",
-      type: "text"
+      type: "text",
     },
 
     {
       label: "Prize Amount",
       name: "prizeAmount",
-      type: "number"
+      type: "number",
     },
   ];
   const { formData: prizeData, handleInputChange } = useFormHandler({
-    contest: 1,
     prizePosition: "",
     prizeDescription: "",
     prizeAmount: "",
@@ -42,13 +47,20 @@ function AddPrizes({ contestUrl }) {
 
   const handlePrizeSubmit = async () => {
     const prizeFormData = new FormData();
-    prizeFormData.append("contest", prizeData.contest);
     prizeFormData.append("prize_position", prizeData.prizePosition);
     prizeFormData.append("prize_description", prizeData.prizeDescription);
     prizeFormData.append("prize_amount", prizeData.prizeAmount);
     prizeFormData.append("others", prizeData.others);
-    const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "edit/prizes/";
-    await sendData(url, prizeFormData);
+    prizeFormData.append("contest", contestId);
+    const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/edit/prizes/";
+    const response = await sendData(url, prizeFormData);
+    if (response) {
+      showSwalAlert({
+        icon: "success",
+        title: "Prize added",
+        text: "Prizes details updated.",
+      });
+    }
   };
 
   return (
@@ -65,7 +77,7 @@ function AddPrizes({ contestUrl }) {
         </div>
         <div className="prize-form">
           <Form>
-          {inputFields.map((field, index) => (
+            {inputFields.map((field, index) => (
               <TextInputField
                 key={index}
                 type={field.type}
