@@ -96,6 +96,7 @@ const SelectedChallenges = ({ contestUrl }) => {
     if (result.isConfirmed) {
       const { name, score } = result.value;
       const problem = problems[name]
+      console.log("problem", problem)
       const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/"
       const problemData = new FormData();
       problemData.append("contest", contestId)
@@ -106,7 +107,11 @@ const SelectedChallenges = ({ contestUrl }) => {
         console.log("repsonse bhejne gaya")
         const response = await sendData(url, problemData)
         if (response){
-          setQuestions((prev) => [...prev, problems[name]]);
+          const response2 = await getData(url);
+          const data2 = response2.data.data
+          if (data2){
+            setQuestions(data2);
+          } 
         }
       }
       console.log("questions", problems[name]);
@@ -126,9 +131,9 @@ const SelectedChallenges = ({ contestUrl }) => {
     Swal.fire({
       title: "Add Problems to Contest",
       html: `
-          <input id="contest-name" class="swal2-input custom-input" placeholder="Name of Contest" autocomplete="off" />
+          <input id="contest-name" class="swal2-input custom-input" placeholder="Name of problem to search" autocomplete="off" />
           <ul id="name-list" class="autocomplete-list"></ul>
-          <input id="contest-score" class="swal2-input custom-input" placeholder="Score of Contest" />
+          <input id="contest-score" class="swal2-input custom-input" placeholder="Score for problem"/>
         `,
       // <input id="contest-tag" class="swal2-input custom-input" placeholder="Tag of Contest" autocomplete="off" />
       // <ul id="tag-list" class="autocomplete-list"></ul>
@@ -231,7 +236,7 @@ const SelectedChallenges = ({ contestUrl }) => {
             <div className="question-create-txt">
               <p>
                 To create your own problem. Click{" "}
-                <a onClick={handleCreateChallenge}>Here</a>
+                <a style={{color: "rgb(89, 89, 247)"}}onClick={handleCreateChallenge}>Here</a>
               </p>
             </div>
             <button className="questions-add-btn" onClick={handleAddChallenge}>
@@ -241,9 +246,9 @@ const SelectedChallenges = ({ contestUrl }) => {
           <div className="questions">
             {questions.map((q) => (
               <div
-                key={q.problem.problem_id}
+                key={q.problem.id}
                 className="question-card"
-                onClick={() => toggleExpand(q.problem.problem_id)}
+                onClick={() => toggleExpand(q.problem.id)}
               >
                 <div className="question-header">
                   <p>
@@ -252,12 +257,12 @@ const SelectedChallenges = ({ contestUrl }) => {
                 </div>
                 <div
                   className={`question-body ${
-                    expandedCard === q.problem.problem_id ? "expanded" : ""
+                    expandedCard === q.problem.id ? "expanded" : ""
                   }`}
                 >
                   {Object.entries(q.problem).map(
                     ([key, value]) =>
-                      key !== "problem_id" &&
+                      key !== "id" &&
                       key !== "name" && (
                         <p key={key}>
                           <strong>
@@ -273,9 +278,9 @@ const SelectedChallenges = ({ contestUrl }) => {
                   <button className="questions-edit-btn">Edit</button>
                   <button
                     className="read-more-button"
-                    onClick={() => toggleExpand(q.problem.problem_id)}
+                    onClick={() => toggleExpand(q.problem.id)}
                   >
-                    {expandedCard === q.problem.problem_id ? "Read Less" : "Read More"}
+                    {expandedCard === q.problem.id ? "Read Less" : "Read More"}
                   </button>
                 </div>
               </div>

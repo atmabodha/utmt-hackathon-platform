@@ -89,7 +89,8 @@ class ContestsDetailsView(APIView):
 class ContestsProblemsView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, contest_id, *args, **kwargs):
-        serializer = ContestProblemsSerializer(data=request.data)    
+        serializer = ContestProblemsSerializer(data=request.data)
+        # print("serialiser", serializer)   
         if serializer.is_valid():
             serializer.save()
             return Response({'status': 'success', 'message': 'updated Problem to Contest successfully'}, status=200)
@@ -99,8 +100,38 @@ class ContestsProblemsView(APIView):
     def get(self, request, contest_id, *args, **kwargs):
         try:
             problems = ContestProblems.objects.filter(contest=contest_id)
-            serializer = ContestProblemsSerializer(problems, many=True)
-            return Response({'status': 'success', 'message': 'Contest fetched successfully', 'data': serializer.data}, status=200)
+            problems_fetched = []
+
+        # Iterate through each problem and format the data
+            for problem in problems:
+                # Fetch related contest and problem detail
+                problem_details = problem.problem
+
+                # Create a dictionary for each problem
+                problem_data = {
+                    "contest_problem_id": problem.contest_problem_id,
+                    "problem": {
+                        "id": problem_details.problem_id,  # Assuming Problems model has an 'id' field
+                        "name": problem_details.name,  # Adjust this based on the actual fields in Problems
+                        "description": problem_details.description,  # Adjust accordingly
+                        "input_format": problem_details.input_format,
+                        "output_format": problem_details.output_format,
+                        "constraints": problem_details.constraints,
+                        "difficulty_level": problem_details.difficulty_level,
+                        "doc_reference": problem_details.doc_references,
+                        "weightage": problem_details.weightage,
+                        "tags": problem_details.tags,
+                        
+                    },
+                    "order_of_problem_in_contest": problem.order_of_problem_in_contest,
+                    "weightage": problem.weightage,
+                }
+
+                # Append the problem data to the list
+                problems_fetched.append(problem_data)
+
+            # serializer = ContestProblemsSerializer(problems, many=True)
+            return Response({'status': 'success', 'message': 'Contest fetched successfully', 'data': problems_fetched}, status=200)
         except Exception as e:
             print(e)
             return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)

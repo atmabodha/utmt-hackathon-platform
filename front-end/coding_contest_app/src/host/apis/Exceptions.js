@@ -8,7 +8,7 @@ export const handleApiResponse = (response) => {
   }
 
   const status = response?.status;
-  const message = response?.data.message || 'mai data ka error message read nahi kar paya';
+  const message = response?.data.message || "Couldn't understand the server message";
 
   switch (status) {
     case 400:  // Bad Request

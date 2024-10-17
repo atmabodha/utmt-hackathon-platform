@@ -25,12 +25,12 @@ const CreateChallenge = ({ contestUrl }) => {
   const {current: user} = useUser()
   const [loading, setLoading] = useState();
   const predefinedOptions = [
-    { value: "frontend", label: "Frontend" },
-    { value: "backend", label: "Backend" },
-    { value: "performance", label: "Performance" },
-    { value: "security", label: "Security" },
-    { value: "UI", label: "UI" },
-    { value: "bug", label: "Bug" },
+    { value: "array", label: "Array" },
+    { value: "string", label: "String" },
+    { value: "sorting", label: "Sorting" },
+    { value: "database", label: "Database" },
+    { value: "matrix", label: "Matrix" },
+    { value: "binary search", label: "Binary Search" },
   ];
 
   const {

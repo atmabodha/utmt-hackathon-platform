@@ -53,7 +53,6 @@ class ProblemsSerializer(serializers.ModelSerializer):
     
 
 class ContestProblemsSerializer(serializers.ModelSerializer):
-    problem = ProblemsSerializer(read_only=True)  # Nested serializer for Problem
     class Meta:
         model = ContestProblems
         fields = ['contest', 'problem', 'order_of_problem_in_contest', 'weightage']
