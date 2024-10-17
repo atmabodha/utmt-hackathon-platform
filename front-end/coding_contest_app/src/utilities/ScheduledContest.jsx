@@ -22,7 +22,7 @@ const LiveContests = ({ data }) => {
           <div className="col" key={index}>
             <div className="card" id="contest-card">
               <img
-                src={contest.contest_image}
+                src={contest.contest_banner_image}
                 alt={"Contest Banner"}
                 className="card-img-top"
                 style={{ height: "150px", objectFit: "cover" }}

@@ -111,7 +111,7 @@ const SelectedChallenges = ({ contestUrl }) => {
           const data2 = response2.data.data
           if (data2){
             setQuestions(data2);
-          } 
+          }
         }
       }
       console.log("questions", problems[name]);

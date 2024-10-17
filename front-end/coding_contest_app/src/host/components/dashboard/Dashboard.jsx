@@ -42,8 +42,9 @@ const ContestHistory = () => {
           setScheduledContests(scheduled);
           setLiveContests(live);
 
-          if (past.length > 0) setType("past");
+          if (live.length > 0) setType("live");
           else if (scheduled.length > 0) setType("scheduled");
+          else if (past.length > 0) setType("past");
           else setType("live");
         }
       }

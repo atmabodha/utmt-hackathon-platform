@@ -89,7 +89,7 @@ function AboutContest({ contestUrl }) {
 
     // Handle banner image upload if available
     if (aboutData.bannerImage) {
-      const uniqueImageName = user?.uid + aboutData.bannerImage.name;
+      const uniqueImageName = contestId + aboutData.bannerImage.name;
       aboutFormData.append("contest_banner_image_name", aboutData.bannerImage.name)
       const storageRef = ref(storage, `images/${uniqueImageName}`);
 
