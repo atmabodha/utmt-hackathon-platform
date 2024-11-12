@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "coding_contest_app",
     'rest_framework',
     'corsheaders',
+    'drf_yasg'
 
 ]
 

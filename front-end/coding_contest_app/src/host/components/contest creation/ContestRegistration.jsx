@@ -30,35 +30,38 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
   if (!isRegistration) {
     const contestDetailsUrl =
       BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + `edit/${contestId}/details/`;
-      useEffect(() => {
-        const fetchContestData = async () => {
-          const response = await getData(contestDetailsUrl); // Fetch data for the specific contestId
-          const contestDetails = response.data.data;
-    
-          // Update formData with the fetched data
-          if (contestDetails) {
-            setFormData({
-              contestName: contestDetails.contest_name || "",
-              organizationType: contestDetails.organization_type || "",
-              organizationName: contestDetails.organization_name || "",
-              startDateTime: convertToMomentFormat(contestDetails.start_date_time) || "",
-              endDateTime: convertToMomentFormat(contestDetails.end_date_time) || "",
-              contestVisibility: contestDetails.contest_visibility || "",
-              participantLimit: contestDetails.participant_limit || 500,
-              registrationDeadline: convertToMomentFormat(contestDetails.registration_deadline) || "",
-            });
-    
-            console.log(contestDetails);
-            console.log(initialState);
-          }
-        };
-    
-        if (!isRegistration) {
-          fetchContestData();
+    useEffect(() => {
+      const fetchContestData = async () => {
+        const response = await getData(contestDetailsUrl); // Fetch data for the specific contestId
+        const contestDetails = response.data.data;
+
+        // Update formData with the fetched data
+        if (contestDetails) {
+          setFormData({
+            contestName: contestDetails.contest_name || "",
+            organizationType: contestDetails.organization_type || "",
+            organizationName: contestDetails.organization_name || "",
+            startDateTime:
+              convertToMomentFormat(contestDetails.start_date_time) || "",
+            endDateTime:
+              convertToMomentFormat(contestDetails.end_date_time) || "",
+            contestVisibility: contestDetails.contest_visibility || "",
+            participantLimit: contestDetails.participant_limit || 500,
+            registrationDeadline:
+              convertToMomentFormat(contestDetails.registration_deadline) || "",
+          });
+
+          console.log(contestDetails);
+          console.log(initialState);
         }
-      }, [contestDetailsUrl]);
+      };
+
+      if (!isRegistration) {
+        fetchContestData();
+      }
+    }, [contestDetailsUrl]);
   }
-  
+
   const [loading, setLoading] = useState(false);
   const { current: user } = useUser();
   console.log("in regist", user?.uid);
@@ -92,45 +95,43 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
     e.preventDefault();
     setLoading(true);
     if (user?.uid) {
-      if (isRegistration){
-        const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/";
+      if (isRegistration) {
+        const url =
+          BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + "registration/";
         handleSubmit(formData, user.uid, afterSubmission, url);
-      }else{
-        const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/registration/";
+      } else {
+        const url =
+          BASE_SERVER_URL +
+          HOST_ENDPOINT +
+          CONTESTS +
+          contestId +
+          "/registration/";
         handleSubmit(formData, user.uid, afterSubmission, url);
       }
-      
     }
     setLoading(false);
   };
 
-  // useEffect(() => {
-  //   const fetchContestData = async () => {
-  //     const response = await getData(contestDetailsUrl); // Fetch data for the specific contestId
-  //     const contestDetails = response.data.data;
+  // Helper function to set minimum time based on selected date
+  const getMinTime = (selectedDate, minDate) => {
+    const newDateTime = new Date(minDate);
+    const newDateTime1 = new Date(selectedDate);
+    newDateTime1.setHours(0, 0)
+    newDateTime.setHours(0, 0)
+    return newDateTime.toDateString() === newDateTime1.toDateString()
+      ? new Date().setHours(new Date(minDate).getHours(), new Date(minDate).getHours())
+      : new Date().setHours(0, 0);
+  };
 
-  //     // Update formData with the fetched data
-  //     if (contestDetails) {
-  //       setFormData({
-  //         contestName: contestDetails.contest_name || "",
-  //         organizationType: contestDetails.organization_type || "",
-  //         organizationName: contestDetails.organization_name || "",
-  //         startDateTime: contestDetails.start_date_time || "",
-  //         endDateTime: contestDetails.end_date_time || "",
-  //         contestVisibility: contestDetails.contest_visibility || "",
-  //         participantLimit: contestDetails.participant_limit || 500,
-  //         registrationDeadline: contestDetails.registration_deadline || "",
-  //       });
-
-  //       console.log(contestDetails);
-  //       console.log(initialState);
-  //     }
-  //   };
-
-  //   if (!isRegistration) {
-  //     fetchContestData();
-  //   }
-  // }, [contestDetailsUrl]);
+  const getMaxTime = (selectedDate, minDate) => {
+    const newDateTime = new Date(minDate);
+    const newDateTime1 = new Date(selectedDate);
+    newDateTime1.setHours(0, 0)
+    newDateTime.setHours(0, 0)
+    return newDateTime.toDateString() === newDateTime1.toDateString()
+      ? new Date().setHours(new Date(minDate).getHours(), new Date(minDate).getHours())
+      : new Date().setHours(23, 59);
+  };
 
   return (
     <div className="contest-detail-filling">
@@ -206,6 +207,22 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
             />
 
             <DateTimeInputField
+              label="Select registration deadline"
+              name="registrationDeadline"
+              value={formData.registrationDeadline}
+              onChange={handleOtherInputChange}
+              controlId="formGroupRegistrationDeadline"
+              groupClass="mb-3"
+              labelClass=""
+              inputClass="start-date date-picker"
+              required={true}
+              minDate={new Date()}
+              maxDate={formData.startDateTime}
+              maxTime={getMaxTime(formData.registrationDeadline, formData.startDateTime)}
+              placeholder="Select registration deadline"
+              controlClass={"form-control-custom"}
+            />
+            <DateTimeInputField
               label="Select Start Date and Time"
               name="startDateTime"
               value={formData.startDateTime}
@@ -213,9 +230,14 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               controlId="formGroupStartDateTime"
               groupClass="mb-3"
               labelClass=""
+              minDate={formData.registrationDeadline}
+              maxDate={formData.endDateTime}
+              maxTime={getMaxTime(formData.startDateTime, formData.endDateTime)}
+              minTime={getMinTime(formData.startDateTime, formData.registrationDeadline)}
               inputClass="start-date date-picker"
               required={true}
               placeholder="Select start date and time"
+              controlClass={"form-control-custom"}
             />
 
             <DateTimeInputField
@@ -226,22 +248,12 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               controlId="formGroupEndDateTime"
               groupClass="mb-3"
               labelClass=""
+              minDate={formData.startDateTime}
+              minTime={getMinTime(formData.endDateTime, formData.startDateTime)}
               inputClass="end-date date-picker"
               required={true}
               placeholder="Select end date and time"
-            />
-
-            <DateTimeInputField
-              label="Select registration deadline"
-              name="registrationDeadline"
-              value={formData.registrationDeadline}
-              onChange={handleOtherInputChange}
-              controlId="formGroupRegistrationDeadline"
-              groupClass="mb-3"
-              labelClass=""
-              inputClass="start-date date-picker"
-              required={true}
-              placeholder="Select registration deadline"
+              controlClass={"form-control-custom"}
             />
 
             <SelectInputField

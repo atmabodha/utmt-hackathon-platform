@@ -66,14 +66,3 @@
 .form .date-picker {
   color: black;
 }
-
-#ok-button {
-    display: block;
-    margin: 10px auto 0;
-    padding: 5px 10px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
