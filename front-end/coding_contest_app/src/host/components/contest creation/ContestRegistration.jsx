@@ -230,7 +230,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               controlId="formGroupStartDateTime"
               groupClass="mb-3"
               labelClass=""
-              minDate={formData.registrationDeadline}
+              minDate={formData.registrationDeadline || new Date()}
               maxDate={formData.endDateTime}
               maxTime={getMaxTime(formData.startDateTime, formData.endDateTime)}
               minTime={getMinTime(formData.startDateTime, formData.registrationDeadline)}
@@ -248,7 +248,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               controlId="formGroupEndDateTime"
               groupClass="mb-3"
               labelClass=""
-              minDate={formData.startDateTime}
+              minDate={formData.startDateTime || new Date()}
               minTime={getMinTime(formData.endDateTime, formData.startDateTime)}
               inputClass="end-date date-picker"
               required={true}

@@ -83,6 +83,29 @@
   color: var(--text-color); /* Dark text color for readability */
 }
 
+/* Styling for disabled dates */
+.react-datepicker__day--disabled {
+  background-color: rgb(240, 240, 240); /* Light grey background for disabled days */
+  color: rgb(170, 170, 170); /* Light grey text for visibility */
+  cursor: not-allowed; /* Disabled cursor */
+  opacity: 0.6; /* Reduced opacity for visual distinction */
+}
+
+/* Styling for disabled time items */
+.react-datepicker__time-list-item--disabled {
+  background-color: rgb(240, 240, 240); /* Light grey background for disabled times */
+  color: rgb(170, 170, 170); /* Light grey text */
+  cursor: not-allowed; /* Disabled cursor */
+  opacity: 0.6; /* Reduced opacity for distinction */
+}
+
+/* Optional: Add hover effect for disabled items (won't change on hover) */
+.react-datepicker__day--disabled:hover,
+.react-datepicker__time-list-item--disabled:hover {
+  background-color: rgb(240, 240, 240); /* Same as disabled background */
+  color: rgb(170, 170, 170); /* Same as disabled color */
+}
+
 .react-datepicker-wrapper {
   width: 100%  !important;
 }
