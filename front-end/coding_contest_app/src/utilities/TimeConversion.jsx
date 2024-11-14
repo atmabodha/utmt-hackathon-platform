@@ -64,12 +64,15 @@ const TimeDifference = ({ startDate, endDate }) => {
 
 
 function convertToMomentFormat(inputDate) {
-  // Convert the input date (Date object) to a moment object
+  // Convert input Date object to a moment object
   const momentDate = moment(inputDate);
 
-  // Format the moment object to "MM/DD/YYYY h:mm A"
-  return momentDate.format("MM/DD/YYYY h:mm A");
+  // Format to "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)"
+  
+  return new Date(momentDate);
 }
+
+
 
 const convertToDbDateTime = (date) => {
   // Ensure the date is in moment format and convert it to ISO string

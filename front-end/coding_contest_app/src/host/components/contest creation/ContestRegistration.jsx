@@ -27,6 +27,7 @@ import { convertToMomentFormat } from "../../../utilities/TimeConversion.jsx";
 
 const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
   const { contestId } = useParams();
+  const [requiredFields, setRequiredFields] = useState({});
   if (!isRegistration) {
     const contestDetailsUrl =
       BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + `edit/${contestId}/details/`;
@@ -50,10 +51,8 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
             registrationDeadline:
               convertToMomentFormat(contestDetails.registration_deadline) || "",
           });
-
-          console.log(contestDetails);
-          console.log(initialState);
         }
+        console.log("converted", convertToMomentFormat(contestDetails.start_date_time))
       };
 
       if (!isRegistration) {
@@ -66,6 +65,17 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
   const { current: user } = useUser();
   console.log("in regist", user?.uid);
   const navigate = useNavigate();
+
+  const validateRequiredFields = () => {
+    const requiredErrors = {};
+    Object.keys(formData).forEach((field) => {
+      if (!formData[field]) {
+        requiredErrors[field] = "Please fill this section.";
+      }
+    });
+    setRequiredFields(requiredErrors);
+    return Object.keys(requiredErrors).length === 0;
+  };
 
   const [handleSubmit] = useContestRegistrationSubmit();
   const { formData, handleInputChange, handleOtherInputChange, setFormData } =
@@ -93,6 +103,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    if (!validateRequiredFields()) return;
     setLoading(true);
     if (user?.uid) {
       if (isRegistration) {
@@ -116,20 +127,26 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
   const getMinTime = (selectedDate, minDate) => {
     const newDateTime = new Date(minDate);
     const newDateTime1 = new Date(selectedDate);
-    newDateTime1.setHours(0, 0)
-    newDateTime.setHours(0, 0)
+    newDateTime1.setHours(0, 0);
+    newDateTime.setHours(0, 0);
     return newDateTime.toDateString() === newDateTime1.toDateString()
-      ? new Date().setHours(new Date(minDate).getHours(), new Date(minDate).getHours())
+      ? new Date().setHours(
+          new Date(minDate).getHours(),
+          new Date(minDate).getHours()
+        )
       : new Date().setHours(0, 0);
   };
 
   const getMaxTime = (selectedDate, minDate) => {
     const newDateTime = new Date(minDate);
     const newDateTime1 = new Date(selectedDate);
-    newDateTime1.setHours(0, 0)
-    newDateTime.setHours(0, 0)
+    newDateTime1.setHours(0, 0);
+    newDateTime.setHours(0, 0);
     return newDateTime.toDateString() === newDateTime1.toDateString()
-      ? new Date().setHours(new Date(minDate).getHours(), new Date(minDate).getHours())
+      ? new Date().setHours(
+          new Date(minDate).getHours(),
+          new Date(minDate).getHours()
+        )
       : new Date().setHours(23, 59);
   };
 
@@ -178,6 +195,9 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               controlClass="form-control-custom"
               placeholder="Enter contest name"
             />
+            {requiredFields.contestName && (
+              <p style={{ color: "red" }}>{requiredFields.contestName}</p>
+            )}
 
             <SelectInputField
               label="Organization Type"
@@ -194,6 +214,9 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               ]}
               ariaLabel="Select Organization type"
             />
+            {requiredFields.organizationType && (
+              <p style={{ color: "red" }}>{requiredFields.organizationType}</p>
+            )}
 
             <TextInputField
               label="Organisation Name"
@@ -205,6 +228,9 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               controlClass="form-control-custom"
               placeholder="Enter organisation name"
             />
+            {requiredFields.organizationName && (
+              <p style={{ color: "red" }}>{requiredFields.organizationName}</p>
+            )}
 
             <DateTimeInputField
               label="Select registration deadline"
@@ -218,10 +244,16 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               required={true}
               minDate={new Date()}
               maxDate={formData.startDateTime}
-              maxTime={getMaxTime(formData.registrationDeadline, formData.startDateTime)}
+              maxTime={getMaxTime(
+                formData.registrationDeadline,
+                formData.startDateTime
+              )}
               placeholder="Select registration deadline"
               controlClass={"form-control-custom"}
             />
+            {requiredFields.registrationDeadline && (
+              <p style={{ color: "red" }}>{requiredFields.registrationDeadline}</p>
+            )}
             <DateTimeInputField
               label="Select Start Date and Time"
               name="startDateTime"
@@ -233,12 +265,18 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               minDate={formData.registrationDeadline || new Date()}
               maxDate={formData.endDateTime}
               maxTime={getMaxTime(formData.startDateTime, formData.endDateTime)}
-              minTime={getMinTime(formData.startDateTime, formData.registrationDeadline)}
+              minTime={getMinTime(
+                formData.startDateTime,
+                formData.registrationDeadline
+              )}
               inputClass="start-date date-picker"
               required={true}
               placeholder="Select start date and time"
               controlClass={"form-control-custom"}
             />
+            {requiredFields.startDateTime && (
+              <p style={{ color: "red" }}>{requiredFields.startDateTime}</p>
+            )}
 
             <DateTimeInputField
               label="Select End Date and Time"
@@ -255,6 +293,9 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               placeholder="Select end date and time"
               controlClass={"form-control-custom"}
             />
+            {requiredFields.endDateTime && (
+              <p style={{ color: "red" }}>{requiredFields.endDateTime}</p>
+            )}
 
             <SelectInputField
               name="contestVisibility"
@@ -270,6 +311,9 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
                 { value: "private", label: "Private" },
               ]}
             />
+            {requiredFields.contestVisibility && (
+              <p style={{ color: "red" }}>{requiredFields.contestVisibility}</p>
+            )}
 
             <TextInputField
               label="Participant Limit"
@@ -282,6 +326,9 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               controlClass="form-control-custom"
               placeholder="Enter participant limit"
             />
+            {requiredFields.participantLimit && (
+              <p style={{ color: "red" }}>{requiredFields.participantLimit}</p>
+            )}
           </Form>
           {isRegistration ? (
             <div className="formsubmit">

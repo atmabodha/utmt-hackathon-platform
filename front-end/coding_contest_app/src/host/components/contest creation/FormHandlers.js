@@ -22,7 +22,6 @@ export const useFormHandler = (initialState) => {
       ...prevData,
       [name]: object,
     }));
-    console.log(object);
   };
 
   const handleFileChange = (e, maxFileSize) => {

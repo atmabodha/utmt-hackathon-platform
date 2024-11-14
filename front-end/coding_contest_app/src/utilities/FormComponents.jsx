@@ -1,6 +1,4 @@
 import React from "react";
-// import Datetime from "react-datetime";
-// import "react-datetime/css/react-datetime.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Form, Row, Col } from 'react-bootstrap';
@@ -20,7 +18,7 @@ const TextAreaField = ({
 }) => {
   return (
     <Form.Group controlId={controlId} className={`${groupClass}`}>
-      <Form.Label className={labelClass}>{label}</Form.Label>
+      <Form.Label className={labelClass}>{label} {required && <span style={{color: "red"}}>*</span>}</Form.Label>
       <Form.Control
         as="textarea"
         rows={rows || 6}
@@ -49,7 +47,7 @@ export const TextInputField = ({
   return (
     <Form.Group controlId={controlId} className={groupClass}>
       <Form.Label className={labelClass}>
-        {label} {required && <span>*</span>}
+        {label} {required && <span style={{color: "red"}}>*</span>}
       </Form.Label>
       <Form.Control
         type={type || "text"}
@@ -59,6 +57,7 @@ export const TextInputField = ({
         required={required}
         className={controlClass}
         placeholder={placeholder}
+        min={type === "number" ? 1 : undefined}
       />
     </Form.Group>
   );
@@ -80,7 +79,7 @@ export const SelectInputField = ({
   return (
     <Form.Group controlId={controlId} className={groupClass}>
       <Form.Label className={labelClass}>
-        {label} {required && <span>*</span>}
+      {label} {required && <span style={{color: "red"}}>*</span>}
       </Form.Label>
       <Form.Select
         name={name}
@@ -119,8 +118,7 @@ export const FileInputField = ({
   return (
     <Form.Group controlId={"file-input"} className={groupClass}>
       <Form.Label className={labelClass}>
-        {label} {required && <span>*</span>}
-      </Form.Label>
+      {label} {required && <span style={{color: "red"}}>*</span>}      </Form.Label>
       <Form.Control
         type="file"
         name={name}
@@ -157,6 +155,7 @@ export const SelectMultipleOptions = ({
   id,
   value,
   options,
+  required,
   groupClass,
   handleChange,
   placeholder,
@@ -184,7 +183,7 @@ export const SelectMultipleOptions = ({
   };
   return (
     <div>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>{label} {required && <span style={{color: "red"}}>*</span>}</label>
       <CreatableSelect
         isMulti
         name={name}
@@ -201,121 +200,6 @@ export const SelectMultipleOptions = ({
     </div>
   );
 };
-
-
-// export const DateTimeInputField = ({
-//   label,
-//   name,
-//   value,
-//   onChange,
-//   controlId,
-//   groupClass,
-//   labelClass,
-//   inputClass,
-//   required = false,
-//   placeholder = "Select date and time",
-// }) => {
-//   const [viewMode, setViewMode] = useState("days"); // Initial view is date selection
-
-//   const handleDateChange = (selectedDate) => {
-//     // Check if only a date was selected (not a full date-time object)
-//     if (selectedDate && selectedDate._isAMomentObject && selectedDate._f === "YYYY-MM-DD") {
-//       setViewMode("time"); // Switch to time picker after selecting a date
-//     } else {
-//       onChange(name, selectedDate); // Date and time selected, call onChange prop
-//       closeDateTimePicker(); // Close the picker after time selection
-//     }
-//   };
-
-//   const closeDateTimePicker = () => {
-//     // Simulate clicking outside to close the picker
-//     const outsideClickTarget = document.body;
-//     if (outsideClickTarget) {
-//       const event = new MouseEvent("mousedown", { bubbles: true });
-//       outsideClickTarget.dispatchEvent(event);
-//     }
-//   };
-
-//   const renderView = (mode, renderDefault) => {
-//     return (
-//       <div>
-//         {renderDefault()}
-//         {mode === "time" && (
-//           <button type="button" id="ok-button" onClick={closeDateTimePicker}>
-//             OK
-//           </button>
-//         )}
-//       </div>
-//     );
-//   };
-
-//   return (
-//     <Form.Group controlId={controlId} className={groupClass}>
-//       <Form.Label className={labelClass}>
-//         {label} {required && <span>*</span>}
-//       </Form.Label>
-//       <Datetime
-//         className={inputClass}
-//         timeFormat={true}
-//         dateFormat={true}
-//         viewMode={viewMode}
-//         renderView={renderView}
-//         inputProps={{
-//           placeholder: placeholder,
-//           className: "form-control-custom",
-//         }}
-//         isValidDate={(current) => current.isAfter(Datetime.moment().subtract(1, "day"))}
-//         value={value}
-//         onChange={handleDateChange}
-//         required={required}
-//       />
-//     </Form.Group>
-//   );
-// };
-
-// export const DateTimeInputField = ({
-//   label,
-//   name,
-//   minDate,
-//   minTime,
-//   value,
-//   onChange,
-//   controlId,
-//   groupClass,
-//   labelClass,
-//   controlClass,
-//   required = false,
-//   placeholder = "Select date and time",
-// }) => {
-
-//   // Function to determine minimum time based on the selected date
-//   const getMinTime = (date) => {
-//     if (!minDate || !date) return null; // No min time restriction if no minDate or selected date
-//     // If the selected date is the same as the minDate, apply minTime
-//     return date.toDateString() === minDate.toDateString() ? minTime : null;
-//   };
-
-//   return (
-//     <Form.Group controlId={controlId} className={groupClass}>
-//       <Form.Label className={labelClass}>
-//         {label} {required && <span>*</span>}
-//       </Form.Label>
-//       <DatePicker
-//         className={controlClass}
-//         selected={value}
-//         onChange={(date) => onChange(name, date)}
-//         showTimeSelect
-//         dateFormat="MMMM d, yyyy h:mm aa"
-//         minDate={minDate} // Disable dates before minDate
-//         minTime={getMinTime(value)} // Apply min time if selected date matches minDate
-//         maxTime={new Date().setHours(23, 59)} // Optional: limit the max time to end of the day
-//         placeholderText={placeholder}
-//         required={required}
-//       />
-//     </Form.Group>
-//   );
-// };
-
 
 export const DateTimeInputField = ({
   label,
@@ -342,7 +226,7 @@ export const DateTimeInputField = ({
     newDateTime.setFullYear(selectedDate.getFullYear());
     newDateTime.setMonth(selectedDate.getMonth());
     newDateTime.setDate(selectedDate.getDate());
-    onChange(name, newDateTime);
+    onChange(name, selectedDate);
   };
 
   // Function to handle time change, keeping the date part intact
@@ -351,14 +235,13 @@ export const DateTimeInputField = ({
     const newDateTime = !value? new Date() : new Date(value);
     newDateTime.setHours(selectedTime.getHours());
     newDateTime.setMinutes(selectedTime.getMinutes());
-    onChange(name, newDateTime);
+    onChange(name, selectedTime);
   };
 
   return (
     <Form.Group controlId={controlId} className={groupClass}>
       <Form.Label className={labelClass}>
-        {label} {required && <span>*</span>}
-      </Form.Label>
+      {label} {required && <span style={{color: "red"}}>*</span>}      </Form.Label>
       <Row>
         {/* Date Picker */}
         <Col xs={6}>
@@ -382,7 +265,7 @@ export const DateTimeInputField = ({
             onChange={handleTimeChange}
             showTimeSelect
             showTimeSelectOnly
-            timeIntervals={15} // Set time interval in minutes
+            // timeIntervals={15} // Set time interval in minutes
             timeCaption="Time"
             dateFormat="h:mm aa"
             minTime={minTime || new Date().setHours(0, 0)} // Apply min time if date matches minDate
