@@ -10,6 +10,7 @@ const TextAreaField = ({
   name,
   rows,
   value,
+  required,
   onChange,
   controlId,
   groupClass,

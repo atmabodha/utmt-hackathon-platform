@@ -5,7 +5,6 @@ from ..serializers.users import UserCreateSerializer
 
 class SignUpView(APIView):
     parser_classes = [MultiPartParser, FormParser]
-
     def post(self, request, *args, **kwargs):
         serializer = UserCreateSerializer(data=request.data)
 
@@ -13,4 +12,4 @@ class SignUpView(APIView):
             serializer.save()
             return Response({'status': 'success', 'message': 'User added successfully'}, status=200)
         else:
-            return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
+            return Response({'status': 'error', 'message': 'Validation error', 'errors': serializer.errors}, status=400)
