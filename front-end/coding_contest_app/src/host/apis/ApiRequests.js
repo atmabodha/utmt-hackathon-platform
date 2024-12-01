@@ -33,13 +33,17 @@ export const getData = async (url, headers = {}) => {
 // api to delete data from backend
 export const deleteData = async (url, data = null, headers = {}) => {
   try {
-    const response = await axios.delete (url, data, {headers});
+    const config = {headers}; // Config object for request
+    if (data) {
+      config.data = data; // Attach data to the config object if present
+    }
+    const response = await axios.delete (url, config); // Pass config in the delete call
     return response;
   } catch (error) {
     if (error.response) {
-      handleApiResponse (error.response);
+      handleApiResponse (error.response); // Handle API response errors
     } else {
-      handleNetworkError (error);
+      handleNetworkError (error); // Handle network errors
     }
   }
 };

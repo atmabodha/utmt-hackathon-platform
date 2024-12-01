@@ -169,6 +169,16 @@ class ContestsPrizesView(APIView):
                 return Response({'status': 'success', 'message': 'prizes fetched successfully', 'data': serializer.data}, status=200)
             except:
                 return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
+    
+    def delete(self, request, contest_id, prize_id, *args, **kwargs):
+        try:
+            prize = ContestPrizes.objects.get(prize_id=prize_id, contest_id=contest_id)
+            prize.delete()
+            return Response({'status': 'success', 'message': 'Prize deleted successfully'}, status=200)
+        except ContestPrizes.DoesNotExist:
+            return Response({'status': 'error', 'message': 'Prize not found'}, status=404)
+        except Exception as e:
+            return Response({'status': 'error', 'message': 'Internal server error'}, status=500)
 
 
 class ProblemsCreateUpdateView(APIView):

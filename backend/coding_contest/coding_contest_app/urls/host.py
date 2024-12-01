@@ -11,5 +11,6 @@ urlpatterns = [
     path('contests/<int:contest_id>/problems/', ContestsProblemsView.as_view(), name='contests_problems'),
     path('<str:user_id>/contests/', ContestsDetailsView.as_view(), name='contests'),
     path('contests/<int:contest_id>/problems/<int:problem_id>/', ContestsProblemsView.as_view(), name='contests_problems'),
-    path('api/contests/<int:id>/delete/', ContestDeleteView.as_view(), name='delete_contest_api')
+    path('api/contests/<int:id>/delete/', ContestDeleteView.as_view(), name='delete_contest_api'),
+    path('contests/<int:contest_id>/prizes/<int:prize_id>/delete/', ContestsPrizesView.as_view(), name='delete_prize'),
 ]
