@@ -5,6 +5,7 @@ import {useParams} from 'react-router-dom';
 import {HOST_ENDPOINT, BASE_SERVER_URL, CONTESTS} from '../../../Constants';
 import {getData, deleteData} from '../../apis/ApiRequests';
 import {useNavigate} from 'react-router-dom';
+import showSwalAlert from '../../../utilities/AlertComponents.jsx';
 
 const Prizes = ({contestUrl}) => {
   const {contestId} = useParams ();
@@ -33,25 +34,36 @@ const Prizes = ({contestUrl}) => {
   );
 
   const handleDeletePrize = async prizeId => {
-    console.log (prizeId);
     const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}${CONTESTS}${contestId}/prizes/${prizeId}/delete/`;
     try {
       const response = await deleteData (url);
       if (response && response.status === 200) {
-        // Update state to remove the deleted prize
         setPrizes (prizes.filter (prize => prize.prize_id !== prizeId));
-        alert ('Prize deleted successfully');
-      } else {
-        alert (response.data.data || 'Failed to delete prize');
+        showSwalAlert ({
+          icon: 'success',
+          title: 'Prize Deleted',
+          text: 'Prizes details deleted successfully',
+        });
       }
     } catch (error) {
-      alert ('An error occurred while deleting the prize.');
+      showSwalAlert ({
+        icon: 'error',
+        title: 'Unable to delete',
+        text: 'Failed to delete the prize details',
+      });
     }
   };
 
   const handleAddPrize = () => {
-    navigate (`/administration/contests/${contestId}/edit/create/prizes`); // Change '/current-page' to the route you want to go back to
+    navigate (`/administration/contests/${contestId}/edit/prizes/create`);
   };
+
+  const handleEditPrize = prizeId => {
+    navigate (
+      `/administration/contests/${contestId}/edit/prizes/${prizeId}/edit`
+    );
+  };
+
   return (
     <div className="prizes-list">
       <div className="prizes-list-header">
@@ -87,7 +99,12 @@ const Prizes = ({contestUrl}) => {
                 <td>{prize.prize_amount}</td>
                 <td>{prize.others}</td>
                 <td>
-                  <button className="edit-btn">Edit</button>
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEditPrize (prize.prize_id)}
+                  >
+                    Edit
+                  </button>
                   <button
                     className="delete-btn"
                     onClick={() => handleDeletePrize (prize.prize_id)}

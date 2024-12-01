@@ -152,6 +152,7 @@ class ContestsProblemsView(APIView):
             return Response({'status': 'error', 'message': 'Internal server error'}, status=500)
 
 class ContestsPrizesView(APIView):
+    # Need to write update method for editing the prize details
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, *args, **kwargs):
         serializer = ContestPrizesSerializer(data=request.data)
@@ -162,9 +163,12 @@ class ContestsPrizesView(APIView):
         else:
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
 
-    def get(self, request, contest_id, *args, **kwargs):
+    def get(self, request, contest_id=None, prize_id=None, *args, **kwargs):
             try:
-                prizes = ContestPrizes.objects.filter(contest=contest_id)
+                if prize_id:
+                    prizes = ContestPrizes.objects.filter(prize_id=prize_id)  
+                else:
+                    prizes = ContestPrizes.objects.filter(contest=contest_id)
                 serializer = ContestPrizesSerializer(prizes, many=True)
                 return Response({'status': 'success', 'message': 'prizes fetched successfully', 'data': serializer.data}, status=200)
             except:

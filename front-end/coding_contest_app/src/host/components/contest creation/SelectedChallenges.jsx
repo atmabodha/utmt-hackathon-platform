@@ -32,7 +32,7 @@ const SelectedChallenges = ({ contestUrl }) => {
     };
 
     fetchProblems();
-  }, [countChallengeAdd]);
+  }, [wasChallengeAdded]);
 
   useEffect(() => {
     const fetchContestProblems = async () => {
