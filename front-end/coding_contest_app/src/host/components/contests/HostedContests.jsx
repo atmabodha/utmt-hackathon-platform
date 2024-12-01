@@ -2,21 +2,27 @@ import React, { useEffect, useState } from "react";
 import "./HostedContests.css";
 import { Link } from "react-router-dom";
 import Header from "../header/Header";
-import { getData } from "../../apis/ApiRequests";
+import { getData, deleteData } from "../../apis/ApiRequests";
 import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 import { useUser } from "../../../context/user";
+import { showConfirmationAlert } from "../../../utilities/AlertComponents";
+import {
+  showSuccessToast,
+  showErrorToast,
+  showInfoToast,
+} from "../../../utilities/AlertComponents";
 
 const HostedContests = () => {
   const [contestData, setContestData] = useState([]);
   const { current: user } = useUser();
+
   useEffect(() => {
-    // Define an async function inside the useEffect
     const fetchData = async () => {
       try {
         if (user) {
           const url =
             BASE_SERVER_URL + HOST_ENDPOINT + user.uid + "/" + CONTESTS;
-          const response = await getData(url); // Wait for the async function to resolve
+          const response = await getData(url);
           const data = response.data;
           if (data) {
             setContestData(data.data);
@@ -30,10 +36,45 @@ const HostedContests = () => {
     fetchData();
   }, [user]);
 
-  console.log("data", contestData);
+  const handleDelete = async (contest_id) => {
+    const confirmed = await showConfirmationAlert({
+      title: "Are you sure?",
+      text: "This contest will be permanently deleted!",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, keep it",
+    });
+
+    if (confirmed) {
+      try {
+        const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}api/contests/${contest_id}/delete/`;
+        await deleteData(url, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        // Remove deleted contest from the state
+        setContestData(
+          contestData.filter((contest) => contest.contest_id !== contest_id)
+        );
+
+        // Show success toast
+        showSuccessToast("Contest deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting contest:", error);
+
+        // Show error toast
+        showErrorToast("Failed to delete the contest.");
+      }
+    } else {
+      showInfoToast("Contest deletion was canceled.");
+    }
+  };
+
   if (!contestData) {
-    return;
+    return <p>Loading...</p>;
   }
+
   return (
     <div className="contests-page">
       <Header headerType={"host"} />
@@ -76,7 +117,12 @@ const HostedContests = () => {
                     >
                       <button className="edit-btn">Edit</button>
                     </Link>
-                    <button className="delete-btn">Delete</button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(row.contest_id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

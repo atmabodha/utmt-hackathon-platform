@@ -1,6 +1,6 @@
 from django.urls import path
 from django.urls import re_path
-from  ..views.contests import ContestsDetailsView, ContestsPrizesView, ContestsProblemsView, ContestCreateUpdateView, ProblemsCreateUpdateView
+from  ..views.contests import ContestsDetailsView, ContestsPrizesView, ContestsProblemsView, ContestCreateUpdateView, ProblemsCreateUpdateView, ContestDeleteView
 
 urlpatterns = [
     re_path(r'^contests/edit(?:/(?P<contest_id>[\w-]+))?(?:/(?P<user_id>[\w-]+))?/details/$', ContestsDetailsView.as_view(), name='contest_details'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('contests/<int:contest_id>/problems/', ContestsProblemsView.as_view(), name='contests_problems'),
     path('<str:user_id>/contests/', ContestsDetailsView.as_view(), name='contests'),
     path('contests/<int:contest_id>/problems/<int:problem_id>/', ContestsProblemsView.as_view(), name='contests_problems'),
+    path('api/contests/<int:id>/delete/', ContestDeleteView.as_view(), name='delete_contest_api')
 ]

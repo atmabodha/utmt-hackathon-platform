@@ -31,9 +31,9 @@ export const getData = async (url, headers = {}) => {
 };
 
 // api to delete data from backend
-export const deleteData = async (url, headers = {}) => {
+export const deleteData = async (url, data = null, headers = {}) => {
   try {
-    const response = await axios.delete (url, {headers});
+    const response = await axios.delete (url, data, {headers});
     return response;
   } catch (error) {
     if (error.response) {
