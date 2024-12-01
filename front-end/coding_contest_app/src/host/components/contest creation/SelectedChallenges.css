@@ -133,6 +133,24 @@
     background-color: var(--secondary-color);
 }
 
+
+.questions-delete-btn {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border-radius: 10px;
+    border: 2px;
+    padding: 10px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 100px;
+}
+
+.questions-delete-btn:hover {
+    background-color: var(--secondary-color);
+}
+
 .buttons-container {
     display: flex;
     justify-content: space-between;

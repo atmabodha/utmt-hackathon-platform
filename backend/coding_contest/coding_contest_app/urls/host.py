@@ -10,4 +10,5 @@ urlpatterns = [
     path('contests/edit/challenge/', ProblemsCreateUpdateView.as_view(), name='contest_challenge'),
     path('contests/<int:contest_id>/problems/', ContestsProblemsView.as_view(), name='contests_problems'),
     path('<str:user_id>/contests/', ContestsDetailsView.as_view(), name='contests'),
+    path('contests/<int:contest_id>/problems/<int:problem_id>/', ContestsProblemsView.as_view(), name='contests_problems'),
 ]

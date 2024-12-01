@@ -5,7 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Swal from "sweetalert2";
 import { BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT } from "../../../Constants";
 import { useParams } from "react-router-dom";
-import { sendData, getData } from "../../apis/ApiRequests";
+import { sendData, getData, deleteData } from "../../apis/ApiRequests";
 
 const SelectedChallenges = ({ contestUrl }) => {
   const { contestId } = useParams();
@@ -94,9 +94,8 @@ const SelectedChallenges = ({ contestUrl }) => {
 
   const handleQuestionSelection = async (result) => {
     if (result.isConfirmed) {
-      const { name, score } = result.value;
-      const problem = problems[name]
-      console.log("problem", problem)
+      const { name: problemId, score } = result.value;
+      const problem = problems.find((item) => item.problem_id == problemId);
       const url = BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/"
       const problemData = new FormData();
       problemData.append("contest", contestId)
@@ -104,7 +103,6 @@ const SelectedChallenges = ({ contestUrl }) => {
       problemData.append("order_of_problem_in_contest", 12)
       problemData.append("weightage", score)
       if (problems) {
-        console.log("repsonse bhejne gaya")
         const response = await sendData(url, problemData)
         if (response){
           const response2 = await getData(url);
@@ -114,10 +112,38 @@ const SelectedChallenges = ({ contestUrl }) => {
           }
         }
       }
-      console.log("questions", problems[name]);
-      console.log(`Problem added with Name: ${name}, Score: ${score}`);
+      console.log("questions", problem);
+      console.log(`Problem added with Name: ${problemId}, Score: ${score}`);
     }
-  }
+  };
+  const handleDelete = async (problemId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action will permanently delete the problem!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}contests/${contestId}/problems/${problemId}/`;
+          await deleteData(url);  // Use the dedicated delete function
+          
+          // Re-fetch the updated problems list
+          const updatedResponse = await getData(BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/");
+          setQuestions(updatedResponse.data.data); // Update state with fresh data
+  
+          Swal.fire("Deleted!", "The problem has been deleted.", "success");
+        } catch (error) {
+          console.error("Error deleting problem:", error);
+          Swal.fire("Error!", "Failed to delete the problem.", "error");
+        }
+      }
+    });
+  };
+  
+  
   const handleAddChallenge = () => {
     const filterSuggestions = (query, suggestions) => {
       if (!query) return [];
@@ -172,7 +198,7 @@ const SelectedChallenges = ({ contestUrl }) => {
           inputElement.addEventListener("input", () => {
             const query = inputElement.value;
             const suggestions = filterSuggestions(query, suggestionsArray);
-
+            console.log("sugges", suggestions)
             suggestionsList.innerHTML = ""; // Clear the list
             if (suggestions.length === 0) {
               suggestionsList.style.display = "none";
@@ -184,7 +210,7 @@ const SelectedChallenges = ({ contestUrl }) => {
               li.textContent = suggestion.name;
               li.addEventListener("click", () => {
                 inputElement.value = suggestion.name; // Set the clicked value
-                inputElement.name = index;
+                inputElement.name = suggestion.problem_id;
                 suggestionsList.style.display = "none"; // Hide dropdown
               });
               suggestionsList.appendChild(li);
@@ -275,6 +301,15 @@ const SelectedChallenges = ({ contestUrl }) => {
                   )}
                 </div>
                 <div className="buttons-container">
+                <button
+                    className="questions-delete-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(q.problem.id);
+                    }}
+                  >
+                    Delete
+                  </button>
                   <button className="questions-edit-btn">Edit</button>
                   <button
                     className="read-more-button"

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class Users(models.Model):
     user_id = models.CharField(primary_key=True, max_length=100)
@@ -155,18 +156,23 @@ class Language(models.Model):
 
 
 class ContestProblems(models.Model):
-    contest_problem_id = models.AutoField(primary_key=True)
-    contest = models.ForeignKey(Contests, on_delete=models.CASCADE)
-    problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
-    order_of_problem_in_contest = models.IntegerField(null=True, blank=True)
-    weightage = models.IntegerField()
-
     class Meta:
         db_table = 'contest_problems'
         verbose_name = 'Contest Problems'
+        unique_together = (('contest', 'problem'),)
+    contest_problem_id = models.AutoField(primary_key=True)
+    problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
+    contest = models.ForeignKey(Contests, on_delete=models.CASCADE)
+    order_of_problem_in_contest = models.IntegerField(null=True, blank=True)
+    weightage = models.IntegerField()
+        
+    def save(self, *args, **kwargs):
+        if ContestProblems.objects.filter(contest=self.contest, problem=self.problem).exists():
+            raise ValidationError("This contest-problem combination already exists.")
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Problem {self.problem.name} in Contest {self.contest.contest_name}"
+        return f"Problem {self.problem} in Contest {self.contest}"
 
 
 class ContestRegistration(models.Model):

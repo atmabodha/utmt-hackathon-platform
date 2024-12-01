@@ -16,6 +16,7 @@ class ContestCreateUpdateView(APIView):
             serializer = ContestsCreateUpdateSerializer(contest_instance, data=request.data)
         else:
             serializer = ContestsCreateUpdateSerializer(data=request.data)
+            # console.error("Error deleting problem:", error);
 
         if serializer.is_valid():
             contest = serializer.save()
@@ -90,7 +91,7 @@ class ContestsProblemsView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, contest_id, *args, **kwargs):
         serializer = ContestProblemsSerializer(data=request.data)
-        # print("serialiser", serializer)   
+        # print("serialiser", serializer)  
         if serializer.is_valid():
             serializer.save()
             return Response({'status': 'success', 'message': 'updated Problem to Contest successfully'}, status=200)
@@ -135,7 +136,19 @@ class ContestsProblemsView(APIView):
         except Exception as e:
             print(e)
             return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)
-
+    
+    def delete(self, request, contest_id, problem_id, *args, **kwargs):
+        try:
+            # Fetch the specific problem instance to delete
+            problem = get_object_or_404(ContestProblems, contest_id=contest_id, problem_id=problem_id)
+            problem.delete()
+            print(f"Problem with id {problem_id} deleted from contest with id {contest_id}")
+            return Response({'status': 'success', 'message': 'Problem deleted successfully'}, status=200)
+        except ContestProblems.DoesNotExist:
+            return Response({'status': 'error', 'message': 'Problem not found'}, status=404)
+        except Exception as e:
+            print(e)
+            return Response({'status': 'error', 'message': 'Internal server error'}, status=500)
 
 class ContestsPrizesView(APIView):
     parser_classes = [MultiPartParser, FormParser]
@@ -155,6 +168,7 @@ class ContestsPrizesView(APIView):
                 return Response({'status': 'success', 'message': 'prizes fetched successfully', 'data': serializer.data}, status=200)
             except:
                 return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
+
 class ProblemsCreateUpdateView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, *args, **kwargs):
