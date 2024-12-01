@@ -6,7 +6,8 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from ..models import Contests, ContestProblems, ContestDetails, Problems, ContestPrizes
 from datetime import datetime
 from django.shortcuts import get_object_or_404
-
+from django.http import JsonResponse
+from ..models import Contests
 
 class ContestCreateUpdateView(APIView):
     parser_classes = [MultiPartParser, FormParser]
@@ -155,6 +156,8 @@ class ContestsPrizesView(APIView):
                 return Response({'status': 'success', 'message': 'prizes fetched successfully', 'data': serializer.data}, status=200)
             except:
                 return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
+
+
 class ProblemsCreateUpdateView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, *args, **kwargs):
@@ -175,6 +178,7 @@ class ProblemsCreateUpdateView(APIView):
         except:
             return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)
 
+
 class ContestsView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     def post(self, request, *args, **kwargs):
@@ -187,3 +191,9 @@ class ContestsView(APIView):
         else:
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
   
+
+class ContestDeleteView(APIView):
+    def delete(self, request, id, *args, **kwargs):
+        contest = get_object_or_404(Contests, contest_id=id)
+        contest.delete()
+        return Response({'message': 'Contest deleted successfully'}, status=200)

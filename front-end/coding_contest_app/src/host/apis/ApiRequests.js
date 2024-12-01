@@ -16,6 +16,20 @@ export const sendData = async (url, data = null, headers = {}) => {
   }
 };
 
+export const deleteData = async (url, data = null, headers = {}) => {
+  // let response;  // Declare response variable outside the try block
+  try {
+    const response = await axios.delete(url, data, { headers });
+    return response;
+  } catch (error) {
+    if (error.response) {
+      handleApiResponse(error.response);
+    } else {
+      handleNetworkError(error);
+    }
+  }
+};
+
 // api to get data from backend
 export const getData = async (url, headers = {}) => {
   try {

@@ -43,7 +43,7 @@
     "react-scripts": "^3.0.1",
     "react-select": "^5.8.1",
     "react-spinners": "^0.14.1",
-    "react-toastify": "^10.0.5",
+    "react-toastify": "^10.0.6",
     "reactstrap": "^9.2.2",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.6.13",
