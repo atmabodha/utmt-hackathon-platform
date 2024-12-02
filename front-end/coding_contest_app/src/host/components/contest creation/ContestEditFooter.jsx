@@ -17,7 +17,7 @@ function ContestEditFooter({
         <button
           className="contest-edit-footer-button"
           onClick={handleChooseFromLibrary}
-          style={{display: isChallengeEdit ? "block" : "none"}}
+          style={{ display: isChallengeEdit ? "block" : "none" }}
         >
           Choose From Repository
         </button>
