@@ -1,6 +1,7 @@
 import React from 'react';
 import './AddPrizes.css';
 import {Link} from 'react-router-dom';
+import {useEffect, useState} from 'react';
 import {Form} from 'react-bootstrap';
 import ContestEditFooter from './ContestEditFooter';
 import {useFormHandler} from './FormHandlers';
@@ -8,10 +9,10 @@ import TextAreaField, {TextInputField} from '../../../utilities/FormComponents';
 import {BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT} from '../../../Constants';
 import {useParams, useNavigate} from 'react-router-dom';
 import showSwalAlert from '../../../utilities/AlertComponents.jsx';
-import {sendData} from '../../apis/ApiRequests';
+import {sendData, getData} from '../../apis/ApiRequests';
 
 function AddPrizes({contestUrl}) {
-  const {contestId} = useParams ();
+  const {contestId, prizeId} = useParams ();
   const navigate = useNavigate ();
   const textAreaFields = [
     {
@@ -37,12 +38,40 @@ function AddPrizes({contestUrl}) {
       type: 'number',
     },
   ];
-  const {formData: prizeData, handleInputChange} = useFormHandler ({
+  const {formData: prizeData, handleInputChange, setFormData} = useFormHandler ({
     prizePosition: '',
     prizeDescription: '',
     prizeAmount: '',
     others: '',
   });
+
+  useEffect (
+    () => {
+      const fetchPrizes = async () => {
+        const url =
+          BASE_SERVER_URL +
+          HOST_ENDPOINT +
+          CONTESTS +
+          contestId +
+          `/edit/prizes/${prizeId}`;
+        const response = await getData (url);
+        const data = response.data.data;
+        if (data) {
+          setFormData(
+            {
+              prizePosition: data[0].prize_position || '',
+              prizeDescription: data[0].prize_description || '',
+              prizeAmount: data[0].prize_amount || '',
+              others: data[0].others || '',
+            }
+          )
+          console.log ('prizes', data);
+        }
+      };
+      fetchPrizes ();
+    },
+    [contestId]
+  );
 
   const handlePrizeSubmit = async () => {
     const prizeFormData = new FormData ();
@@ -61,12 +90,6 @@ function AddPrizes({contestUrl}) {
         text: 'Prizes details updated.',
       });
       navigate (`/administration/contests/${contestId}/edit/prizes`);
-    } else {
-      showSwalAlert ({
-        icon: 'error',
-        title: 'Unable to add',
-        text: 'Please try again',
-      });
     }
   };
 

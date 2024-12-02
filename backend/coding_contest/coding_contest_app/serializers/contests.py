@@ -37,6 +37,10 @@ class ContestPrizesSerializer(serializers.ModelSerializer):
         model = ContestPrizes
         fields = ['contest', 'prize_position', 'prize_description', 'prize_amount', 'others']
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['prize_id'] = instance.prize_id  # Add problem_id here
+        return representation
 
 ### Problems Serialiser
 class ProblemsSerializer(serializers.ModelSerializer):

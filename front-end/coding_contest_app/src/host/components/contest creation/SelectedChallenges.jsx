@@ -10,6 +10,7 @@ import { sendData, getData, deleteData } from "../../apis/ApiRequests";
 const SelectedChallenges = ({ contestUrl }) => {
   const { contestId } = useParams();
   const navigate = useNavigate();
+  const [wasChallengeAdded, setWasChallengeAdded] = useState(false);
   const [problems, setProblems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCard, setExpandedCard] = useState(null);
@@ -31,7 +32,7 @@ const SelectedChallenges = ({ contestUrl }) => {
     };
 
     fetchProblems();
-  }, []);
+  }, [wasChallengeAdded]);
 
   useEffect(() => {
     const fetchContestProblems = async () => {
@@ -83,9 +84,10 @@ const SelectedChallenges = ({ contestUrl }) => {
       // Ensure it's the message you're expecting
       if (event.data === "formSubmitted") {
         // Close the new tab after form submission
+        setWasChallengeAdded(!wasChallengeAdded);
         newTab.close();
         // Navigate back to the current page or some other page
-        navigate(`/administration/contests/${contestId}/edit/challenges`); // Change '/current-page' to the route you want to go back to
+        navigate(`/administration/contests/${contestId}/edit/challenges`);
       }
     };
     // Add the event listener
