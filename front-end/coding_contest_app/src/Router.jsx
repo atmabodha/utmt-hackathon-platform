@@ -19,6 +19,7 @@ import CreateChallenge
 import AddPrizes from './host/components/contest creation/AddPrizes.jsx';
 import Prizes from './host/components/contest creation/Prizes.jsx';
 import HostedContests from './host/components/contests/HostedContests.jsx';
+import Support from './utilities/Support.jsx';
 
 function ApplicationRouter () {
   return (
@@ -35,8 +36,9 @@ function ApplicationRouter () {
           path="/administration/contests/create"
           element={<ContestCreation />}
         />
+        <Route path="participant/dashboard" element={<NotFound />} />
         <Route path="/submissions" element={<Login />} />
-        <Route path="/support" element={<NotFound />} />
+        <Route path="/support" element={<Support />} />
         <Route path="/profile" element={<NotFound />} />
         <Route path="/settings" element={<NotFound />} />
         <Route path="/questions" element={<QuestionsPage />} />

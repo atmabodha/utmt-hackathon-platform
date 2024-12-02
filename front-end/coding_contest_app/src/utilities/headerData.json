@@ -19,7 +19,7 @@
       },
       {
         "name": "Participate",
-        "linksTo": "participate"
+        "linksTo": "participant/dashboard"
       },
       {
         "name": "Support",
@@ -30,7 +30,7 @@
   "participant": {
     "brandData": {
       "name": "Code Hut",
-      "linksTo": "dashboard"
+      "linksTo": "participant/dashboard"
     },
     "pages": [
       {
