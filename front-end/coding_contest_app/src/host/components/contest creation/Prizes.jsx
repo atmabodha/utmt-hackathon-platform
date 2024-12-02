@@ -6,6 +6,7 @@ import {HOST_ENDPOINT, BASE_SERVER_URL, CONTESTS} from '../../../Constants';
 import {getData, deleteData} from '../../apis/ApiRequests';
 import {useNavigate} from 'react-router-dom';
 import showSwalAlert from '../../../utilities/AlertComponents.jsx';
+import Swal from 'sweetalert2';
 
 const Prizes = ({contestUrl}) => {
   const {contestId} = useParams ();
@@ -33,25 +34,59 @@ const Prizes = ({contestUrl}) => {
     [contestId]
   );
 
+  // const handleDeletePrize = async prizeId => {
+  //   const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}${CONTESTS}${contestId}/prizes/${prizeId}/delete/`;
+  //   try {
+  //     const response = await deleteData (url);
+  //     if (response && response.status === 200) {
+  //       setPrizes (prizes.filter (prize => prize.prize_id !== prizeId));
+  //       showSwalAlert ({
+  //         icon: 'success',
+  //         title: 'Prize Deleted',
+  //         text: 'Prizes details deleted successfully',
+  //       });
+  //     }
+  //   } catch (error) {
+  //     showSwalAlert ({
+  //       icon: 'error',
+  //       title: 'Unable to delete',
+  //       text: 'Failed to delete the prize details',
+  //     });
+  //   }
+  // };
   const handleDeletePrize = async prizeId => {
-    const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}${CONTESTS}${contestId}/prizes/${prizeId}/delete/`;
-    try {
-      const response = await deleteData (url);
-      if (response && response.status === 200) {
-        setPrizes (prizes.filter (prize => prize.prize_id !== prizeId));
-        showSwalAlert ({
-          icon: 'success',
-          title: 'Prize Deleted',
-          text: 'Prizes details deleted successfully',
-        });
+    Swal.fire ({
+      title: 'Are you sure?',
+      text: 'This action will permanently delete the prize!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then (async result => {
+      if (result.isConfirmed) {
+        try {
+          const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}${CONTESTS}${contestId}/prizes/${prizeId}/delete/`;
+          const response = await deleteData (url);
+
+          if (response && response.status === 200) {
+            setPrizes (prizes.filter (prize => prize.prize_id !== prizeId));
+
+            Swal.fire ({
+              icon: 'success',
+              title: 'Prize Deleted',
+              text: 'Prize details deleted successfully',
+            });
+          }
+        } catch (error) {
+          // console.error ('Error deleting prize:', error);
+          // Swal.fire ({
+          //   icon: 'error',
+          //   title: 'Unable to delete',
+          //   text: 'Failed to delete the prize details',
+          // });
+        }
       }
-    } catch (error) {
-      showSwalAlert ({
-        icon: 'error',
-        title: 'Unable to delete',
-        text: 'Failed to delete the prize details',
-      });
-    }
+    });
   };
 
   const handleAddPrize = () => {

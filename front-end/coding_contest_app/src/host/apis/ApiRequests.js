@@ -30,14 +30,27 @@ export const getData = async (url, headers = {}) => {
   }
 };
 
+// API to update data on the backend (PUT request)
+export const putData = async (url, data = null, headers = {}) => {
+  try {
+    const response = await axios.put (url, data, headers);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      handleApiResponse (error.response);
+    } else {
+      handleNetworkError (error);
+    }
+  }
+};
+
 // api to delete data from backend
 export const deleteData = async (url, data = null, headers = {}) => {
   try {
-    const config = {headers}; // Config object for request
     if (data) {
       config.data = data; // Attach data to the config object if present
     }
-    const response = await axios.delete (url, config); // Pass config in the delete call
+    const response = await axios.delete (url, headers); // Pass config in the delete call
     return response;
   } catch (error) {
     if (error.response) {
