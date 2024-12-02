@@ -25,7 +25,7 @@ function Sidebar({ contestName }) {
         <h3 className="manage">Manage</h3>
       </div>
       <div>
-        <h3 className="sidebar-contest-name">{contestName}Hack Hard</h3>
+        <h3 className="sidebar-contest-name">{contestName}</h3>
       </div>
       <div className="sidebar-links">
         {links.map((link, index) => (
