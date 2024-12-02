@@ -18,6 +18,7 @@ export function useUser() {
 
 export function UserProvider(props) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true)
 
   async function login(email, password) {
     try {
@@ -76,9 +77,11 @@ export function UserProvider(props) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        setLoading(false)
         // showSwalAlert({ icon: "success", title: "Welcome!", text: "You are already logged in." });
       } else {
         setUser(null);
+        setLoading(false)
       }
     });
 
@@ -87,7 +90,7 @@ export function UserProvider(props) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ current: user, login, logout, signup }}>
+    <UserContext.Provider value={{ current: user, login, logout, signup, loading }}>
       {props.children}
     </UserContext.Provider>
   );

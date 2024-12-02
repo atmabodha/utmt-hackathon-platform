@@ -1,9 +1,9 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import ProtectedRoute from './utilities/ProtectedRoute.jsx';
 import HostDashboard from './host/pages/Dashboard';
 import LeaderboardPage from './host/pages/LeaderboardPage';
 import NotFound from './host/pages/Notfound/notfound';
-import ContestDetails from './utilities/ContestDetails';
 import ContestEdit from './host/pages/ContestEdit.jsx';
 import AboutContest from './host/components/contest creation/AboutContest';
 import ContestCreation from './host/pages/ContestCreation.jsx';
@@ -19,22 +19,50 @@ import CreateChallenge
 import AddPrizes from './host/components/contest creation/AddPrizes.jsx';
 import Prizes from './host/components/contest creation/Prizes.jsx';
 import HostedContests from './host/components/contests/HostedContests.jsx';
+import LandingPage from './common/landing/Main.jsx';
 import Support from './utilities/Support.jsx';
 
 function ApplicationRouter () {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        {/* Public Routes */}
+        <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/administration/dashboard" element={<HostDashboard />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/administration/dashboard"
+          element={
+            <ProtectedRoute>
+              <HostDashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/administration/leaderboard"
-          element={<LeaderboardPage />}
+          element={
+            <ProtectedRoute>
+              <LeaderboardPage />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/administration/contests/create"
-          element={<ContestCreation />}
+          element={
+            <ProtectedRoute>
+              <ContestCreation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/questions"
+          element={
+            <ProtectedRoute>
+              <QuestionsPage />
+            </ProtectedRoute>
+          }
         />
         <Route path="participant/dashboard" element={<NotFound />} />
         <Route path="/submissions" element={<Login />} />
@@ -44,11 +72,19 @@ function ApplicationRouter () {
         <Route path="/questions" element={<QuestionsPage />} />
         <Route
           path="/administration/create/challenge"
-          element={<CreateChallenge />}
+          element={
+            <ProtectedRoute>
+              <CreateChallenge />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/administration/contests/:contestId/edit"
-          element={<ContestEdit />}
+          element={
+            <ProtectedRoute>
+              <ContestEdit />
+            </ProtectedRoute>
+          }
         >
           <Route
             index
@@ -71,15 +107,19 @@ function ApplicationRouter () {
           <Route path="about" element={<AboutContest />} />
           <Route path="challenges" element={<SelectedChallenges />} />
           <Route path="prizes" element={<Prizes />} />
-
-          <Route path="prizes/create" element={<AddPrizes />} />
-          <Route path="prizes/:prizeId/edit" element={<AddPrizes />} />
+          <Route path="create/prizes" element={<AddPrizes />} />
         </Route>
         <Route
-          path="administration/create/challenge"
-          element={<CreateChallenge />}
+          path="administration/contests"
+          element={
+            <ProtectedRoute>
+              <HostedContests />
+            </ProtectedRoute>
+          }
         />
-        <Route path="administration/contests" element={<HostedContests />} />
+
+        {/* Catch-all for undefined routes */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
