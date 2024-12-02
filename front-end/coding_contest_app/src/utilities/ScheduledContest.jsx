@@ -14,7 +14,6 @@ const LiveContests = ({ data }) => {
   useEffect(() => {
     setContests(data);
   }, [data]);
-
   return (
     <div className="container">
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 g-4">
@@ -53,7 +52,11 @@ const LiveContests = ({ data }) => {
                   </div>
                 </div>
                 <div className="details mt-2">
-                  <Link className="btn" id="link-button">
+                  <Link
+                    className="btn"
+                    id="link-button"
+                    to={`/administration/contests/${contest.contest_id}/edit`}
+                  >
                     Manage Contest
                   </Link>
                 </div>
