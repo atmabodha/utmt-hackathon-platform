@@ -67,10 +67,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'coding_contest_app.views.authentications.FirebaseAuthMiddleware',
 ]
 
 ROOT_URLCONF = 'coding_contest.urls'
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'coding_contest_app.views.authentications.FirebaseAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',  # Optional, for session-based auth
+#     ),
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',  # Requires user to be authenticated by default
+#     ),
+# }
+
 
 TEMPLATES = [
     {

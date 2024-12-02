@@ -24,7 +24,7 @@ const HostedContests = () => {
             BASE_SERVER_URL + HOST_ENDPOINT + user.uid + "/" + CONTESTS;
           const response = await getData(url, 
             {
-              Authorization: `${user?.accessToken || ""}`
+              Authorization: `Bearer ${user?.accessToken || ""}`
           });
           const data = response.data;
           if (data) {

@@ -15,27 +15,33 @@ service_key_path = os.path.join(current_dir, "firebase_service_key.json")
 cred = credentials.Certificate(service_key_path)
 firebase_admin.initialize_app(cred)
 
-class FirebaseAuthMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
+from rest_framework.authentication import BaseAuthentication
+from rest_framework.exceptions import AuthenticationFailed
+# from django.contrib.auth.models import User  # You can customize this if you have a custom user model
 
-    def __call__(self, request):
-        # Exclude public routes
-        if request.path in ["/login/", "/signup/"]:
-            return self.get_response(request)
+class FirebaseAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        # Get the Authorization header
+        auth_header = request.headers.get("Authorization")
+        if not auth_header:
+            return None  # No token, so no authentication is performed
 
-        # Validate token for other routes
-        token = request.headers.get("Authorization")
-        if not token:
-            return JsonResponse({"error": "Unauthorized", "message": "This resouce requires login"}, status=401)
-        
+        # Check if the header contains the Bearer token
+        parts = auth_header.split()
+        if len(parts) != 2 or parts[0] != "Bearer":
+            raise AuthenticationFailed("Invalid token header. No credentials provided.")
+
+        id_token = parts[1]
+
         try:
-            decoded_token = auth.verify_id_token(token)
-            request.user = decoded_token  # Attach user info to request
-        except Exception:
-            return JsonResponse({"error": "Unauthorized", "message": "This resouce requires login"}, status=401)
+            # Verify the token with Firebase Admin SDK
+            decoded_token = auth.verify_id_token(id_token)
+            uid = decoded_token.get("uid")
+            email = decoded_token.get("email")
+        except Exception as e:
+            raise AuthenticationFailed(f"Invalid Firebase token: {str(e)}")
 
-        return self.get_response(request)
+        return uid, None  # DRF expects a user and optional auth
 
 
 class SignUpView(APIView):
