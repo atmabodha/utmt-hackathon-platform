@@ -105,7 +105,7 @@ const SignUp = () => {
             </Button>
             <div className="signup-footer-text">
               <p className="signup-footer-text">
-                Already have an account? <Link to="/">Log in</Link>
+                Already have an account? <Link to="/login">Log in</Link>
               </p>
             </div>
           </div>

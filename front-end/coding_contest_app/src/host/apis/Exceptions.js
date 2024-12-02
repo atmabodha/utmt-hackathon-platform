@@ -7,11 +7,12 @@ export const handleApiResponse = (response) => {
     return;
   }
 
+  console.log(response)
   const status = response?.status;
-  const message = response?.data.message || "Couldn't understand the server message";
+  const message = response?.data.message || response.message;
 
   switch (status) {
-    case 400:  // Bad Request
+    case 400:
       Swal.fire({
         icon: 'warning',
         title: 'Bad Request',

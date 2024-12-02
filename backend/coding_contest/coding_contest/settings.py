@@ -17,10 +17,6 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Google drive storage settings.
-CLIENT_SECRET_FILE = os.path.join(BASE_DIR, 'coding_contest_app/google_credentials.json')
-DEFAULT_FILE_STORAGE = 'coding_contest_app.google_storage.GoogleDriveStorage'  
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-bkcoofbpz-90o&pu73!$htm9w(cvr)!v8w@u0%-u=pj+-4s(hg'
 
@@ -71,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'coding_contest_app.views.authentications.FirebaseAuthMiddleware',
 ]
 
 ROOT_URLCONF = 'coding_contest.urls'

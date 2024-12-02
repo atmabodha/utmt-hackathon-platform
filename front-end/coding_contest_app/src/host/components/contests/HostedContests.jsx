@@ -22,7 +22,10 @@ const HostedContests = () => {
         if (user) {
           const url =
             BASE_SERVER_URL + HOST_ENDPOINT + user.uid + "/" + CONTESTS;
-          const response = await getData(url);
+          const response = await getData(url, 
+            {
+              Authorization: `${user?.accessToken || ""}`
+          });
           const data = response.data;
           if (data) {
             setContestData(data.data);
@@ -49,7 +52,7 @@ const HostedContests = () => {
         const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}api/contests/${contest_id}/delete/`;
         await deleteData(url, {
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.accessToken || ""}`,
           },
         });
 

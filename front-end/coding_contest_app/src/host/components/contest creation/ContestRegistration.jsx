@@ -33,7 +33,9 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
       BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + `edit/${contestId}/details/`;
     useEffect(() => {
       const fetchContestData = async () => {
-        const response = await getData(contestDetailsUrl); // Fetch data for the specific contestId
+        const response = await getData(contestDetailsUrl, headers={
+          Authorization: `Bearer ${user?.accessToken || ""}`,
+        }); // Fetch data for the specific contestId
         const contestDetails = response.data.data;
 
         // Update formData with the fetched data
@@ -63,9 +65,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
 
   const [loading, setLoading] = useState(false);
   const { current: user } = useUser();
-  console.log("in regist", user?.uid);
   const navigate = useNavigate();
-
   const validateRequiredFields = () => {
     const requiredErrors = {};
     Object.keys(formData).forEach((field) => {

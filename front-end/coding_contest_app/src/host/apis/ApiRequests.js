@@ -19,7 +19,7 @@ export const sendData = async (url, data = null, headers = {}) => {
 // api to get data from backend
 export const getData = async (url, headers = {}) => {
   try {
-    const response = await axios.get (url, headers);
+    const response = await axios.get (url, {headers});
     return response;
   } catch (error) {
     if (error.response) {
