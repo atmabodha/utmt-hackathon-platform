@@ -97,7 +97,8 @@ function ApplicationRouter () {
           <Route path="about" element={<AboutContest />} />
           <Route path="challenges" element={<SelectedChallenges />} />
           <Route path="prizes" element={<Prizes />} />
-          <Route path="create/prizes" element={<AddPrizes />} />
+          <Route path="prizes/create" element={<AddPrizes />} />
+          <Route path="prizes/:prizeId/edit" element={<AddPrizes />} />
         </Route>
         <Route
           path="administration/contests"

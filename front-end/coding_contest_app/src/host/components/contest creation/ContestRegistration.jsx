@@ -33,9 +33,12 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
       BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + `edit/${contestId}/details/`;
     useEffect(() => {
       const fetchContestData = async () => {
-        const response = await getData(contestDetailsUrl, headers={
-          Authorization: `Bearer ${user?.accessToken || ""}`,
-        }); // Fetch data for the specific contestId
+        const response = await getData(
+          contestDetailsUrl,
+          // (headers = {
+          //   Authorization: `Bearer ${user?.accessToken || ""}`,
+          // })
+        ); // Fetch data for the specific contestId
         const contestDetails = response.data.data;
 
         // Update formData with the fetched data
@@ -54,7 +57,10 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               convertToMomentFormat(contestDetails.registration_deadline) || "",
           });
         }
-        console.log("converted", convertToMomentFormat(contestDetails.start_date_time))
+        console.log(
+          "converted",
+          convertToMomentFormat(contestDetails.start_date_time)
+        );
       };
 
       if (!isRegistration) {
@@ -252,7 +258,9 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
               controlClass={"form-control-custom"}
             />
             {requiredFields.registrationDeadline && (
-              <p style={{ color: "red" }}>{requiredFields.registrationDeadline}</p>
+              <p style={{ color: "red" }}>
+                {requiredFields.registrationDeadline}
+              </p>
             )}
             <DateTimeInputField
               label="Select Start Date and Time"

@@ -23,9 +23,10 @@ const HostedContests = () => {
           const url =
             BASE_SERVER_URL + HOST_ENDPOINT + user.uid + "/" + CONTESTS;
           const response = await getData(url, 
-            {
-              Authorization: `Bearer ${user?.accessToken || ""}`
-          });
+          //   {
+          //     Authorization: `Bearer ${user?.accessToken || ""}`
+          // }
+        );
           const data = response.data;
           if (data) {
             setContestData(data.data);
@@ -50,11 +51,13 @@ const HostedContests = () => {
     if (confirmed) {
       try {
         const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}api/contests/${contest_id}/delete/`;
-        await deleteData(url, {
-          headers: {
-            Authorization: `Bearer ${user?.accessToken || ""}`,
-          },
-        });
+        await deleteData(url, 
+        //   {
+        //   headers: {
+        //     Authorization: `Bearer ${user?.accessToken || ""}`,
+        //   },
+        // }
+      );
 
         // Remove deleted contest from the state
         setContestData(
