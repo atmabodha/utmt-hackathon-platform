@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./utilities/ProtectRoute.jsx";
+import ProtectedRoute from "./utilities/ProtectedRoute.jsx";
 import HostDashboard from "./host/pages/Dashboard";
 import LeaderboardPage from "./host/pages/LeaderboardPage";
 import NotFound from "./host/pages/Notfound/notfound";
