@@ -8,7 +8,7 @@ const NotFound = () => {
     <div className="not-found-container">
       <h1>404</h1>
       <p>Page Not Found</p>
-      <Link to="/dashboard">Go to Home</Link>
+      <Link to="/administration/dashboard">Go to Home</Link>
     </div>
   );
 };
