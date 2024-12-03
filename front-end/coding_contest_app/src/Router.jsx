@@ -16,7 +16,7 @@ import CreateChallenge from "./host/components/contest creation/CreateChallenge"
 import AddPrizes from "./host/components/contest creation/AddPrizes";
 import Prizes from "./host/components/contest creation/Prizes";
 import HostedContests from "./host/components/contests/HostedContests";
-import ProfilePage from "./host/pages/profilePage/ProfilePage";
+import ProfilePage from "./host/pages/ProfilePage";
 import LandingPage from "./common/landing/Main";
 import Support from "./utilities/Support";
 import ProtectedRoute from "./utilities/ProtectedRoute";

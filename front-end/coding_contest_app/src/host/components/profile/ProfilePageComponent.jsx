@@ -1,12 +1,19 @@
 import React from "react";
 import "./ProfilePage.css";
-
-const Profile = () => {
+import img from "../../../media/profileImage/Narayan.jpg";
+const ProfilePageComponent = () => {
   return (
-    <div className="profile-container">
+    <div className="profile-container mt-5">
       <div className="profile-header">
         <div className="profile-left">
-          <div className="user-avatar"></div>
+          <div className="user-avatar">
+            {/* Avatar image with fixed size and round shape */}
+            <img
+              src={img} // Replace this with your image URL
+              alt="Avatar"
+              className="avatar-image"
+            />
+          </div>
         </div>
         <div className="profile-right">
           <div className="user-details">
@@ -90,4 +97,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfilePageComponent;
