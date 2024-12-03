@@ -6,7 +6,7 @@ const ParticipantDashboard = () => {
   return (
     <div>
       <Header headerType={"participant"} />
-      <ContestHistory />
+      <ContestHistory/>
     </div>
   );
 };

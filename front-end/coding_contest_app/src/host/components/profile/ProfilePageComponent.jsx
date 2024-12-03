@@ -1,8 +1,13 @@
 import React from "react";
 import "./ProfilePage.css";
 import img from "../../../media/profileImage/Narayan.jpg";
+import Header from "../header/Header";
+
 const ProfilePageComponent = () => {
+
   return (
+    <div>
+      <Header headerType={"participant"}/>
     <div className="profile-container mt-5">
       <div className="profile-header">
         <div className="profile-left">
@@ -93,6 +98,7 @@ const ProfilePageComponent = () => {
           </table>
         </div>
       </div>
+    </div>
     </div>
   );
 };

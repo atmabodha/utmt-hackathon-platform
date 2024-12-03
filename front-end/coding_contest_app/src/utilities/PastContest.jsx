@@ -8,7 +8,7 @@ import {
 } from "./TimeConversion";
 import "./styles/Contest.css";
 
-const LiveContests = ({ data }) => {
+const PastContest = ({ data }) => {
   const [contests, setContests] = useState([]);
 
   useEffect(() => {
@@ -61,4 +61,4 @@ const LiveContests = ({ data }) => {
   );
 };
 
-export default LiveContests;
+export default PastContest;

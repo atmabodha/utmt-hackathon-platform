@@ -11,7 +11,7 @@ function ContestEditFooter({
   return (
     <div className="contest-edit-footer">
       <div className="contest-edit-left-buttons">
-        <Link className="contest-edit-footer-button" to={previewLink}>
+        <Link className="contest-edit-footer-button" to={previewLink} target="_blank">
           Preview Contest
         </Link>
         <button

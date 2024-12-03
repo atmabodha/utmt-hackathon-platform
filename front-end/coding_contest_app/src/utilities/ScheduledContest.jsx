@@ -8,7 +8,7 @@ import {
 } from "./TimeConversion";
 import "./styles/Contest.css";
 
-const LiveContests = ({ data }) => {
+const ScheduledContest = ({ data, type}) => {
   const [contests, setContests] = useState([]);
 
   const [randomValue, setRandomValue] = useState(0);
@@ -65,10 +65,10 @@ const LiveContests = ({ data }) => {
                   <Link
                     className="btn"
                     id="link-button"
-                    to={`/contests/${contest.contest_id}/details`}
+                    to={type=="host" ? `/administration/contests/${contest.contest_id}/edit` : `/contests/${contest.contest_id}/details`}
                     target="_blank"
                   >
-                    More about contest
+                    {type == "host" ? "Manage Contest" : "More about contest"}
                   </Link>
                 </div>
               </div>
@@ -80,4 +80,4 @@ const LiveContests = ({ data }) => {
   );
 };
 
-export default LiveContests;
+export default ScheduledContest;

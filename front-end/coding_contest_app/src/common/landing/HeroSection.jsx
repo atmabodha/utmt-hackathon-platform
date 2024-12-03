@@ -48,7 +48,7 @@ const HeroSection = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link1 hover-button" to="/contact">
+              <Link className="nav-link1 hover-button" to="/support">
                 Contact
               </Link>
             </li>

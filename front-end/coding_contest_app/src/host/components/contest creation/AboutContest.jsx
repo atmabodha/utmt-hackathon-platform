@@ -186,7 +186,7 @@ function AboutContest({ contestUrl }) {
             </Form>
           </div>
         </div>
-        <ContestEditFooter saveChanges={handleAboutSubmit} />
+        <ContestEditFooter previewLink={`/contests/${contestId}/details`} saveChanges={handleAboutSubmit} />
       </LoadingOverlay>
     </div>
   );

@@ -22,7 +22,7 @@ function Sidebar({ contestName, contestId }) {
     { label: "About the Contest", to: "about" },
     { label: "Challenges", to: "challenges" },
     { label: "Prizes", to: "prizes" },
-    { label: "Analytics", to: "" },
+    { label: "Analytics", to: "analytics" },
     { label: "Delete contest", to: "" },
   ];
 

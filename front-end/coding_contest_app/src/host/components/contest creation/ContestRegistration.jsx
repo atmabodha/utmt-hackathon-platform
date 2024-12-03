@@ -349,7 +349,7 @@ const ContestRegistration = ({ pageTitle, contestUrl, isRegistration }) => {
           )}
         </div>
       </LoadingOverlay>
-      {isRegistration ? "" : <ContestEditFooter saveChanges={onSubmit} />}
+      {isRegistration ? "" : <ContestEditFooter previewLink={`/contests/${contestId}/details`} saveChanges={onSubmit} />}
     </div>
   );
 };

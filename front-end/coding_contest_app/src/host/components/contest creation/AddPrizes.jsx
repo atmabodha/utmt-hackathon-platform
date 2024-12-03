@@ -166,7 +166,7 @@ function AddPrizes({contestUrl}) {
           </Form>
         </div>
       </div>
-      <ContestEditFooter saveChanges={handlePrizeSubmit} />
+      <ContestEditFooter saveChanges={handlePrizeSubmit} previewLink={`/contests/${contestId}/details`}/>
     </div>
   );
 }

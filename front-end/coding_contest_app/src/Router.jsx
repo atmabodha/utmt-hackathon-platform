@@ -20,6 +20,7 @@ import LandingPage from "./common/landing/Main.jsx";
 import Support from "./utilities/Support.jsx";
 import ParticipantDashboard from "./participant/pages/Dashboard.jsx";
 import ContestDetails from "./utilities/ContestDetails.jsx";
+import ProfilePageComponent from "./host/components/profile/ProfilePageComponent.jsx";
 
 function ApplicationRouter() {
   return (
@@ -30,7 +31,10 @@ function ApplicationRouter() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="participant/analytics" element={<NotFound />} />
-        <Route path="/participant/leaderboard" element={<LeaderboardPage headerType={"participant"}/>} />
+        <Route
+          path="/participant/leaderboard"
+          element={<LeaderboardPage headerType={"participant"} />}
+        />
 
         {/* Protected Routes */}
         <Route
@@ -42,10 +46,18 @@ function ApplicationRouter() {
           }
         />
         <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePageComponent />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/administration/leaderboard"
           element={
             <ProtectedRoute>
-              <LeaderboardPage headerType={"host"}/>
+              <LeaderboardPage headerType={"host"} />
             </ProtectedRoute>
           }
         />
@@ -122,6 +134,7 @@ function ApplicationRouter() {
           <Route path="challenges" element={<SelectedChallenges />} />
           <Route path="prizes" element={<Prizes />} />
           <Route path="prizes/create" element={<AddPrizes />} />
+          <Route path="analytics" element={<NotFound />} />
           <Route path="prizes/:prizeId/edit" element={<AddPrizes />} />
         </Route>
         <Route

@@ -59,7 +59,7 @@
   color: #777;
 }
 
-.edit-btn {
+.profile-container .edit-btn {
   background-color: #4caf50;
   color: white;
   padding: 10px 20px;
@@ -71,7 +71,7 @@
   align-self: flex-start;
 }
 
-.edit-btn:hover {
+.profile-container .edit-btn:hover {
   background-color: #45a049;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -96,34 +96,34 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-h3 {
+.profile-container h3 {
   font-size: 1.5em;
   color: #333;
   margin-bottom: 15px;
 }
 
-p {
+.profile-container p {
   font-size: 1em;
   color: #555;
   line-height: 1.6;
 }
 
-ul {
+.profile-container ul {
   list-style-type: none;
   padding: 0;
 }
 
-ul li {
+.profile-container ul li {
   margin-bottom: 10px;
 }
 
-ul li a {
+.profile-container ul li a {
   color: #0077b5;
   font-weight: bold;
   text-decoration: none;
 }
 
-ul li a:hover {
+.profile-container ul li a:hover {
   text-decoration: underline;
 }
 

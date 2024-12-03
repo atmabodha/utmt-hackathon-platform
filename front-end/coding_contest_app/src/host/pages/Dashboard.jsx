@@ -6,7 +6,7 @@ const HostDashboard = ({dashboardType}) => {
   return (
     <div>
       <Header headerType={"host"} />
-      <ContestHistory />
+      <ContestHistory/>
     </div>
   );
 };

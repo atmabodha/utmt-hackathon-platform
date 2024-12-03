@@ -70,7 +70,7 @@ const ContestHistory = () => {
             fontFamily: "sans-serif",
           }}
         >
-          Contests
+          Contests For You
         </h1>
       </div>
       <div className="contest-filter d-flex justify-content-around">
@@ -88,7 +88,7 @@ const ContestHistory = () => {
       </div>
       <div style={{ padding: "50px 0" }}>
         {type === "scheduled" ? (
-          <ScheduledContest data={scheduledContests} />
+          <ScheduledContest data={scheduledContests} type={"participant"} />
         ) : type === "past" ? (
           <PastContest data={pastContests} />
         ) : (
