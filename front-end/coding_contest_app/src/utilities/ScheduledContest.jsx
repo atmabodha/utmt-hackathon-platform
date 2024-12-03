@@ -11,6 +11,16 @@ import "./styles/Contest.css";
 const LiveContests = ({ data }) => {
   const [contests, setContests] = useState([]);
 
+  const [randomValue, setRandomValue] = useState(0);
+
+  useEffect(() => {
+    // Generate a random value between 300 and 500 when the component mounts
+    const min = 300;
+    const max = 500;
+    const value = Math.floor(Math.random() * (max - min + 1)) + min;
+    setRandomValue(value);
+  }, []);
+
   useEffect(() => {
     setContests(data);
   }, [data]);
@@ -38,7 +48,7 @@ const LiveContests = ({ data }) => {
                   <div className="d-flex">
                     <FaUsers size={20} />
                     <p className="ms-2" style={{ fontSize: "smaller" }}>
-                      465 Reg'd
+                      {randomValue} Reg'd
                     </p>
                   </div>
                   <div className="d-flex">
@@ -53,8 +63,13 @@ const LiveContests = ({ data }) => {
                   </div>
                 </div>
                 <div className="details mt-2">
-                  <Link className="btn" id="link-button">
-                    Manage Contest
+                  <Link
+                    className="btn"
+                    id="link-button"
+                    to={`/contests/${contest.contest_id}/details`}
+                    target="_blank"
+                  >
+                    More about contest
                   </Link>
                 </div>
               </div>

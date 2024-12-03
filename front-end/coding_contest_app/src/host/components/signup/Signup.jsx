@@ -29,7 +29,7 @@ const SignUp = () => {
         signUpData.name
       );
       if (userCredentials) {
-        navigate("/administration/dashboard");
+        navigate("/participant/dashboard");
       }
     } catch (e) {
       console.log(e);

@@ -1,9 +1,9 @@
 from rest_framework.views import APIView
-from ..serializers.contests import ContestDetailsSerializer, ContestPrizesSerializer, ContestsCreateUpdateSerializer, ContestViewSerializer,  ContestProblemsSerializer, ProblemsSerializer
+from ..serializers.contests import ContestDetailsSerializer, ContestPrizesSerializer, ContestsCreateUpdateSerializer, ContestViewSerializer,  ContestProblemsSerializer, ProblemsSerializer, ContestRegistrationSerializer
 from rest_framework.response import Response
 from django.core import serializers
 from rest_framework.parsers import MultiPartParser, FormParser
-from ..models import Contests, ContestProblems, ContestDetails, Problems, ContestPrizes
+from ..models import Contests, ContestProblems, ContestDetails, Problems, ContestPrizes, ContestRegistration
 from datetime import datetime
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
@@ -54,6 +54,8 @@ class ContestsDetailsView(APIView):
                 contests = Contests.objects.filter(host=user_id).prefetch_related('details')  # Prefetch related contest details
             elif contest_id:
                 contests = Contests.objects.filter(contest_id=contest_id).prefetch_related('details')
+            else:
+                contests = Contests.objects.all().prefetch_related('details')
             contest_data = []
             for contest in contests:
                 contest_dict = {
@@ -78,11 +80,16 @@ class ContestsDetailsView(APIView):
                     "others": contest.details.others
                 }
                 contest_data.append(contest_dict)
-
+            if not contest_id and not user_id:
+                return Response({
+                    'status': 'success',
+                    'message': 'Contests fetched successfully',
+                    'data': contest_data
+                }, status=200)
             return Response({
                 'status': 'success',
                 'message': 'Contests fetched successfully',
-                'data': contest_data     if user_id else contest_dict
+                'data': contest_data  if user_id else contest_dict
             }, status=200)
         except Exception as e:
             return Response({'status': 'error', 'message': 'Not able to fetch contests'}, status=500)
@@ -232,8 +239,37 @@ class ContestsView(APIView):
             return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
   
 
+
 class ContestDeleteView(APIView):
     def delete(self, request, id, *args, **kwargs):
         contest = get_object_or_404(Contests, contest_id=id)
         contest.delete()
         return Response({'message': 'Contest deleted successfully'}, status=200)
+
+
+class ContestRegistrationView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    
+    def post(self, request, *args, **kwargs):
+        serializer = ContestRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': 'success',
+                'message': 'Registration created successfully',
+                'data': serializer.data
+            }, status=201)
+        return Response({
+            'status': 'error',
+            'message': 'Failed to create registration',
+            'errors': serializer.errors
+        }, status=400)
+
+    def get(self, request, *args, **kwargs):
+        registrations = ContestRegistration.objects.all()
+        serializer = ContestRegistrationSerializer(registrations, many=True)
+        return Response({
+            'status': 'success',
+            'message': 'Registrations fetched successfully',
+            'data': serializer.data
+        }, status=200)

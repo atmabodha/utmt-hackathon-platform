@@ -48,15 +48,15 @@ export const putData = async (url, data = null, headers = {}) => {
 export const deleteData = async (url, data = null, headers = {}) => {
   try {
     if (data) {
-      config.data = data; // Attach data to the config object if present
+      headers.data = data;
     }
-    const response = await axios.delete (url, headers); // Pass config in the delete call
+    const response = await axios.delete (url, headers);
     return response;
   } catch (error) {
     if (error.response) {
-      handleApiResponse (error.response); // Handle API response errors
+      handleApiResponse (error.response);
     } else {
-      handleNetworkError (error); // Handle network errors
+      handleNetworkError (error);
     }
   }
 };

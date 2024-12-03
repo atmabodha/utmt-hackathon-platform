@@ -38,7 +38,7 @@ const HeroSection = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link1 hover-button" to="/participant">
+              <Link className="nav-link1 hover-button" to="/participant/dashboard">
                 Contests
               </Link>
             </li>

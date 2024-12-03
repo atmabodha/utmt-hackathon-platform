@@ -12,7 +12,7 @@ import { useUser } from "../../../context/user";
 import headerData from "../../../utilities/headerData.json";
 import { useNavigate } from "react-router-dom";
 
-function Header({ headerType }) {
+function Header({ headerType, contestDetails }) {
   const { logout } = useUser();
   const navigte = useNavigate()
   const expand = "md";

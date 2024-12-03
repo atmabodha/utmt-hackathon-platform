@@ -1,12 +1,16 @@
 import React from "react";
 import { Image } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarCheck, faCalendarAlt, faUniversity, faCalendarTimes, faMapMarkerAlt, faListOl, faInfoCircle, faClock, faUserFriends, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import "./styles/ContestDetails.css";
 import img1 from "../media/contest detailes/ban2.png";
 import img2 from "../media/contest_images/coding.png";
 import Header from "../host/components/header/Header";
-
+import { getData } from "../host/apis/ApiRequests";
+import { useParams } from "react-router-dom";
+import { BASE_SERVER_URL, HOST_ENDPOINT, CONTESTS } from "../Constants";
+import { MonthFormattedDate, TimeDifference, convertToMomentFormat } from "./TimeConversion";
 const ContestInfoItem = ({ icon, text, boldText }) => (
   <p>
     <FontAwesomeIcon icon={icon} size="md" style={{ paddingRight: "10px" }} />
@@ -23,10 +27,36 @@ const SectionWithTitle = ({ title, children }) => (
 );
 
 const ContestDetails = () => {
+  const [data, setData] = useState({});
+  const { contestId } = useParams();
+  const url =
+    BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + `edit/${contestId}/details/`;
+
+
+  useEffect(() => {
+    const fetchContestData = async () => {
+      try {
+        const response = await getData(url); // Fetch data for the specific contestId
+        const contestDetails = response.data.data;
+  
+        // Update formData with the fetched data
+        if (contestDetails) {
+          console.log(contestDetails)
+          setData(contestDetails)
+        }
+      } catch (error) {
+        console.error("Error fetching contest details:", error);
+      }
+    };
+  
+    fetchContestData();
+  }, [url]);
+
+
   return (
     <>
       <div className="contest-detail-page">
-        <Header headerType={"host"} />
+        <Header headerType={"participantContestDetails"} contestDetails={"participantContestDetails"}/>
         <div className="contest-details">
           <div className="contest-details-images">
             <div className="image1-div">
@@ -47,10 +77,10 @@ const ContestDetails = () => {
 
           <div className="contest-details-metadata">
             <div>
-              <h2>Hack Hard</h2>
+              <h2>{data.contest_name}</h2>
               <ContestInfoItem
                 icon={faUniversity}
-                text="Sitare University"
+                text={data?.organization_name}
               />
               <ContestInfoItem
                 icon={faMapMarkerAlt}
@@ -58,8 +88,9 @@ const ContestDetails = () => {
               />
               <ContestInfoItem
                 icon={faCalendarAlt}
-                boldText="Last updated"
-                text="23/06/2024"
+                boldText="Last update at"
+                // text={MonthFormattedDate(convertToMomentFormat(data?.updated_at)).toDateString()}
+                text="26/11/2024 at 8:45 PM"
               />
               <ContestInfoItem
                 icon={faCalendarCheck}
@@ -80,17 +111,17 @@ const ContestDetails = () => {
               <ContestInfoItem
                 icon={faClock}
                 boldText="Contest Duration"
-                text="180 Minutes"
+                // text={TimeDifference(data?.start_data_time, data?.end_data_time)}
               />
               <ContestInfoItem
                 icon={faUserFriends}
                 boldText="Participant Limit"
-                text="500"
+                text={data?.participant_limit}
               />
               <ContestInfoItem
                 icon={faListOl}
                 boldText="Number of problems"
-                text="15"
+                text="4"
               />
             </div>
           </div>
@@ -104,12 +135,12 @@ const ContestDetails = () => {
               <SectionWithTitle
                 title="About"
               >
-                This was a concept for a client who is building a productivity suite of tools that allow uniform data management across all domains of life.
+                {data?.about}
               </SectionWithTitle>
               <SectionWithTitle
                 title="Eligibility"
               >
-                This was a concept for a client who is building a productivity suite of tools that allow uniform data management across all domains of life.
+                {data?.eligibility}
               </SectionWithTitle>
               <SectionWithTitle
                 title="Others"

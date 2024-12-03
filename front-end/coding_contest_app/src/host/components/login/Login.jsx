@@ -22,7 +22,7 @@ const Login = () => {
     try {
       const userCredentials = await login(loginData.email, loginData.password);
       if (userCredentials) {
-        navigate("/administration/dashboard");
+        navigate("/participant/dashboard");
       }
     } catch (e) {
       console.log(e);

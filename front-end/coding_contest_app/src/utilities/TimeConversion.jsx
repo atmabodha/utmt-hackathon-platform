@@ -2,6 +2,9 @@ import moment from "moment";
 
 
 const MonthFormattedDate = ({ utcTime }) => {
+    if (!utcTime){
+      return new Date()
+    }
     const date = new Date(utcTime);
     const day = date.getDate();
     const monthIndex = date.getMonth();

@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from ..models import ContestDetails, ContestPrizes, Contests, Problems, ContestProblems
+from ..models import ContestDetails, ContestPrizes, Contests, Problems, ContestProblems, ContestRegistration
 
 class ContestsCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,3 +60,19 @@ class ContestProblemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContestProblems
         fields = ['contest', 'problem', 'order_of_problem_in_contest', 'weightage']
+
+class ContestRegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContestRegistration
+        fields =['contest_submission_time', 'total_time_taken', 'participant', "contest", "registration_date_and_time"]
+
+        # Override the to_representation method to add problem_id
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['registration_id'] = instance.registration_id  # Add problem_id here
+        return representation
+    
+class ContestRegistrationUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContestRegistration
+        fields = ['contest_submission_time', 'total_time_taken']

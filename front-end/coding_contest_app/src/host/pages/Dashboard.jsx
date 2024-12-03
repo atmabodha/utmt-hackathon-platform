@@ -1,9 +1,8 @@
 import React from "react";
 import Header from "../components/header/Header";
-import ContestHistory from "../components/dashboard/Dashboard";
-import Login from "../components/login/Login";
+import ContestHistory from "../components/dashboard/ContestHistory";
 
-const HostDashboard = () => {
+const HostDashboard = ({dashboardType}) => {
   return (
     <div>
       <Header headerType={"host"} />

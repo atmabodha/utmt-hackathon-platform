@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./Dashboard.css";
-import { getData } from "../../apis/ApiRequests";
-import PastContest from "../../../utilities/PastContest";
-import ScheduledContest from "../../../utilities/ScheduledContest";
-import LiveContests from "../../../utilities/LiveContests";
-import { BASE_SERVER_URL, HOST_ENDPOINT } from "../../../Constants.js";
-import { useUser } from "../../../context/user.jsx";
-
+import "./ContestHistory.css";
+import { getData } from "../../host/apis/ApiRequests.js"
+import ScheduledContest from "../../utilities/ScheduledContest.jsx"
+import LiveContests from "../../utilities/LiveContests.jsx";
+import { BASE_SERVER_URL, PARTICIPANT_ENDPOINT } from "../../Constants.js"
+import { useUser } from "../../context/user.jsx";
+import PastContest from "../../utilities/PastContest.jsx"
 const contestType = ["live", "scheduled", "past"];
 
 const ContestHistory = () => {
@@ -20,9 +19,10 @@ const ContestHistory = () => {
     const fetchContest = async () => {
       if (user) {
         const response = await getData(
-          BASE_SERVER_URL + HOST_ENDPOINT + user.uid + "/contests/"
+          BASE_SERVER_URL + PARTICIPANT_ENDPOINT + "contests/"
         );
         const data = response.data.data;
+        console.log("data", data)
         if (data) {
           const past = [];
           const scheduled = [];

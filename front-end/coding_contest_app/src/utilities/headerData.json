@@ -6,6 +6,10 @@
     },
     "pages": [
       {
+        "name": "Dashboard",
+        "linksTo": "administration/dashboard"
+      },
+      {
         "name": "Leaderboards",
         "linksTo": "administration/leaderboard"
       },
@@ -19,7 +23,7 @@
       },
       {
         "name": "Participate",
-        "linksTo": "participate"
+        "linksTo": "participant/dashboard"
       },
       {
         "name": "Support",
@@ -30,24 +34,56 @@
   "participant": {
     "brandData": {
       "name": "Code Hut",
-      "linksTo": "dashboard"
+      "linksTo": "participant/dashboard"
     },
     "pages": [
       {
+        "name": "Dashboard",
+        "linksTo": "participant/dashboard"
+      },
+      {
         "name": "Leaderboard",
-        "linksTo": "leaderboard"
+        "linksTo": "participant/leaderboard"
       },
       {
         "name": "Host Contest",
-        "linksTo": "administration/contest/create"
+        "linksTo": "administration/contests/create"
       },
       {
         "name": "Submissions",
-        "linksTo": "submissions"
+        "linksTo": "participant/submissions"
       },
       {
         "name": "Analytics",
-        "linksTo": "analytics"
+        "linksTo": "participant/analytics"
+      },
+      {
+        "name": "Support",
+        "linksTo": "support"
+      }
+    ]
+  },
+  "participantContestDetails": {
+    "brandData": {
+      "name": "Code Hut",
+      "linksTo": "participant/dashboard"
+    },
+    "pages": [
+      {
+        "name": "About",
+        "linksTo": ""
+      },
+      {
+        "name": "Date and Deadlines",
+        "linksTo": "#"
+      },
+      {
+        "name": "Prizes",
+        "linksTo": "#"
+      },
+      {
+        "name": "Register",
+        "linksTo": "participant/dashboard"
       },
       {
         "name": "Support",
