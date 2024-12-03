@@ -83,9 +83,7 @@ function ApplicationRouter() {
         />
         <Route path="participant/submissions" element={<NotFound />} />
         <Route path="/support" element={<Support />} />
-        <Route path="/profile" element={<NotFound />} />
         <Route path="/settings" element={<NotFound />} />
-        <Route path="/questions" element={<QuestionsPage />} />
         <Route
           path="/administration/create/challenge"
           element={

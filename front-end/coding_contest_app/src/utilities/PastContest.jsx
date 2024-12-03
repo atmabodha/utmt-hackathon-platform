@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaUsers, FaClock, FaUserFriends } from "react-icons/fa";
-import { MonthFormattedDate, TimeDifference, TimeFromDate } from "./TimeConversion";
+import {
+  MonthFormattedDate,
+  TimeDifference,
+  TimeFromDate,
+} from "./TimeConversion";
 import "./styles/Contest.css";
 
 const LiveContests = ({ data }) => {
@@ -44,7 +48,7 @@ const LiveContests = ({ data }) => {
                   </div>
                 </div>
                 <div className="details mt-2">
-                  <Link className="btn "  id="link-button">
+                  <Link className="btn" id="link-button">
                     Contest Analytics
                   </Link>
                 </div>

@@ -35,7 +35,7 @@ function ContestEdit() {
       <Header headerType={"host"} />
       <div className="contest-edit">
         <div className="contest-edit-sidebar">
-          <Sidebar contestName={contestName} />
+          <Sidebar contestName={contestName} contestId={contestId} />
         </div>
         <div className="contest-edit-content">
           <main>
