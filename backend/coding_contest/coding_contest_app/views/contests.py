@@ -174,6 +174,19 @@ class ContestsPrizesView(APIView):
             except:
                 return Response({'status': 'error', 'message' : 'Internal server error'}, status=500)
     
+    def put(self, request, contest_id, prize_id, *args, **kwargs):
+        try:
+            prize = ContestPrizes.objects.get(prize_id=prize_id, contest_id=contest_id)
+        except ContestPrizes.DoesNotExist:
+            return Response({'status': 'error', 'message': 'Prize not found'}, status=404)
+
+        serializer = ContestPrizesSerializer(prize, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'message': 'Prize details updated successfully', 'data': serializer.data}, status=200)
+        else:
+            return Response({'status': 'error', 'message': 'Invalid data', 'errors': serializer.errors}, status=400)
+    
     def delete(self, request, contest_id, prize_id, *args, **kwargs):
         try:
             prize = ContestPrizes.objects.get(prize_id=prize_id, contest_id=contest_id)

@@ -56,41 +56,19 @@ const SelectedChallenges = ({ contestUrl }) => {
     setSearchTerm(e.target.value);
   };
 
-  // const filteredQuestions = questions
-  //   .filter(
-  //     (q) =>
-  //       q.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       (q.statement &&
-  //         q.statement.toLowerCase().includes(searchTerm.toLowerCase()))
-  //   )
-  //   .sort((a, b) => {
-  //     const aMatchIndex = a.title
-  //       .toLowerCase()
-  //       .indexOf(searchTerm.toLowerCase());
-  //     const bMatchIndex = b.title
-  //       .toLowerCase()
-  //       .indexOf(searchTerm.toLowerCase());
-  //     return aMatchIndex - bMatchIndex;
-  //   });
-
   const toggleExpand = (id) => {
     setExpandedCard(expandedCard === id ? null : id);
   };
 
   const handleCreateChallenge = () => {
     const newTab = window.open("/administration/create/challenge", "_blank");
-    // Create an event listener to listen for the form submission message
     const handleMessage = (event) => {
-      // Ensure it's the message you're expecting
       if (event.data === "formSubmitted") {
-        // Close the new tab after form submission
         setWasChallengeAdded(!wasChallengeAdded);
         newTab.close();
-        // Navigate back to the current page or some other page
         navigate(`/administration/contests/${contestId}/edit/challenges`);
       }
     };
-    // Add the event listener
     window.addEventListener("message", handleMessage, false);
   };
 
@@ -130,9 +108,8 @@ const SelectedChallenges = ({ contestUrl }) => {
       if (result.isConfirmed) {
         try {
           const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}contests/${contestId}/problems/${problemId}/`;
-          await deleteData(url);  // Use the dedicated delete function
+          await deleteData(url);
           
-          // Re-fetch the updated problems list
           const updatedResponse = await getData(BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + "/problems/");
           setQuestions(updatedResponse.data.data); // Update state with fresh data
   
@@ -169,10 +146,10 @@ const SelectedChallenges = ({ contestUrl }) => {
       showCancelButton: true,
       reverseButtons: true,
       customClass: {
-        popup: 'custom-swal-popup', // Custom class for the popup card
-        title: 'custom-swal-title',  // Custom class for the title
-        confirmButton: 'custom-swal-confirm-button', // Custom class for confirm button
-        cancelButton: 'custom-swal-cancel-button' // Custom class for cancel button
+        popup: 'custom-swal-popup',
+        title: 'custom-swal-title',
+        confirmButton: 'custom-swal-confirm-button',
+        cancelButton: 'custom-swal-cancel-button'
       },
       preConfirm: () => {
         const name = nameInput?.name || "";
@@ -201,7 +178,7 @@ const SelectedChallenges = ({ contestUrl }) => {
             const query = inputElement.value;
             const suggestions = filterSuggestions(query, suggestionsArray);
             console.log("sugges", suggestions)
-            suggestionsList.innerHTML = ""; // Clear the list
+            suggestionsList.innerHTML = "";
             if (suggestions.length === 0) {
               suggestionsList.style.display = "none";
               return;
@@ -211,20 +188,19 @@ const SelectedChallenges = ({ contestUrl }) => {
               const li = document.createElement("li");
               li.textContent = suggestion.name;
               li.addEventListener("click", () => {
-                inputElement.value = suggestion.name; // Set the clicked value
+                inputElement.value = suggestion.name;
                 inputElement.name = suggestion.problem_id;
-                suggestionsList.style.display = "none"; // Hide dropdown
+                suggestionsList.style.display = "none";
               });
               suggestionsList.appendChild(li);
             });
 
-            suggestionsList.style.display = "block"; // Show the dropdown
+            suggestionsList.style.display = "block";
           });
         };
 
         handleAutocomplete(nameInput, nameList, problems);
 
-        // Hide dropdown when clicked outside
         document.addEventListener("click", (event) => {
           if (!nameInput.contains(event.target))
             nameList.style.display = "none";

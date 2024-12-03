@@ -1,0 +1,66 @@
+/* Custom CSS for LandingPage */
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #000;
+  }
+  
+/* Navbar links */
+.nav-link1 {
+    transition: all 0.3s ease;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 20px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .nav-link1:hover {
+    background-color: var(--primary-color); /* Button-like background */
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Button shadow effect */
+  }
+  
+  
+  .btn-outline-secondary {
+    border-radius: 20px;
+  }
+
+.hero-button {
+    transition: all 0.5s ease;
+    background-color: var(--active-color);
+    color:white;
+}
+
+.hero-button:hover {
+    background-color: var(--primary-color);
+}
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+}
+.custome-text {
+    max-width: 600px;
+}
+  .display-4 {
+    font-size: 3.5rem;
+    border-left: 5px solid #007bff;
+    padding-left: 15px;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    border: none;
+    border-radius: 30px;
+  }
+.nav-item {
+    margin-right: 20px;
+}
+
+.banner-images {
+    width: 600px;
+    height: 350px;
+    border: 5px;
+    border-radius: 25px;
+}
+  

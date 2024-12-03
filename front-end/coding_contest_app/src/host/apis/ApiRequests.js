@@ -19,7 +19,21 @@ export const sendData = async (url, data = null, headers = {}) => {
 // api to get data from backend
 export const getData = async (url, headers = {}) => {
   try {
-    const response = await axios.get (url, headers);
+    const response = await axios.get (url, {headers});
+    return response;
+  } catch (error) {
+    if (error.response) {
+      handleApiResponse (error.response);
+    } else {
+      handleNetworkError (error);
+    }
+  }
+};
+
+// API to update data on the backend (PUT request)
+export const putData = async (url, data = null, headers = {}) => {
+  try {
+    const response = await axios.put (url, data, headers);
     return response;
   } catch (error) {
     if (error.response) {
@@ -33,17 +47,16 @@ export const getData = async (url, headers = {}) => {
 // api to delete data from backend
 export const deleteData = async (url, data = null, headers = {}) => {
   try {
-    const config = {headers}; // Config object for request
     if (data) {
-      config.data = data; // Attach data to the config object if present
+      headers.data = data;
     }
-    const response = await axios.delete (url, config); // Pass config in the delete call
+    const response = await axios.delete (url, headers);
     return response;
   } catch (error) {
     if (error.response) {
-      handleApiResponse (error.response); // Handle API response errors
+      handleApiResponse (error.response);
     } else {
-      handleNetworkError (error); // Handle network errors
+      handleNetworkError (error);
     }
   }
 };

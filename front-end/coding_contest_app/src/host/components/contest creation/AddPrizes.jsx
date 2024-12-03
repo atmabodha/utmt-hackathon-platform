@@ -9,7 +9,7 @@ import TextAreaField, {TextInputField} from '../../../utilities/FormComponents';
 import {BASE_SERVER_URL, CONTESTS, HOST_ENDPOINT} from '../../../Constants';
 import {useParams, useNavigate} from 'react-router-dom';
 import showSwalAlert from '../../../utilities/AlertComponents.jsx';
-import {sendData, getData} from '../../apis/ApiRequests';
+import {sendData, getData, putData} from '../../apis/ApiRequests';
 
 function AddPrizes({contestUrl}) {
   const {contestId, prizeId} = useParams ();
@@ -38,7 +38,11 @@ function AddPrizes({contestUrl}) {
       type: 'number',
     },
   ];
-  const {formData: prizeData, handleInputChange, setFormData} = useFormHandler ({
+  const {
+    formData: prizeData,
+    handleInputChange,
+    setFormData,
+  } = useFormHandler ({
     prizePosition: '',
     prizeDescription: '',
     prizeAmount: '',
@@ -47,30 +51,32 @@ function AddPrizes({contestUrl}) {
 
   useEffect (
     () => {
-      const fetchPrizes = async () => {
-        const url =
-          BASE_SERVER_URL +
-          HOST_ENDPOINT +
-          CONTESTS +
-          contestId +
-          `/edit/prizes/${prizeId}`;
-        const response = await getData (url);
-        const data = response.data.data;
-        if (data) {
-          setFormData(
-            {
-              prizePosition: data[0].prize_position || '',
-              prizeDescription: data[0].prize_description || '',
-              prizeAmount: data[0].prize_amount || '',
-              others: data[0].others || '',
+      const fetchPrizeDetails = async () => {
+        if (prizeId) {
+          const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}${CONTESTS}${contestId}/edit/prizes/${prizeId}/`;
+          try {
+            const response = await getData (url);
+            const data = response.data.data;
+            if (data) {
+              setFormData ({
+                prizePosition: data[0].prize_position || '',
+                prizeDescription: data[0].prize_description || '',
+                prizeAmount: data[0].prize_amount || '',
+                others: data[0].others || '',
+              });
             }
-          )
-          console.log ('prizes', data);
+          } catch (error) {
+            // showSwalAlert ({
+            //   icon: 'error',
+            //   title: 'Error',
+            //   text: 'Failed to load prize details.',
+            // });
+          }
         }
       };
-      fetchPrizes ();
+      fetchPrizeDetails ();
     },
-    [contestId]
+    [contestId, prizeId]
   );
 
   const handlePrizeSubmit = async () => {
@@ -80,16 +86,34 @@ function AddPrizes({contestUrl}) {
     prizeFormData.append ('prize_amount', prizeData.prizeAmount);
     prizeFormData.append ('others', prizeData.others);
     prizeFormData.append ('contest', contestId);
-    const url =
-      BASE_SERVER_URL + HOST_ENDPOINT + CONTESTS + contestId + '/edit/prizes/';
-    const response = await sendData (url, prizeFormData);
-    if (response) {
+    try {
+      let response;
+      if (prizeId) {
+        // Update existing prize (PUT request)
+        const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}${CONTESTS}${contestId}/edit/prizes/${prizeId}/edit/`;
+        response = await putData (url, prizeFormData);
+      } else {
+        // Create new prize (POST request)
+        const url = `${BASE_SERVER_URL}${HOST_ENDPOINT}${CONTESTS}${contestId}/edit/prizes/`;
+        response = await sendData (url, prizeFormData);
+      }
+
+      if (response) {
+        showSwalAlert ({
+          icon: 'success',
+          title: prizeId ? 'Prize Updated' : 'Prize Added',
+          text: prizeId
+            ? 'Prize details updated successfully.'
+            : 'Prize details added successfully.',
+        });
+        navigate (`/administration/contests/${contestId}/edit/prizes`);
+      }
+    } catch (error) {
       showSwalAlert ({
-        icon: 'success',
-        title: 'Prize added',
-        text: 'Prizes details updated.',
+        icon: 'error',
+        title: prizeId ? 'Update Failed' : 'Addition Failed',
+        text: 'An error occurred while saving the prize details.',
       });
-      navigate (`/administration/contests/${contestId}/edit/prizes`);
     }
   };
 
@@ -97,7 +121,11 @@ function AddPrizes({contestUrl}) {
     <div>
       <div className="prize-contest">
         <div className="prize-contest-header">
-          <h2 style={{fontWeight: 600}}>Add Prize</h2>
+          <h2 style={{fontWeight: 600}}>
+            {prizeId ? 'Edit Prize' : 'Add Prize'}
+          </h2>
+          {' '}
+          {/* Dynamic heading */}
           <Link
             to=""
             style={{textDecoration: 'none', color: 'var(--text-color)'}}

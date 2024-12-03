@@ -13,6 +13,7 @@ urlpatterns = [
     path('contests/<int:contest_id>/problems/<int:problem_id>/', ContestsProblemsView.as_view(), name='contests_problems'),
     path('api/contests/<int:id>/delete/', ContestDeleteView.as_view(), name='delete_contest_api'),
     path('contests/<int:contest_id>/prizes/<int:prize_id>/delete/', ContestsPrizesView.as_view(), name='delete_prize'),
-    path('contests/<int:contest_id>/edit/prizes/<int:prize_id>', ContestsPrizesView.as_view(), name='contest_prizes_edit'),
+    path('contests/<int:contest_id>/edit/prizes/<int:prize_id>/', ContestsPrizesView.as_view(), name='contest_prize_get'),
+    path('contests/<int:contest_id>/edit/prizes/<int:prize_id>/edit/', ContestsPrizesView.as_view(), name='contest_prizes_edit'),
 
 ]
