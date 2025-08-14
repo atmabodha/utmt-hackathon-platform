@@ -26,7 +26,7 @@ DEBUG = True
 # settings.py
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'localhost:5173']
-
+    
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:3000', 
 # ]
@@ -111,8 +111,8 @@ DATABASES = {
     }
 }
 
-# postgresql://codehut_user:VEmg9rKwTROPvmVdfyb7y6vKVsurcEuX@dpg-ct79qbq3esus73boosag-a.singapore-postgres.render.com/codehut
-DATABASES["default"] = dj_database_url.parse("postgresql://codehut_user:VEmg9rKwTROPvmVdfyb7y6vKVsurcEuX@dpg-ct79qbq3esus73boosag-a.singapore-postgres.render.com/codehut")
+# # postgresql://codehut_user:VEmg9rKwTROPvmVdfyb7y6vKVsurcEuX@dpg-ct79qbq3esus73boosag-a.singapore-postgres.render.com/codehut
+# DATABASES["default"] = dj_database_url.parse("postgresql://codehut_user:VEmg9rKwTROPvmVdfyb7y6vKVsurcEuX@dpg-ct79qbq3esus73boosag-a.singapore-postgres.render.com/codehut")
 
 
 # Password validation
